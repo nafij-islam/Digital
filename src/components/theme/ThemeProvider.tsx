@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { SiteAppearanceSetting, DEFAULT_SITE_APPEARANCE } from "@/types/settings";
 import { settingsService } from "@/services/settingsService";
+import { getFontFamilyForId } from "@/lib/fonts";
 
 interface ThemeContextType {
   appearance: SiteAppearanceSetting;
@@ -22,10 +23,11 @@ export const useTheme = () => useContext(ThemeContext);
 
 const APPEARANCE_STORAGE_KEY = "dg_appearance_settings";
 
-function applyThemeVariables(settings: SiteAppearanceSetting) {
+export function applyThemeVariables(settings: SiteAppearanceSetting) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
 
+  // Colors
   if (settings.backgroundColor) {
     root.style.setProperty("--site-bg", settings.backgroundColor);
     document.body.style.backgroundColor = settings.backgroundColor;
@@ -39,6 +41,25 @@ function applyThemeVariables(settings: SiteAppearanceSetting) {
   if (settings.secondaryColor) {
     root.style.setProperty("--site-secondary", settings.secondaryColor);
   }
+
+  // Typography
+  const uiFont = getFontFamilyForId(settings.uiFont || "manrope");
+  const headingFont = getFontFamilyForId(settings.headingFont || "plus-jakarta-sans");
+  const bodyFont = getFontFamilyForId(settings.bodyFont || "inter");
+
+  root.style.setProperty("--font-ui", uiFont);
+  root.style.setProperty("--font-heading", headingFont);
+  root.style.setProperty("--font-body", bodyFont);
+
+  // Card Height
+  if (settings.productCardHeightMode === "AUTO") {
+    root.style.setProperty("--product-card-height", "auto");
+  } else if (settings.productCardHeightMode === "CUSTOM" && settings.productCardHeight) {
+    root.style.setProperty("--product-card-height", `${settings.productCardHeight}px`);
+  } else {
+    // COMPACT default: 390px
+    root.style.setProperty("--product-card-height", "390px");
+  }
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -48,7 +69,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         const cached = localStorage.getItem(APPEARANCE_STORAGE_KEY);
         if (cached) {
           const parsed = JSON.parse(cached);
-          if (parsed?.backgroundColor) return parsed;
+          if (parsed?.backgroundColor) return { ...DEFAULT_SITE_APPEARANCE, ...parsed };
         }
       } catch {}
     }
@@ -61,9 +82,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     try {
       const data = await settingsService.getAppearanceSettings();
       if (data && data.backgroundColor) {
-        setAppearance(data);
-        setActiveTheme(data);
-        applyThemeVariables(data);
+        const merged = { ...DEFAULT_SITE_APPEARANCE, ...data };
+        setAppearance(merged);
+        setActiveTheme(merged);
+        applyThemeVariables(merged);
       }
     } catch {
       // Fallback already active

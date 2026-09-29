@@ -11,6 +11,14 @@
     --site-secondary: #7548F5;
     --site-border: rgba(15, 23, 42, 0.08);
 
+    /* Dynamic Font Variables */
+    --font-ui: var(--font-manrope), sans-serif;
+    --font-heading: var(--font-plus-jakarta-sans), sans-serif;
+    --font-body: var(--font-inter), sans-serif;
+
+    /* Product Card Height */
+    --product-card-height: 390px;
+
     --bg-base: var(--site-bg);
     --bg-surface: #F7F8FB;
     --bg-card: var(--site-surface);
@@ -44,10 +52,31 @@
   body {
     background-color: var(--site-bg);
     color: var(--text-main);
+    font-family: var(--font-ui, var(--font-manrope), sans-serif);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
     min-height: 100dvh;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif);
+  }
+
+  p {
+    font-family: var(--font-body, var(--font-inter), sans-serif);
+  }
+}
+
+.font-ui {
+  font-family: var(--font-ui, var(--font-manrope), sans-serif) !important;
+}
+
+.font-heading {
+  font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif) !important;
+}
+
+.font-body {
+  font-family: var(--font-body, var(--font-inter), sans-serif) !important;
 }
 
 /* Custom Tactile Surfaces */

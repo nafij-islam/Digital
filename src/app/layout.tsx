@@ -1,20 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { allFontVariablesClass } from "@/lib/fonts";
 import "./globals.css";
 import { Providers } from "./providers";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["500", "600", "700", "800"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "DigiVault — Premium Digital Tools & Subscriptions Marketplace",
@@ -36,16 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`}>
+    <html lang="en" className={allFontVariablesClass}>
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=localStorage.getItem("dg_appearance_settings");if(d){var s=JSON.parse(d);if(s&&s.backgroundColor){document.documentElement.style.setProperty("--site-bg",s.backgroundColor);if(s.surfaceColor)document.documentElement.style.setProperty("--site-surface",s.surfaceColor);if(s.primaryColor)document.documentElement.style.setProperty("--site-primary",s.primaryColor);if(s.secondaryColor)document.documentElement.style.setProperty("--site-secondary",s.secondaryColor);}}}catch(e){}})();`,
+            __html: `(function(){try{var d=localStorage.getItem("dg_appearance_settings");if(d){var s=JSON.parse(d);if(s){var root=document.documentElement;if(s.backgroundColor)root.style.setProperty("--site-bg",s.backgroundColor);if(s.surfaceColor)root.style.setProperty("--site-surface",s.surfaceColor);if(s.primaryColor)root.style.setProperty("--site-primary",s.primaryColor);if(s.secondaryColor)root.style.setProperty("--site-secondary",s.secondaryColor);if(s.uiFont)root.style.setProperty("--font-ui","var(--font-"+s.uiFont+"), sans-serif");if(s.headingFont)root.style.setProperty("--font-heading","var(--font-"+s.headingFont+"), sans-serif");if(s.bodyFont)root.style.setProperty("--font-body","var(--font-"+s.bodyFont+"), sans-serif");if(s.productCardHeightMode==="AUTO")root.style.setProperty("--product-card-height","auto");else if(s.productCardHeightMode==="CUSTOM"&&s.productCardHeight)root.style.setProperty("--product-card-height",s.productCardHeight+"px");else root.style.setProperty("--product-card-height","390px");}}}catch(e){}})();`,
           }}
         />
       </head>
       <body
-        className="font-sans antialiased text-[#101828] min-h-screen flex flex-col selection:bg-blue-600 selection:text-white"
+        className="font-ui antialiased text-[#101828] min-h-screen flex flex-col selection:bg-blue-600 selection:text-white"
         style={{ backgroundColor: "var(--site-bg, #F3F5F9)" }}
       >
         <Providers>{children}</Providers>

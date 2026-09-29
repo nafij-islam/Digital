@@ -105,169 +105,172 @@ export const Navbar: React.FC = () => {
             : "bg-[#F3F5F9]/80 backdrop-blur-xs border-b border-slate-200/50"
         )}
       >
-        <Container className="h-[70px] flex items-center justify-between">
-          {/* Left: Brand Logo & Desktop Navigation */}
-          <div className="flex items-center gap-7 lg:gap-10">
-            <div className="p-1 rounded-xl bg-white/60 shadow-soft border border-slate-200/60">
-              <Logo size="md" />
+        <Container className="h-[70px]">
+          {/* Desktop 3-region Grid Layout (1fr auto 1fr) & Mobile Flex */}
+          <div className="h-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center w-full">
+            {/* 1. LEFT REGION: Brand Logo */}
+            <div className="justify-self-start flex items-center">
+              <div className="p-1 rounded-xl bg-white/70 shadow-soft border border-slate-200/60">
+                <Logo size="md" />
+              </div>
             </div>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-1.5 p-1 bg-[#F7F8FB] border border-slate-200/70 rounded-xl shadow-inset">
+            {/* 2. CENTER REGION: Strictly Centered Navigation Menu (Desktop Only) */}
+            <nav className="hidden md:flex justify-self-center items-center gap-1 p-1 bg-[#F7F8FB] border border-slate-200/70 rounded-xl shadow-inset">
               {navLinks.map((link) => {
                 const isActive =
-                  pathname === link.href || pathname.startsWith(link.href + "/");
+                  pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href + "/"));
 
                 return (
                   <Link
                     key={link.name}
                     href={link.href}
                     className={cn(
-                      "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all relative",
+                      "px-4 py-1.5 rounded-lg text-xs font-bold transition-all relative select-none",
                       isActive
-                        ? "bg-white text-primary-600 shadow-soft border border-slate-200/60"
+                        ? "bg-white text-[var(--site-primary,#356DF3)] shadow-soft border border-slate-200/60"
                         : "text-slate-600 hover:text-slate-900 hover:bg-white/40"
                     )}
                   >
                     <span>{link.name}</span>
                     {isActive && (
-                      <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-3 rounded-full bg-primary-500" />
+                      <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-3 rounded-full bg-[var(--site-primary,#356DF3)]" />
                     )}
                   </Link>
                 );
               })}
             </nav>
-          </div>
 
-          {/* Right: Actions (Search, Cart, Auth) */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Desktop Search Trigger */}
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="hidden sm:flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-[#F7F8FB] border border-slate-200/80 text-xs font-semibold text-slate-500 hover:text-slate-900 hover:bg-white shadow-inset hover:shadow-soft transition-all"
-              aria-label="Search digital products"
-            >
-              <Search className="h-3.5 w-3.5 text-slate-400" />
-              <span className="text-slate-400">Search products...</span>
-              <kbd className="hidden lg:inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-mono text-slate-400 border border-slate-200">
-                ⌘K
-              </kbd>
-            </button>
+            {/* 3. RIGHT REGION: Search / Cart / Account Actions */}
+            <div className="justify-self-end flex items-center gap-2 sm:gap-2.5">
+              {/* Desktop Search Trigger */}
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="hidden sm:flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-[#F7F8FB] border border-slate-200/80 text-xs font-semibold text-slate-500 hover:text-slate-900 hover:bg-white shadow-inset hover:shadow-soft transition-all"
+                aria-label="Search digital products"
+              >
+                <Search className="h-3.5 w-3.5 text-slate-400" />
+                <span className="text-slate-400">Search products...</span>
+                <kbd className="hidden lg:inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-mono text-slate-400 border border-slate-200">
+                  ⌘K
+                </kbd>
+              </button>
 
-            {/* Mobile Search Button (Compact) */}
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="sm:hidden h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-600 flex items-center justify-center hover:bg-[#F7F8FB] active:shadow-pressed transition-all"
-              aria-label="Search"
-            >
-              <Search className="h-4 w-4" />
-            </button>
+              {/* Mobile Search Button (Compact) */}
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="sm:hidden h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-600 flex items-center justify-center hover:bg-[#F7F8FB] active:shadow-pressed transition-all"
+                aria-label="Search"
+              >
+                <Search className="h-4 w-4" />
+              </button>
 
-            {/* Cart Trigger Button */}
-            <button
-              onClick={() => setCartOpen(true)}
-              className="relative h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-700 flex items-center justify-center hover:bg-[#F7F8FB] hover:text-primary-600 active:shadow-pressed transition-all"
-              aria-label="View shopping cart"
-            >
-              <ShoppingBag className="h-4 w-4" />
-              {totalCartItems > 0 && (
-                <span className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-primary-500 text-[10px] font-extrabold text-white flex items-center justify-center shadow-xs">
-                  {totalCartItems}
-                </span>
-              )}
-            </button>
+              {/* Cart Trigger Button */}
+              <button
+                onClick={() => setCartOpen(true)}
+                className="relative h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-700 flex items-center justify-center hover:bg-[#F7F8FB] hover:text-[var(--site-primary,#356DF3)] active:shadow-pressed transition-all"
+                aria-label="View shopping cart"
+              >
+                <ShoppingBag className="h-4 w-4" />
+                {totalCartItems > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-[var(--site-primary,#356DF3)] text-[10px] font-extrabold text-white flex items-center justify-center shadow-xs">
+                    {totalCartItems}
+                  </span>
+                )}
+              </button>
 
-            {/* Desktop Auth States */}
-            <div className="hidden md:flex items-center">
-              {isAuthenticated ? (
-                <div className="relative" ref={userMenuRef}>
-                  <button
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center gap-2 h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-soft hover:shadow-raised transition-all"
-                  >
-                    <div className="h-6 w-6 rounded-lg bg-gradient-to-tr from-blue-600 to-purple-600 text-white text-[11px] font-bold flex items-center justify-center shadow-2xs">
-                      {user?.name?.[0]?.toUpperCase() || "U"}
-                    </div>
-                    <span className="text-xs font-bold text-slate-800 max-w-[110px] truncate">
-                      {user?.name?.split(" ")[0]}
-                    </span>
-                    <ChevronDown className="h-3 w-3 text-slate-400 ml-0.5" />
-                  </button>
-
-                  {isUserMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-slate-200/80 bg-white p-2 shadow-floating z-50 animate-in fade-in zoom-in-95 duration-100">
-                      <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                        <p className="text-xs font-bold text-slate-900 truncate">{user?.name}</p>
-                        <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email}</p>
+              {/* Desktop Auth States */}
+              <div className="hidden md:flex items-center">
+                {isAuthenticated ? (
+                  <div className="relative" ref={userMenuRef}>
+                    <button
+                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                      className="flex items-center gap-2 h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-soft hover:shadow-raised transition-all"
+                    >
+                      <div className="h-6 w-6 rounded-lg bg-gradient-to-tr from-[var(--site-primary,#356DF3)] to-[var(--site-secondary,#7548F5)] text-white text-[11px] font-bold flex items-center justify-center shadow-2xs">
+                        {user?.name?.[0]?.toUpperCase() || "U"}
                       </div>
+                      <span className="text-xs font-bold text-slate-800 max-w-[110px] truncate">
+                        {user?.name?.split(" ")[0]}
+                      </span>
+                      <ChevronDown className="h-3 w-3 text-slate-400 ml-0.5" />
+                    </button>
 
-                      <div className="space-y-0.5">
-                        <Link
-                          href="/account/orders"
-                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F3F5F9] rounded-xl transition-colors"
-                        >
-                          <Package className="h-3.5 w-3.5 text-primary-500" />
-                          <span>My Orders &amp; Access</span>
-                        </Link>
+                    {isUserMenuOpen && (
+                      <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-slate-200/80 bg-white p-2 shadow-floating z-50 animate-in fade-in zoom-in-95 duration-100">
+                        <div className="px-3 py-2 border-b border-slate-100 mb-1">
+                          <p className="text-xs font-bold text-slate-900 truncate">{user?.name}</p>
+                          <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email}</p>
+                        </div>
 
-                        <Link
-                          href="/account/profile"
-                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F3F5F9] rounded-xl transition-colors"
-                        >
-                          <UserIcon className="h-3.5 w-3.5 text-slate-400" />
-                          <span>Profile Settings</span>
-                        </Link>
-
-                        {isAdmin && (
+                        <div className="space-y-0.5">
                           <Link
-                            href="/admin"
-                            className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-purple-700 hover:bg-purple-50 rounded-xl transition-colors"
+                            href="/account/orders"
+                            className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F3F5F9] rounded-xl transition-colors"
                           >
-                            <Shield className="h-3.5 w-3.5 text-purple-600" />
-                            <span>Admin Dashboard</span>
+                            <Package className="h-3.5 w-3.5 text-[var(--site-primary,#356DF3)]" />
+                            <span>My Orders &amp; Access</span>
                           </Link>
-                        )}
-                      </div>
 
-                      <div className="border-t border-slate-100 pt-1 mt-1">
-                        <button
-                          onClick={logout}
-                          className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
-                        >
-                          <LogOut className="h-3.5 w-3.5" />
-                          <span>Sign Out</span>
-                        </button>
+                          <Link
+                            href="/account/profile"
+                            className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F3F5F9] rounded-xl transition-colors"
+                          >
+                            <UserIcon className="h-3.5 w-3.5 text-slate-400" />
+                            <span>Profile Settings</span>
+                          </Link>
+
+                          {isAdmin && (
+                            <Link
+                              href="/admin"
+                              className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-purple-700 hover:bg-purple-50 rounded-xl transition-colors"
+                            >
+                              <Shield className="h-3.5 w-3.5 text-purple-600" />
+                              <span>Admin Dashboard</span>
+                            </Link>
+                          )}
+                        </div>
+
+                        <div className="border-t border-slate-100 pt-1 mt-1">
+                          <button
+                            onClick={logout}
+                            className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                          >
+                            <LogOut className="h-3.5 w-3.5" />
+                            <span>Sign Out</span>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Link
-                    href="/login"
-                    className="px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-colors"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="h-10 px-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:brightness-105 text-white text-xs font-bold transition-all shadow-soft hover:shadow-raised flex items-center justify-center gap-1.5"
-                  >
-                    <span>Get Started</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              )}
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href="/login"
+                      className="px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[var(--site-primary,#356DF3)] to-[var(--site-secondary,#7548F5)] hover:brightness-105 text-white text-xs font-bold transition-all shadow-soft hover:shadow-raised flex items-center justify-center gap-1.5"
+                    >
+                      <span>Get Started</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Hamburger Button */}
+              <button
+                onClick={() => setIsMobileDrawerOpen(true)}
+                className="md:hidden h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-700 flex items-center justify-center hover:bg-[#F7F8FB] active:shadow-pressed transition-all"
+                aria-label="Open mobile menu"
+              >
+                <Menu className="h-5 w-5" />
+              </button>
             </div>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              onClick={() => setIsMobileDrawerOpen(true)}
-              className="md:hidden h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-700 flex items-center justify-center hover:bg-[#F7F8FB] active:shadow-pressed transition-all"
-              aria-label="Open mobile menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
           </div>
         </Container>
       </header>

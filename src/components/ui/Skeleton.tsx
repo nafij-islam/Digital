@@ -15,34 +15,19 @@ export const Skeleton: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
 export const ProductCardSkeleton: React.FC = () => {
   return (
-    <div className="rounded-[18px] sm:rounded-[20px] border border-slate-900/[0.08] bg-white shadow-soft overflow-hidden flex flex-col justify-between">
-      <div className="p-3 sm:p-3.5 border-b border-slate-100 bg-slate-50/60">
-        <Skeleton className="aspect-[16/9] w-full rounded-[13px]" />
+    <div className="rounded-[20px] border border-[rgba(15,23,42,0.07)] bg-white p-3.5 sm:p-4 shadow-[0_8px_30px_rgba(15,23,42,0.06)] overflow-hidden flex flex-col justify-between min-h-0 md:min-h-[var(--product-card-height,390px)]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[16px] bg-slate-100 border border-slate-200/50">
+        <Skeleton className="h-full w-full rounded-[16px]" />
       </div>
-      <div className="p-5 sm:p-5.5 space-y-3.5 flex-1 flex flex-col justify-between">
+      <div className="flex-1 flex flex-col justify-between pt-3 sm:pt-3.5 pb-2">
         <div className="space-y-2">
-          <Skeleton className="h-3 w-1/4 rounded" />
           <Skeleton className="h-5 w-4/5 rounded" />
           <Skeleton className="h-3.5 w-full rounded" />
           <Skeleton className="h-3.5 w-2/3 rounded" />
-          <div className="pt-2 mt-2 border-t border-slate-100 space-y-1">
-            <Skeleton className="h-2.5 w-20 rounded" />
-            <Skeleton className="h-3 w-44 rounded" />
-          </div>
         </div>
-        <div className="pt-4 border-t border-slate-100/90 space-y-2.5 mt-auto">
-          <div className="space-y-1">
-            <Skeleton className="h-2.5 w-10 rounded" />
-            <Skeleton className="h-6 w-28 rounded" />
-          </div>
-          <div className="flex items-center justify-between">
-            <Skeleton className="h-3 w-20 rounded" />
-            <Skeleton className="h-3 w-28 rounded" />
-          </div>
-          <div className="pt-2 flex items-center justify-between">
-            <Skeleton className="h-4 w-28 rounded" />
-            <Skeleton className="h-8 w-8 rounded-full" />
-          </div>
+        <div className="pt-3 mt-auto space-y-2.5">
+          <Skeleton className="h-6 w-24 rounded" />
+          <Skeleton className="h-[44px] w-full rounded-[11px]" />
         </div>
       </div>
     </div>
