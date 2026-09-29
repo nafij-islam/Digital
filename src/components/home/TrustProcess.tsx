@@ -67,7 +67,7 @@ export const TrustProcess: React.FC = () => {
           {trustFeatures.map((feat) => (
             <div
               key={feat.title}
-              className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-soft hover:shadow-raised transition-all duration-200"
+              className="rounded-2xl border border-slate-200/80 bg-[var(--site-surface,#FFFFFF)] p-6 shadow-soft hover:shadow-raised transition-all duration-200"
             >
               <div
                 className={`h-11 w-11 rounded-xl ${feat.bg} flex items-center justify-center border mb-4 shadow-2xs`}

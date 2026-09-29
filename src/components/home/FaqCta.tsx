@@ -53,7 +53,7 @@ export const FaqCta: React.FC = () => {
             {faqs.map((faq, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl border border-slate-200/80 bg-white p-4 sm:p-5 shadow-soft transition-all"
+                className="rounded-2xl border border-slate-200/80 bg-[var(--site-surface,#FFFFFF)] p-4 sm:p-5 shadow-soft transition-all"
               >
                 <button
                   onClick={() => toggle(idx)}

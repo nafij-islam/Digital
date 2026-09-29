@@ -37,7 +37,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`}>
-      <body className="font-sans antialiased bg-[#F3F5F9] text-[#101828] min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var d=localStorage.getItem("dg_appearance_settings");if(d){var s=JSON.parse(d);if(s&&s.backgroundColor){document.documentElement.style.setProperty("--site-bg",s.backgroundColor);if(s.surfaceColor)document.documentElement.style.setProperty("--site-surface",s.surfaceColor);if(s.primaryColor)document.documentElement.style.setProperty("--site-primary",s.primaryColor);if(s.secondaryColor)document.documentElement.style.setProperty("--site-secondary",s.secondaryColor);}}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body
+        className="font-sans antialiased text-[#101828] min-h-screen flex flex-col selection:bg-blue-600 selection:text-white"
+        style={{ backgroundColor: "var(--site-bg, #F3F5F9)" }}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

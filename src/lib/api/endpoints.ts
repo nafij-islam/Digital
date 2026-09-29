@@ -40,6 +40,7 @@ export const API_ENDPOINTS = {
   // Settings & Support
   SETTINGS: {
     HOMEPAGE: "/settings/homepage",
+    APPEARANCE: "/settings/appearance",
   },
   SUPPORT: {
     TICKETS: "/support/tickets",
@@ -108,6 +109,7 @@ export const API_ENDPOINTS = {
       UPDATE: "/admin/settings",
       HOMEPAGE: "/admin/settings/homepage",
       HERO_IMAGE: "/admin/settings/homepage/hero-image",
+      APPEARANCE: "/admin/settings/appearance",
     },
     AUDIT_LOGS: "/admin/audit-logs",
   },

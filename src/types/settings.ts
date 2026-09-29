@@ -49,3 +49,20 @@ export interface Coupon {
   expiryDate?: string;
   active: boolean;
 }
+
+export interface SiteAppearanceSetting {
+  backgroundColor: string;
+  surfaceColor: string;
+  primaryColor: string;
+  secondaryColor: string;
+  updatedBy?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export const DEFAULT_SITE_APPEARANCE: SiteAppearanceSetting = {
+  backgroundColor: "#F3F5F9",
+  surfaceColor: "#FFFFFF",
+  primaryColor: "#356DF3",
+  secondaryColor: "#7548F5",
+};

@@ -120,6 +120,11 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) =
           icon: <Settings className="h-4 w-4" />,
         },
         {
+          label: "Site Appearance",
+          href: "/admin/settings/appearance",
+          icon: <Sliders className="h-4 w-4" />,
+        },
+        {
           label: "Audit Logs",
           href: "/admin/audit-logs",
           icon: <History className="h-4 w-4" />,

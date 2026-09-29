@@ -11,6 +11,7 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { useToast } from "@/hooks/useToast";
 import { Settings, CheckCircle2, ShieldCheck } from "lucide-react";
 import { AdminHeroVisualSetting } from "@/components/admin/AdminHeroVisualSetting";
+import { AdminAppearanceSetting } from "@/components/admin/AdminAppearanceSetting";
 
 export default function AdminSettingsPage() {
   const toast = useToast();
@@ -21,7 +22,7 @@ export default function AdminSettingsPage() {
 
   const [form, setForm] = useState<StoreSettings | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"general" | "homepage">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "homepage" | "appearance">("general");
 
   useEffect(() => {
     if (initialSettings) {
@@ -59,11 +60,11 @@ export default function AdminSettingsPage() {
             Store &amp; Marketplace Settings
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            Configure store branding, hero visual, support contacts, and payment defaults.
+            Configure store branding, theme appearance, hero visual, and payment defaults.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={() => setActiveTab("general")}
@@ -74,6 +75,17 @@ export default function AdminSettingsPage() {
             }`}
           >
             General Store
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("appearance")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              activeTab === "appearance"
+                ? "bg-slate-900 text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Site Appearance
           </button>
           <button
             type="button"
@@ -89,7 +101,9 @@ export default function AdminSettingsPage() {
         </div>
       </div>
 
-      {activeTab === "homepage" ? (
+      {activeTab === "appearance" ? (
+        <AdminAppearanceSetting />
+      ) : activeTab === "homepage" ? (
         <AdminHeroVisualSetting />
       ) : (
         <form onSubmit={handleSave} className="space-y-6">
