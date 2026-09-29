@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils/cn";
 
 export interface LogoProps {
   className?: string;
-  variant?: "light" | "dark" | "admin";
-  size?: "sm" | "md" | "lg";
+  variant?: "light" | "dark" | "admin" | "footer";
+  size?: "sm" | "md" | "lg" | "xl";
   href?: string;
 }
 
@@ -17,16 +17,21 @@ export const Logo: React.FC<LogoProps> = ({
   href = "/",
 }) => {
   const sizeClasses = {
-    sm: "h-7 w-auto",
-    md: "h-8 sm:h-9 w-auto",
-    lg: "h-10 sm:h-12 w-auto",
+    sm: "h-8 w-auto",
+    md: "h-10 sm:h-11 md:h-12 w-auto",
+    lg: "h-12 sm:h-14 w-auto",
+    xl: "h-16 w-auto",
   };
 
   const imageDimensions = {
-    sm: { height: 28, width: 120 },
-    md: { height: 36, width: 154 },
-    lg: { height: 48, width: 205 },
+    sm: { height: 32, width: 136 },
+    md: { height: 48, width: 205 },
+    lg: { height: 56, width: 240 },
+    xl: { height: 64, width: 275 },
   };
+
+  const isDarkVariant = variant === "footer" || variant === "dark" || variant === "admin";
+  const logoSrc = isDarkVariant ? "/logo-footer.png" : "/logo.png";
 
   return (
     <Link
@@ -38,7 +43,7 @@ export const Logo: React.FC<LogoProps> = ({
     >
       <div className="relative flex items-center">
         <Image
-          src="/logo.png"
+          src={logoSrc}
           alt="DigiVault"
           width={imageDimensions[size].width}
           height={imageDimensions[size].height}
@@ -51,7 +56,7 @@ export const Logo: React.FC<LogoProps> = ({
       </div>
 
       {variant === "admin" && (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-purple-100 text-purple-700 border border-purple-200/80 shadow-2xs">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-400/30 shadow-2xs">
           Admin
         </span>
       )}

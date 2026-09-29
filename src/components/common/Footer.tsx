@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
           {/* Column 1: Brand Info (2 cols on md) */}
           <div className="col-span-2 space-y-4">
-            <Logo size="md" />
+            <Logo variant="footer" size="md" />
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
               Bangladesh&apos;s premier digital product and software subscription marketplace. Genuine access, manual bKash/Nagad verification, and private delivery vault.
             </p>
