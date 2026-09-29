@@ -4,7 +4,11 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "DigiVault — Premium Digital Tools & Subscriptions Marketplace",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://shop.nafij.com"),
+  title: {
+    default: "DigiVault — Premium Digital Tools & Subscriptions Marketplace",
+    template: "%s | DigiVault",
+  },
   description:
     "Buy genuine Canva Pro, ChatGPT Plus, JetBrains, Windows 11 keys, and digital subscriptions in Bangladesh with instant bKash & Nagad payments.",
   keywords: [
@@ -15,6 +19,18 @@ export const metadata: Metadata = {
     "jetbrains all products",
     "software license bd",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://shop.nafij.com",
+    siteName: "DigiVault",
+    title: "DigiVault — Premium Digital Tools & Subscriptions Marketplace",
+    description:
+      "Buy genuine Canva Pro, ChatGPT Plus, JetBrains, Windows 11 keys, and digital subscriptions in Bangladesh with instant bKash & Nagad payments.",
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",

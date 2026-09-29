@@ -1,8 +1,9 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { tokenStorage } from "../auth/token";
+import { auth } from "../auth/firebase";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+  process.env.NEXT_PUBLIC_API_URL || "https://digital-backend-vert.vercel.app/api/v1";
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -10,12 +11,26 @@ export const apiClient: AxiosInstance = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  timeout: 20000,
+  timeout: 25000,
 });
 
-// Request interceptor for attaching auth token
+// Request interceptor for attaching fresh auth token
 apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
+    try {
+      // 1. Prefer fresh Firebase ID token if user is signed in via Firebase
+      if (typeof window !== "undefined" && auth?.currentUser) {
+        const freshToken = await auth.currentUser.getIdToken();
+        if (freshToken && config.headers) {
+          config.headers.Authorization = `Bearer ${freshToken}`;
+          return config;
+        }
+      }
+    } catch {
+      // Fall through to stored token
+    }
+
+    // 2. Fallback to cached token in storage
     const token = tokenStorage.getToken();
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils/formatters";
 import { cn } from "@/lib/utils/cn";
+import { getOptimizedImageUrl } from "@/lib/image/cloudinary";
 
 interface ProductCardProps {
   product: Product;
@@ -23,6 +24,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className }) 
 
   const shortDesc = product.shortDescription || product.description;
 
+  const optimizedImgUrl = getOptimizedImageUrl(product.imageUrl, {
+    width: 600,
+    quality: "auto:good",
+  });
+
   return (
     <article
       className={cn(
@@ -36,7 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className }) 
         <Link href={`/products/${product.slug}`} className="block h-full w-full">
           {product.imageUrl ? (
             <Image
-              src={product.imageUrl}
+              src={optimizedImgUrl}
               alt={product.name}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw"
