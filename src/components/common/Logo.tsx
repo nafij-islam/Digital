@@ -28,14 +28,11 @@ export const Logo: React.FC<LogoProps> = ({
     lg: { height: 48, width: 205 },
   };
 
-  const isDarkContainer = variant === "dark" || variant === "admin";
-
   return (
     <Link
       href={href}
       className={cn(
         "inline-flex items-center gap-2.5 select-none focus-visible:outline-none group",
-        isDarkContainer && "bg-white/95 px-2.5 py-1 rounded-xl shadow-xs border border-white/10 hover:bg-white transition-colors",
         className
       )}
     >

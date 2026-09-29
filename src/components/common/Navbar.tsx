@@ -110,9 +110,7 @@ export const Navbar: React.FC = () => {
           <div className="h-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center w-full">
             {/* 1. LEFT REGION: Brand Logo */}
             <div className="justify-self-start flex items-center">
-              <div className="p-1 rounded-xl bg-white/70 shadow-soft border border-slate-200/60">
-                <Logo size="md" />
-              </div>
+              <Logo size="md" />
             </div>
 
             {/* 2. CENTER REGION: Strictly Centered Navigation Menu (Desktop Only) */}
