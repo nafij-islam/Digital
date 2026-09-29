@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ShieldCheck, CheckCircle2, Lock, Sparkles } from "lucide-react";
+import { ArrowRight, ShieldCheck, CheckCircle2, Lock, BadgeCheck } from "lucide-react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useQuery } from "@tanstack/react-query";
@@ -130,8 +130,8 @@ export const Hero: React.FC = () => {
           {/* Left Column (7 cols on lg) */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             {/* Tactile Editorial Tag */}
-            <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/80 px-3.5 py-1.5 text-xs font-bold text-primary-600 shadow-soft">
-              <Sparkles className="h-3.5 w-3.5 text-primary-500" />
+            <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/80 px-3.5 py-1.5 text-xs font-bold text-slate-800 shadow-soft">
+              <BadgeCheck className="h-4 w-4 text-primary-600" />
               <span>Genuine Software &amp; Verified Passes</span>
             </div>
 
