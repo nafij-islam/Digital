@@ -1,58 +1,63 @@
 import React from "react";
 import Link from "next/link";
-import { Sparkles, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 
 export interface LogoProps {
   className?: string;
   variant?: "light" | "dark" | "admin";
   size?: "sm" | "md" | "lg";
+  href?: string;
 }
 
 export const Logo: React.FC<LogoProps> = ({
   className,
   variant = "light",
   size = "md",
+  href = "/",
 }) => {
-  const sizes = {
-    sm: "text-lg",
-    md: "text-xl",
-    lg: "text-2xl",
+  const sizeClasses = {
+    sm: "h-7 w-auto",
+    md: "h-8 sm:h-9 w-auto",
+    lg: "h-10 sm:h-12 w-auto",
   };
 
-  const iconSizes = {
-    sm: "h-6 w-6 p-1",
-    md: "h-8 w-8 p-1.5",
-    lg: "h-10 w-10 p-2",
+  const imageDimensions = {
+    sm: { height: 28, width: 120 },
+    md: { height: 36, width: 154 },
+    lg: { height: 48, width: 205 },
   };
+
+  const isDarkContainer = variant === "dark" || variant === "admin";
 
   return (
     <Link
-      href="/"
-      className={cn("flex items-center gap-2.5 font-bold tracking-tight group", className)}
+      href={href}
+      className={cn(
+        "inline-flex items-center gap-2.5 select-none focus-visible:outline-none group",
+        isDarkContainer && "bg-white/95 px-2.5 py-1 rounded-xl shadow-xs border border-white/10 hover:bg-white transition-colors",
+        className
+      )}
     >
-      <div
-        className={cn(
-          "rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200",
-          iconSizes[size]
-        )}
-      >
-        {variant === "admin" ? (
-          <ShieldCheck className="h-full w-full" />
-        ) : (
-          <Sparkles className="h-full w-full" />
-        )}
+      <div className="relative flex items-center">
+        <Image
+          src="/logo.png"
+          alt="DigiVault"
+          width={imageDimensions[size].width}
+          height={imageDimensions[size].height}
+          priority
+          className={cn(
+            "object-contain transition-transform duration-200 group-hover:scale-[1.02]",
+            sizeClasses[size]
+          )}
+        />
       </div>
-      <div className="flex flex-col leading-none">
-        <span className={cn("font-black tracking-tight text-slate-900", sizes[size])}>
-          Digi<span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Vault</span>
+
+      {variant === "admin" && (
+        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-purple-100 text-purple-700 border border-purple-200/80 shadow-2xs">
+          Admin
         </span>
-        {variant === "admin" && (
-          <span className="text-[10px] uppercase font-extrabold tracking-widest text-purple-600 mt-0.5">
-            Admin Panel
-          </span>
-        )}
-      </div>
+      )}
     </Link>
   );
 };
