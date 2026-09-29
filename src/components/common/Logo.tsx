@@ -17,17 +17,17 @@ export const Logo: React.FC<LogoProps> = ({
   href = "/",
 }) => {
   const sizeClasses = {
-    sm: "h-8 w-auto",
-    md: "h-10 sm:h-11 md:h-12 w-auto",
-    lg: "h-12 sm:h-14 w-auto",
-    xl: "h-16 w-auto",
+    sm: "h-[26px] w-auto",
+    md: "h-[36px] sm:h-[38px] md:h-[40px] w-auto",
+    lg: "h-[46px] sm:h-[48px] w-auto",
+    xl: "h-[56px] w-auto",
   };
 
   const imageDimensions = {
-    sm: { height: 32, width: 136 },
-    md: { height: 48, width: 205 },
-    lg: { height: 56, width: 240 },
-    xl: { height: 64, width: 275 },
+    sm: { height: 26, width: 111 },
+    md: { height: 40, width: 171 },
+    lg: { height: 48, width: 205 },
+    xl: { height: 56, width: 240 },
   };
 
   const isDarkVariant = variant === "footer" || variant === "dark" || variant === "admin";

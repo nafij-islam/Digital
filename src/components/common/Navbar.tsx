@@ -105,9 +105,9 @@ export const Navbar: React.FC = () => {
             : "bg-[#F3F5F9]/80 backdrop-blur-xs border-b border-slate-200/50"
         )}
       >
-        <Container className="h-[70px]">
+        <Container className="py-2.5 sm:py-3 min-h-[72px] md:min-h-[78px] flex items-center">
           {/* Desktop 3-region Grid Layout (1fr auto 1fr) & Mobile Flex */}
-          <div className="h-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center w-full">
+          <div className="w-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center">
             {/* 1. LEFT REGION: Brand Logo */}
             <div className="justify-self-start flex items-center">
               <Logo size="md" />
