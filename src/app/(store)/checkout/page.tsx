@@ -18,6 +18,8 @@ import { useToast } from "@/hooks/useToast";
 import { ShieldCheck, Lock, AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
+import { Container } from "@/components/common/Container";
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, getTotal, couponCode, clearCart } = useCart();
@@ -108,9 +110,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <Container className="py-8 sm:py-10 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             Checkout &amp; Payment
@@ -127,13 +129,13 @@ export default function CheckoutPage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Form Area (Left 8 cols) */}
-          <div className="lg:col-span-8 space-y-8">
+          <div className="lg:col-span-8 space-y-6">
             {/* Step 1: Customer Info */}
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card space-y-5">
+            <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-7 shadow-soft space-y-4">
               <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
-                <div className="h-8 w-8 rounded-xl bg-primary-50 text-primary-600 font-bold text-xs flex items-center justify-center">
+                <div className="h-8 w-8 rounded-xl bg-primary-50 text-primary-600 font-bold text-xs flex items-center justify-center border border-primary-200/60">
                   1
                 </div>
                 <h3 className="text-base font-bold text-slate-900">
@@ -150,7 +152,7 @@ export default function CheckoutPage() {
                   {...register("fullName")}
                 />
                 <Input
-                  label="Email Address (Where delivery link will be sent)"
+                  label="Email Address (Where credentials will be sent)"
                   required
                   type="email"
                   placeholder="nafij@example.com"
@@ -169,9 +171,9 @@ export default function CheckoutPage() {
             </div>
 
             {/* Step 2: Payment Provider Selection & Dynamic Number Box */}
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card space-y-6">
+            <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-7 shadow-soft space-y-5">
               <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
-                <div className="h-8 w-8 rounded-xl bg-purple-50 text-purple-600 font-bold text-xs flex items-center justify-center">
+                <div className="h-8 w-8 rounded-xl bg-purple-50 text-purple-600 font-bold text-xs flex items-center justify-center border border-purple-200/60">
                   2
                 </div>
                 <h3 className="text-base font-bold text-slate-900">
@@ -200,9 +202,9 @@ export default function CheckoutPage() {
             </div>
 
             {/* Step 3: Transaction ID Submission */}
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card space-y-5">
+            <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-7 shadow-soft space-y-5">
               <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
-                <div className="h-8 w-8 rounded-xl bg-emerald-50 text-emerald-600 font-bold text-xs flex items-center justify-center">
+                <div className="h-8 w-8 rounded-xl bg-emerald-50 text-emerald-600 font-bold text-xs flex items-center justify-center border border-emerald-200/60">
                   3
                 </div>
                 <h3 className="text-base font-bold text-slate-900">
@@ -267,9 +269,9 @@ export default function CheckoutPage() {
 
               <Button
                 type="submit"
-                variant="gradient"
+                variant="primary"
                 size="xl"
-                className="w-full font-bold shadow-xl shadow-indigo-500/20 text-base mt-4"
+                className="w-full font-bold shadow-soft text-base mt-2 h-12 justify-center"
                 isLoading={createOrderMutation.isPending}
                 leftIcon={<Lock className="h-5 w-5 mr-1" />}
               >
@@ -284,6 +286,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </form>
-    </div>
+    </Container>
   );
 }

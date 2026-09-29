@@ -21,6 +21,7 @@ export default function AdminSettingsPage() {
 
   const [form, setForm] = useState<StoreSettings | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<"general" | "homepage">("general");
 
   useEffect(() => {
     if (initialSettings) {
@@ -49,8 +50,6 @@ export default function AdminSettingsPage() {
       setIsSaving(false);
     }
   };
-
-  const [activeTab, setActiveTab] = useState<"general" | "homepage">("general");
 
   return (
     <div className="space-y-6 max-w-4xl">

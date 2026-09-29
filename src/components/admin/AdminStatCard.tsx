@@ -28,7 +28,7 @@ export const AdminStatCard: React.FC<AdminStatCardProps> = ({
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-card space-y-4">
+    <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
           {title}

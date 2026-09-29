@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`}>
-      <body className="font-sans antialiased bg-[#F8FAFC] text-slate-900 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+      <body className="font-sans antialiased bg-[#F3F5F9] text-[#101828] min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -73,7 +73,7 @@ function SupportContent() {
           </p>
         </div>
         <Button
-          variant="gradient"
+          variant="primary"
           size="sm"
           onClick={() => setIsModalOpen(true)}
           leftIcon={<Plus className="h-4 w-4" />}
@@ -92,8 +92,60 @@ function SupportContent() {
           onAction={() => setIsModalOpen(true)}
         />
       ) : (
-        <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-6 shadow-soft overflow-hidden">
+          {/* Mobile Stacked Tickets (< md) */}
+          <div className="space-y-3 md:hidden">
+            {tickets.map((t) => (
+              <div
+                key={t.id}
+                className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-xs space-y-2.5"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-bold text-xs text-slate-900">#{t.ticketNumber}</span>
+                    <span className="text-[10px] text-slate-400 block">{formatShortDate(t.updatedAt)}</span>
+                  </div>
+                  <span
+                    className={cn(
+                      "px-2 py-0.5 rounded-full text-[10px] font-bold border",
+                      t.status === "RESOLVED" || t.status === "CLOSED"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-purple-50 text-purple-700 border-purple-200"
+                    )}
+                  >
+                    {t.status}
+                  </span>
+                </div>
+
+                <div>
+                  <p className="font-semibold text-xs text-slate-900">{t.subject}</p>
+                  <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
+                    <span>{t.category}</span>
+                    <span>•</span>
+                    <span
+                      className={cn(
+                        "font-bold",
+                        t.priority === "URGENT" || t.priority === "HIGH"
+                          ? "text-rose-600"
+                          : "text-slate-600"
+                      )}
+                    >
+                      {t.priority}
+                    </span>
+                  </div>
+                </div>
+
+                <Link href={`/account/support/${t.id}`} className="block">
+                  <Button variant="secondary" size="sm" className="w-full text-xs h-9 font-bold justify-center">
+                    View Conversation
+                  </Button>
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table (>= md) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-100 text-slate-400 uppercase tracking-wider font-bold">
@@ -145,7 +197,7 @@ function SupportContent() {
                     </td>
                     <td className="py-4 text-right">
                       <Link href={`/account/support/${t.id}`}>
-                        <Button variant="outline" size="sm" className="text-xs h-7 px-2.5">
+                        <Button variant="secondary" size="sm" className="text-xs h-7 px-2.5">
                           View
                         </Button>
                       </Link>
@@ -219,12 +271,12 @@ function SupportContent() {
           />
 
           <div className="flex justify-end gap-2.5 pt-2 border-t border-slate-100">
-            <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+            <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)}>
               Cancel
             </Button>
             <Button
               type="submit"
-              variant="gradient"
+              variant="primary"
               isLoading={createTicketMutation.isPending}
             >
               Submit Ticket

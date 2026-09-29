@@ -39,7 +39,7 @@ export default function AccountProfilePage() {
         </p>
       </div>
 
-      <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card">
+      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-soft">
         <form onSubmit={handleSave} className="space-y-4">
           <Input
             label="Full Name"
@@ -69,7 +69,7 @@ export default function AccountProfilePage() {
           <div className="pt-2">
             <Button
               type="submit"
-              variant="gradient"
+              variant="primary"
               size="md"
               isLoading={isLoading}
               leftIcon={<CheckCircle2 className="h-4 w-4" />}

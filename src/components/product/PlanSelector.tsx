@@ -42,11 +42,11 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
               key={plan.id}
               onClick={() => !isOut && onSelectPlan(plan)}
               className={cn(
-                "relative rounded-2xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between",
+                "relative rounded-xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between",
                 isSelected
-                  ? "border-primary-500 bg-primary-50/40 ring-2 ring-primary-500/20 shadow-md"
-                  : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50 shadow-xs",
-                isOut && "opacity-50 cursor-not-allowed pointer-events-none bg-slate-50"
+                  ? "border-2 border-primary-500 bg-white shadow-inset ring-2 ring-primary-500/15"
+                  : "border-slate-200/80 bg-[var(--bg-surface)] shadow-soft hover:shadow-raised hover:border-slate-300",
+                isOut && "opacity-50 cursor-not-allowed pointer-events-none bg-slate-100"
               )}
             >
               {/* Popular Badge */}

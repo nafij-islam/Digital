@@ -51,7 +51,7 @@ export default function AdminLayout({
       : segments[1].charAt(0).toUpperCase() + segments[1].slice(1).replace(/-/g, " ");
 
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex bg-[var(--bg-base)]">
       {/* Sidebar */}
       <AdminSidebar
         isOpen={isSidebarOpen}

@@ -163,8 +163,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 max-w-5xl">
-      <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-5xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div className="flex items-center gap-3">
           <Button
             type="button"
@@ -175,8 +175,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           >
             Back to Products
           </Button>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900">
-            {isEditing ? `Edit Product: ${initialProduct?.name}` : "Create New Product"}
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 truncate">
+            {isEditing ? `Edit: ${initialProduct?.name}` : "Create New Product"}
           </h1>
         </div>
 
@@ -185,16 +185,17 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           variant="gradient"
           size="md"
           isLoading={isLoading}
+          className="w-full sm:w-auto justify-center"
           leftIcon={<CheckCircle2 className="h-4 w-4" />}
         >
           {isEditing ? "Save Changes" : "Publish Product"}
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Main Details (8 cols) */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-4">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-6 shadow-soft space-y-4">
             <h3 className="font-bold text-slate-900 text-base pb-2 border-b border-slate-100">
               Basic Product Information
             </h3>
@@ -234,8 +235,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
 
           {/* Multi-Plan Management */}
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-6 shadow-soft space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div>
                 <h3 className="font-bold text-slate-900 text-base">
                   Subscription Plans &amp; Pricing Tiers ({plans.length})
@@ -259,7 +260,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               {plans.map((plan, index) => (
                 <div
                   key={plan.id || index}
-                  className="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3"
+                  className="p-4 rounded-xl border border-slate-200/80 bg-white shadow-xs space-y-3"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-700 uppercase">
@@ -349,7 +350,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
 
           {/* Features & Delivery */}
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-4">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-6 shadow-soft space-y-4">
             <h3 className="font-bold text-slate-900 text-base pb-2 border-b border-slate-100">
               Key Features &amp; Delivery Notes
             </h3>
@@ -381,7 +382,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
         {/* Sidebar Settings (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-4">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-6 shadow-soft space-y-4">
             <h3 className="font-bold text-slate-900 text-base pb-2 border-b border-slate-100">
               Settings &amp; Visibility
             </h3>

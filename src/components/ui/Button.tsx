@@ -10,6 +10,7 @@ export interface ButtonProps
     | "primary"
     | "gradient"
     | "secondary"
+    | "soft-raised"
     | "outline"
     | "ghost"
     | "danger"
@@ -37,33 +38,35 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "relative inline-flex items-center justify-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60 cursor-pointer select-none rounded-xl";
+      "relative inline-flex items-center justify-center font-bold tracking-tight transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 active:scale-[0.98] active:shadow-pressed disabled:pointer-events-none disabled:opacity-50 cursor-pointer select-none";
 
     const variants = {
       primary:
-        "bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md hover:shadow-primary-500/20",
+        "bg-primary-500 text-white hover:bg-primary-600 shadow-soft hover:shadow-raised border border-primary-600/30",
       gradient:
-        "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-md hover:shadow-lg hover:shadow-indigo-500/25 hover:brightness-105",
+        "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-soft hover:shadow-raised border border-white/20 hover:brightness-105",
       purple:
-        "bg-purple-600 text-white hover:bg-purple-700 shadow-sm hover:shadow-md hover:shadow-purple-500/20",
+        "bg-purple-600 text-white hover:bg-purple-700 shadow-soft hover:shadow-raised border border-purple-700/30",
       secondary:
-        "bg-slate-100 text-slate-800 hover:bg-slate-200 border border-slate-200/80",
+        "bg-[#F7F8FB] text-slate-800 hover:bg-white shadow-soft hover:shadow-raised border border-slate-200/80 active:shadow-inset",
+      "soft-raised":
+        "bg-white text-slate-800 hover:bg-[#F7F8FB] shadow-soft hover:shadow-raised border border-slate-200/70",
       outline:
-        "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-sm",
+        "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-xs",
       ghost:
-        "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+        "text-slate-600 hover:bg-slate-100/70 hover:text-slate-900 border border-transparent",
       danger:
-        "bg-red-600 text-white hover:bg-red-700 shadow-sm hover:shadow-red-500/20",
+        "bg-red-500 text-white hover:bg-red-600 shadow-soft hover:shadow-raised border border-red-600/30",
       success:
-        "bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm hover:shadow-emerald-500/20",
+        "bg-emerald-500 text-white hover:bg-emerald-600 shadow-soft hover:shadow-raised border border-emerald-600/30",
     };
 
     const sizes = {
-      sm: "h-8 px-3 text-xs gap-1.5",
-      md: "h-10 px-4 text-sm gap-2",
-      lg: "h-12 px-6 text-base font-semibold gap-2.5",
-      xl: "h-14 px-8 text-lg font-bold gap-3 rounded-2xl",
-      icon: "h-10 w-10 p-0",
+      sm: "h-8.5 px-3 text-xs gap-1.5 rounded-lg",
+      md: "h-10 sm:h-11 px-4 text-xs sm:text-sm gap-2 rounded-xl",
+      lg: "h-12 sm:h-12.5 px-6 text-sm sm:text-base gap-2.5 rounded-xl",
+      xl: "h-13 sm:h-14 px-8 text-base sm:text-lg gap-3 rounded-2xl",
+      icon: "h-10 w-10 p-0 rounded-xl",
     };
 
     return (
@@ -73,9 +76,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(baseStyles, variants[variant], sizes[size], className)}
         {...props}
       >
-        {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+        {isLoading && <Loader2 className="h-4 w-4 animate-spin shrink-0" />}
         {!isLoading && leftIcon && <span className="shrink-0">{leftIcon}</span>}
-        <span>{children}</span>
+        <span className="truncate">{children}</span>
         {!isLoading && rightIcon && <span className="shrink-0">{rightIcon}</span>}
       </button>
     );

@@ -36,7 +36,7 @@ export const StickyPurchaseBar: React.FC<StickyPurchaseBarProps> = ({
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-xl space-y-6 sticky top-24">
+    <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-6 static lg:sticky lg:top-24">
       {/* Price section */}
       <div>
         <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -62,9 +62,9 @@ export const StickyPurchaseBar: React.FC<StickyPurchaseBarProps> = ({
       {/* Action buttons */}
       <div className="space-y-2.5">
         <Button
-          variant="gradient"
+          variant="primary"
           size="lg"
-          className="w-full font-bold shadow-md shadow-primary-500/20"
+          className="w-full font-bold shadow-soft h-12 justify-center"
           disabled={!selectedPlan || isOutOfStock}
           onClick={handleBuyNow}
         >
@@ -73,9 +73,9 @@ export const StickyPurchaseBar: React.FC<StickyPurchaseBarProps> = ({
         </Button>
 
         <Button
-          variant="outline"
+          variant="secondary"
           size="lg"
-          className="w-full font-semibold"
+          className="w-full font-semibold h-12 justify-center"
           disabled={!selectedPlan || isOutOfStock}
           onClick={handleAddToCart}
         >

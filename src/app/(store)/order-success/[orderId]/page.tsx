@@ -19,6 +19,8 @@ import {
   MessageCircle,
 } from "lucide-react";
 
+import { Container } from "@/components/common/Container";
+
 export default function OrderSuccessPage() {
   const params = useParams();
   const orderId = params?.orderId as string;
@@ -30,7 +32,7 @@ export default function OrderSuccessPage() {
 
   if (!order) {
     return (
-      <div className="max-w-2xl mx-auto py-20 px-4 text-center space-y-4">
+      <Container className="py-20 text-center space-y-4">
         <h2 className="text-2xl font-black text-slate-900">Order Not Found</h2>
         <p className="text-xs text-slate-500">
           We couldn&apos;t find an order with this identification reference.
@@ -40,20 +42,20 @@ export default function OrderSuccessPage() {
             Return Home
           </Button>
         </Link>
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    <Container className="py-8 sm:py-12 space-y-6">
       {/* Top Banner */}
-      <div className="rounded-3xl border-2 border-purple-200 bg-gradient-to-br from-purple-50/60 via-white to-blue-50/40 p-8 sm:p-10 shadow-card text-center space-y-4">
-        <div className="mx-auto h-16 w-16 rounded-3xl bg-purple-100 text-purple-700 flex items-center justify-center border border-purple-200 shadow-xs">
-          <Clock className="h-8 w-8 animate-pulse" />
+      <div className="rounded-2xl border border-purple-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-soft text-center space-y-4">
+        <div className="mx-auto h-14 w-14 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-200/80 shadow-soft">
+          <Clock className="h-7 w-7 text-purple-600 animate-pulse" />
         </div>
 
         <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 bg-purple-100/70 px-3 py-1 rounded-full border border-purple-200">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200/60">
             Order #{order.orderNumber}
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -69,10 +71,10 @@ export default function OrderSuccessPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
         {/* Order Details & Items (7 cols) */}
         <div className="md:col-span-7 space-y-6">
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-5">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-4">
             <h3 className="font-bold text-slate-900 text-base pb-3 border-b border-slate-100">
               Submitted Items &amp; Payment Proof
             </h3>
@@ -97,7 +99,7 @@ export default function OrderSuccessPage() {
             </div>
 
             {/* Payment Details Table */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/60 space-y-2 text-xs">
+            <div className="p-4 rounded-xl bg-white border border-slate-200/80 shadow-xs space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-slate-500">Payment Provider:</span>
                 <span className="font-bold text-slate-900">
@@ -127,12 +129,12 @@ export default function OrderSuccessPage() {
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link href={`/account/orders/${order.id}`} className="flex-1">
-                <Button variant="gradient" size="md" className="w-full font-bold">
+                <Button variant="primary" size="md" className="w-full font-bold shadow-soft justify-center">
                   Track in Customer Vault <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               </Link>
               <Link href="/products" className="flex-1">
-                <Button variant="outline" size="md" className="w-full font-semibold">
+                <Button variant="secondary" size="md" className="w-full font-semibold justify-center">
                   Continue Shopping
                 </Button>
               </Link>
@@ -141,8 +143,8 @@ export default function OrderSuccessPage() {
         </div>
 
         {/* Live Order Timeline (5 cols) */}
-        <div className="md:col-span-5 space-y-6">
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-4">
+        <div className="md:col-span-5 space-y-4">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-4">
             <h3 className="font-bold text-slate-900 text-base pb-3 border-b border-slate-100">
               Live Fulfillment Timeline
             </h3>
@@ -151,8 +153,8 @@ export default function OrderSuccessPage() {
           </div>
 
           {/* Need help banner */}
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-5 shadow-card flex items-center gap-3.5">
-            <div className="h-10 w-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-5 shadow-soft flex items-center gap-3.5">
+            <div className="h-10 w-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200/80 shadow-soft">
               <MessageCircle className="h-5 w-5" />
             </div>
             <div className="min-w-0">
@@ -164,6 +166,6 @@ export default function OrderSuccessPage() {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

@@ -10,7 +10,7 @@ export const CheckoutSummary: React.FC = () => {
   const { items, getSubtotal, getTotal, discountAmount, couponCode } = useCart();
 
   return (
-    <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-6 sticky top-24">
+    <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-6 static lg:sticky lg:top-24">
       <div className="flex items-center justify-between pb-4 border-b border-slate-100">
         <h3 className="font-bold text-slate-900 text-base">Order Summary</h3>
         <span className="text-xs text-slate-500 font-medium">

@@ -11,27 +11,28 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
+        sans: ["var(--font-display)", "var(--font-inter)", "sans-serif"],
         display: ["var(--font-display)", "var(--font-inter)", "sans-serif"],
       },
       colors: {
-        background: "#F8FAFC",
-        surface: "#FFFFFF",
+        background: "#F3F5F9",
+        surface: "#F7F8FB",
+        card: "#FFFFFF",
         primary: {
-          DEFAULT: "#2563EB",
-          50: "#EFF6FF",
-          100: "#DBEAFE",
-          200: "#BFDBFE",
-          300: "#93C5FD",
-          400: "#60A5FA",
-          500: "#3B82F6",
-          600: "#2563EB",
-          700: "#1D4ED8",
-          800: "#1E40AF",
-          900: "#1E3A8A",
-          950: "#172554",
+          DEFAULT: "#356DF3",
+          50: "#EFF4FE",
+          100: "#DBE6FD",
+          200: "#BFD3FB",
+          300: "#93B5F8",
+          400: "#6090F5",
+          500: "#356DF3",
+          600: "#2455DC",
+          700: "#1D42B4",
+          800: "#1C3891",
+          900: "#1B3273",
+          950: "#121F47",
         },
-        electric: "#3B82F6",
+        electric: "#4B7BFF",
         cyan: {
           DEFAULT: "#06B6D4",
           50: "#ECFEFF",
@@ -40,47 +41,40 @@ const config: Config = {
           600: "#0891B2",
         },
         purple: {
-          DEFAULT: "#7C3AED",
+          DEFAULT: "#7548F5",
           50: "#F5F3FF",
           100: "#EDE9FE",
           500: "#8B5CF6",
-          600: "#7C3AED",
-          700: "#6D28D9",
+          600: "#7548F5",
+          700: "#6336DB",
         },
         violet: {
           DEFAULT: "#8B5CF6",
         },
-        pink: {
-          DEFAULT: "#EC4899",
-          500: "#EC4899",
-          600: "#DB2777",
-        },
-        orange: {
-          DEFAULT: "#F97316",
-          500: "#F97316",
-          600: "#EA580C",
-        },
-        green: {
-          DEFAULT: "#10B981",
-          500: "#10B981",
-          600: "#059669",
+        accent: {
+          warm: "#FFB800",
         },
         slate: {
           850: "#151F32",
-          900: "#0F172A",
-          950: "#020617",
+          900: "#101828",
+          950: "#0A0E17",
         },
       },
       borderRadius: {
-        'xl': '0.75rem',
-        '2xl': '1rem',
-        '3xl': '1.25rem',
+        sm: "0.5rem", // 8px
+        md: "0.75rem", // 12px
+        lg: "1rem", // 16px
+        xl: "1.25rem", // 20px
+        "2xl": "1.5rem", // 24px
       },
       boxShadow: {
-        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        'card': '0 2px 8px -1px rgba(15, 23, 42, 0.04), 0 1px 3px -1px rgba(15, 23, 42, 0.02)',
-        'card-hover': '0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04)',
-        'glow': '0 0 25px -5px rgba(37, 99, 235, 0.25)',
+        soft: "var(--shadow-soft)",
+        raised: "var(--shadow-raised)",
+        floating: "var(--shadow-floating)",
+        inset: "var(--shadow-inset)",
+        pressed: "var(--shadow-pressed)",
+        card: "var(--shadow-soft)",
+        "card-hover": "var(--shadow-raised)",
       },
     },
   },

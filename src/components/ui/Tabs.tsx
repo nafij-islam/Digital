@@ -27,7 +27,7 @@ export const Tabs: React.FC<TabsProps> = ({
 }) => {
   if (variant === "underline") {
     return (
-      <div className={cn("border-b border-slate-200 flex gap-6 overflow-x-auto", className)}>
+      <div className={cn("border-b border-slate-200/90 flex gap-6 overflow-x-auto no-scrollbar", className)}>
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab;
           return (
@@ -35,19 +35,19 @@ export const Tabs: React.FC<TabsProps> = ({
               key={tab.id}
               onClick={() => onChange(tab.id)}
               className={cn(
-                "flex items-center gap-2 pb-3.5 text-sm font-semibold transition-all relative border-b-2 whitespace-nowrap",
+                "flex items-center gap-2 pb-3 text-xs sm:text-sm font-bold transition-all relative border-b-2 whitespace-nowrap",
                 isActive
-                  ? "border-primary-600 text-primary-600"
+                  ? "border-primary-500 text-primary-600"
                   : "border-transparent text-slate-500 hover:text-slate-900 hover:border-slate-300"
               )}
             >
               {tab.icon}
-              {tab.label}
+              <span>{tab.label}</span>
               {tab.count !== undefined && (
                 <span
                   className={cn(
-                    "rounded-full px-2 py-0.5 text-xs",
-                    isActive ? "bg-primary-100 text-primary-700" : "bg-slate-100 text-slate-600"
+                    "rounded-full px-2 py-0.5 text-[10px] font-bold",
+                    isActive ? "bg-primary-50 text-primary-700" : "bg-slate-100 text-slate-600"
                   )}
                 >
                   {tab.count}
@@ -63,7 +63,7 @@ export const Tabs: React.FC<TabsProps> = ({
   return (
     <div
       className={cn(
-        "inline-flex p-1 bg-slate-100/90 rounded-2xl border border-slate-200/60 overflow-x-auto max-w-full",
+        "inline-flex p-1 bg-[#F3F5F9] rounded-2xl border border-slate-200/80 overflow-x-auto max-w-full no-scrollbar shadow-inset gap-1",
         className
       )}
     >
@@ -74,19 +74,19 @@ export const Tabs: React.FC<TabsProps> = ({
             key={tab.id}
             onClick={() => onChange(tab.id)}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
+              "flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap",
               isActive
-                ? "bg-white text-slate-900 shadow-xs font-semibold"
-                : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                ? "bg-white text-slate-900 shadow-soft border border-slate-200/70"
+                : "text-slate-600 hover:text-slate-900 hover:bg-white/40"
             )}
           >
             {tab.icon}
-            {tab.label}
+            <span>{tab.label}</span>
             {tab.count !== undefined && (
               <span
                 className={cn(
                   "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
-                  isActive ? "bg-primary-50 text-primary-700" : "bg-slate-200/80 text-slate-600"
+                  isActive ? "bg-primary-50 text-primary-600" : "bg-slate-200/80 text-slate-600"
                 )}
               >
                 {tab.count}

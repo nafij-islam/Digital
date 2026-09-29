@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowLeft, Lock } from "lucide-react";
+import { Container } from "@/components/common/Container";
 
 export const metadata = {
   title: "Privacy Policy — DigiVault",
@@ -9,15 +10,15 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <Container className="py-8 sm:py-12 max-w-4xl space-y-4">
       <Link
         href="/"
-        className="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700 mb-6"
+        className="inline-flex items-center text-xs font-semibold text-primary-600 hover:text-primary-700"
       >
         <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Back to Store
       </Link>
 
-      <div className="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-12 shadow-xs space-y-8">
+      <div className="bg-[var(--bg-surface)] rounded-2xl border border-slate-200/80 p-6 sm:p-10 shadow-soft space-y-6">
         <div className="border-b border-slate-100 pb-6">
           <div className="inline-flex items-center gap-2 rounded-full bg-purple-50 text-purple-700 px-3 py-1 text-xs font-bold mb-3">
             <Lock className="h-4 w-4" /> Privacy &amp; Data Security
@@ -49,6 +50,6 @@ export default function PrivacyPage() {
           </section>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

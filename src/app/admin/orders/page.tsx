@@ -66,8 +66,59 @@ export default function AdminOrdersPage() {
           description="No orders match your current filter parameters."
         />
       ) : (
-        <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-6 shadow-soft overflow-hidden">
+          {/* Mobile Stacked Cards (< md) */}
+          <div className="space-y-3.5 md:hidden">
+            {orders.map((order) => (
+              <div
+                key={order.id}
+                className="p-4 rounded-xl bg-white border border-slate-200/80 shadow-xs space-y-3"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <span className="font-black text-sm text-slate-900">#{order.orderNumber}</span>
+                    <span className="text-[11px] text-slate-400 block">{formatShortDate(order.createdAt)}</span>
+                  </div>
+                  <OrderStatusBadge status={order.status} size="sm" />
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase">Customer</span>
+                    <p className="font-bold text-slate-900 truncate">{order.customerName}</p>
+                    <p className="text-[10px] text-slate-400 font-mono">{order.customerPhone}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase">Product & Plan</span>
+                    <p className="font-semibold text-slate-800 truncate">{order.items[0]?.productName || "Digital Tool"}</p>
+                    <p className="text-[10px] text-primary-600 font-medium">{order.items[0]?.planName}</p>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-[var(--bg-base)] border border-slate-200/60 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase font-semibold block">Total</span>
+                    <span className="font-black text-slate-900">{formatPrice(order.totalAmount)}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[10px] text-slate-400 uppercase font-semibold block">{order.paymentMethod?.displayName || "Payment"}</span>
+                    <span className="font-mono font-bold text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded text-[11px] border border-purple-200 inline-block max-w-[130px] truncate">
+                      {order.transactionId || "—"}
+                    </span>
+                  </div>
+                </div>
+
+                <Link href={`/admin/orders/${order.id}`} className="block w-full">
+                  <Button variant="secondary" size="sm" className="w-full h-10 text-xs font-bold justify-center">
+                    <Eye className="h-3.5 w-3.5 mr-1.5" /> Manage / View Details
+                  </Button>
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table (>= md) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-100 text-slate-400 uppercase tracking-wider font-bold">
@@ -121,7 +172,7 @@ export default function AdminOrdersPage() {
                     </td>
                     <td className="py-4 text-right">
                       <Link href={`/admin/orders/${order.id}`}>
-                        <Button variant="outline" size="sm" className="text-xs h-7 px-2.5">
+                        <Button variant="secondary" size="sm" className="text-xs h-7 px-2.5">
                           <Eye className="h-3.5 w-3.5 mr-1" /> View / Action
                         </Button>
                       </Link>

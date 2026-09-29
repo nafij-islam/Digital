@@ -27,6 +27,8 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorState } from "@/components/common/ErrorState";
 import { formatPrice } from "@/lib/utils/formatters";
 
+import { Container } from "@/components/common/Container";
+
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -50,50 +52,50 @@ export default function ProductDetailPage() {
 
   if (error || !product) {
     return (
-      <div className="max-w-3xl mx-auto py-20 px-4">
+      <Container className="py-20">
         <ErrorState
           title="Product Not Found"
           message="We couldn't find the requested digital product or subscription plan."
           onRetry={() => router.push("/products")}
         />
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <Container className="py-8 space-y-8">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs text-slate-500 font-medium">
-        <Link href="/" className="hover:text-slate-900 transition-colors">
+      <nav className="flex items-center gap-2 text-xs text-slate-500 font-medium overflow-x-auto no-scrollbar py-1">
+        <Link href="/" className="hover:text-slate-900 transition-colors shrink-0">
           Home
         </Link>
-        <ChevronRight className="h-3 w-3 text-slate-400" />
-        <Link href="/products" className="hover:text-slate-900 transition-colors">
+        <ChevronRight className="h-3 w-3 text-slate-400 shrink-0" />
+        <Link href="/products" className="hover:text-slate-900 transition-colors shrink-0">
           Products
         </Link>
-        <ChevronRight className="h-3 w-3 text-slate-400" />
+        <ChevronRight className="h-3 w-3 text-slate-400 shrink-0" />
         {product.category && (
           <>
             <Link
               href={`/categories/${product.category.slug}`}
-              className="hover:text-slate-900 transition-colors"
+              className="hover:text-slate-900 transition-colors shrink-0"
             >
               {product.category.name}
             </Link>
-            <ChevronRight className="h-3 w-3 text-slate-400" />
+            <ChevronRight className="h-3 w-3 text-slate-400 shrink-0" />
           </>
         )}
-        <span className="text-slate-900 font-semibold truncate">{product.name}</span>
+        <span className="text-slate-900 font-semibold truncate shrink-0">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Main Content Area (Left 8 cols) */}
-        <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-6">
           {/* Header Card */}
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card space-y-6">
-            <div className="flex flex-col sm:flex-row gap-6 items-start">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-7 shadow-soft space-y-6">
+            <div className="flex flex-col sm:flex-row gap-5 items-start">
               {/* Product Visual */}
-              <div className="relative h-36 w-36 sm:h-44 sm:w-44 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200 shadow-xs">
+              <div className="relative h-32 w-32 sm:h-40 sm:w-40 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200/80 shadow-soft">
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
@@ -155,7 +157,7 @@ export default function ProductDetailPage() {
 
           {/* Features List */}
           {product.features && product.features.length > 0 && (
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card space-y-4">
+            <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-7 shadow-soft space-y-4">
               <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-purple-600" /> Key Features &amp; Highlights
               </h3>
@@ -163,7 +165,7 @@ export default function ProductDetailPage() {
                 {product.features.map((feature, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-2.5 p-3 rounded-2xl bg-slate-50 border border-slate-200/60 text-xs text-slate-700 font-medium leading-relaxed"
+                    className="flex items-start gap-2.5 p-3 rounded-xl bg-white border border-slate-200/80 shadow-xs text-xs text-slate-700 font-medium leading-relaxed"
                   >
                     <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                     <span>{feature}</span>
@@ -174,7 +176,7 @@ export default function ProductDetailPage() {
           )}
 
           {/* Full Description */}
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card space-y-4">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-7 shadow-soft space-y-4">
             <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
               <FileText className="h-4 w-4 text-blue-600" /> Product Overview &amp; Specifications
             </h3>
@@ -184,9 +186,9 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Delivery Information & Important Notes */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-3">
-              <div className="h-9 w-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 shadow-soft space-y-3">
+              <div className="h-9 w-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200/60">
                 <Truck className="h-5 w-5" />
               </div>
               <h4 className="text-sm font-bold text-slate-900">Delivery Information</h4>
@@ -195,8 +197,8 @@ export default function ProductDetailPage() {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-3">
-              <div className="h-9 w-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 shadow-soft space-y-3">
+              <div className="h-9 w-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200/60">
                 <AlertTriangle className="h-5 w-5" />
               </div>
               <h4 className="text-sm font-bold text-slate-900">Important Notes</h4>
@@ -209,7 +211,7 @@ export default function ProductDetailPage() {
 
           {/* FAQ */}
           {product.faqs && product.faqs.length > 0 && (
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-card space-y-4">
+            <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-7 shadow-soft space-y-4">
               <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
                 <HelpCircle className="h-4 w-4 text-slate-500" /> Product FAQs
               </h3>
@@ -217,7 +219,7 @@ export default function ProductDetailPage() {
                 {product.faqs.map((faq, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs text-slate-700 space-y-1.5"
+                    className="p-4 rounded-xl bg-white border border-slate-200/80 shadow-xs text-xs text-slate-700 space-y-1.5"
                   >
                     <h5 className="font-bold text-slate-900 text-sm">
                       {faq.question}
@@ -235,6 +237,6 @@ export default function ProductDetailPage() {
           <StickyPurchaseBar product={product} selectedPlan={selectedPlan} />
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -22,6 +22,7 @@ import { orderService } from "@/services/orderService";
 import { activationService } from "@/services/activationService";
 import { ActivationBlockRenderer } from "@/components/orders/ActivationBlockRenderer";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { Button } from "@/components/ui/Button";
 
 export default function OrderAccessPage() {
   const params = useParams();
@@ -77,7 +78,7 @@ export default function OrderAccessPage() {
 
   if (!order) {
     return (
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center space-y-4">
+      <div className="rounded-2xl border border-slate-200/80 bg-white p-8 text-center space-y-4 shadow-soft">
         <AlertCircle className="h-10 w-10 text-rose-500 mx-auto" />
         <h2 className="text-xl font-bold text-slate-900">Order Not Found</h2>
         <p className="text-xs sm:text-sm text-slate-500">
@@ -85,7 +86,7 @@ export default function OrderAccessPage() {
         </p>
         <Link
           href="/account/orders"
-          className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700"
+          className="inline-flex items-center text-xs font-bold text-primary-600 hover:text-primary-700"
         >
           <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Back to My Orders
         </Link>
@@ -96,37 +97,37 @@ export default function OrderAccessPage() {
   const primaryItem = order.items?.[0];
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto min-w-0">
       {/* Back button & Breadcrumb */}
       <div className="flex items-center justify-between">
         <Link
           href={`/account/orders/${order.id}`}
-          className="inline-flex items-center text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+          className="inline-flex items-center text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5 mr-1.5" /> Back to Order Details
         </Link>
-        <div className="flex items-center gap-1.5 text-xs text-slate-400">
+        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
           <span>Order #{order.orderNumber}</span>
         </div>
       </div>
 
       {/* Main Order Access Header Card */}
-      <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-bold mb-2">
-              <ShieldCheck className="h-4 w-4" /> Secure Delivery Vault
+      <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-bold mb-2 border border-emerald-200/60">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" /> Secure Delivery Vault
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight truncate">
               {primaryItem?.productName || "Digital Product"} Access
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               Plan: <span className="font-semibold text-slate-800">{primaryItem?.planName}</span> •
               Purchased: {new Date(order.createdAt).toLocaleDateString()}
             </p>
           </div>
 
-          <div className="text-right sm:self-center">
+          <div className="shrink-0 self-start sm:self-center">
             <span
               className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
                 order.status === "FULFILLED"
@@ -140,13 +141,13 @@ export default function OrderAccessPage() {
         </div>
 
         {/* Tab Selection */}
-        <div className="flex items-center gap-2 pt-6">
+        <div className="flex items-center gap-2 pt-5 overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveTab("access")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
               activeTab === "access"
-                ? "bg-blue-600 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-slate-900"
+                ? "bg-primary-500 text-white shadow-soft"
+                : "bg-[#F7F8FB] text-slate-600 border border-slate-200/70 hover:bg-white hover:text-slate-900"
             }`}
           >
             <Key className="h-4 w-4" />
@@ -155,10 +156,10 @@ export default function OrderAccessPage() {
 
           <button
             onClick={() => setActiveTab("activation")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
               activeTab === "activation"
-                ? "bg-blue-600 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-slate-900"
+                ? "bg-primary-500 text-white shadow-soft"
+                : "bg-[#F7F8FB] text-slate-600 border border-slate-200/70 hover:bg-white hover:text-slate-900"
             }`}
           >
             <BookOpen className="h-4 w-4" />
@@ -167,7 +168,7 @@ export default function OrderAccessPage() {
               <span
                 className={`ml-1 px-1.5 py-0.2 rounded-full text-[10px] ${
                   activeTab === "activation"
-                    ? "bg-blue-500 text-white"
+                    ? "bg-primary-700 text-white"
                     : "bg-slate-200 text-slate-700"
                 }`}
               >
@@ -182,10 +183,10 @@ export default function OrderAccessPage() {
       {activeTab === "access" && (
         <div className="space-y-6">
           {order.status !== "FULFILLED" ? (
-            <div className="rounded-3xl border border-amber-200/90 bg-amber-50/70 p-6 sm:p-8 text-center space-y-3">
+            <div className="rounded-2xl border border-amber-200/80 bg-amber-50/70 p-6 sm:p-8 text-center space-y-3 shadow-soft">
               <Lock className="h-8 w-8 text-amber-600 mx-auto" />
               <h3 className="text-base font-bold text-amber-900">Order Pending Fulfillment</h3>
-              <p className="text-xs sm:text-sm text-amber-700 max-w-md mx-auto">
+              <p className="text-xs sm:text-sm text-amber-700 max-w-md mx-auto leading-relaxed">
                 Your payment is currently being verified or processed. Once our team completes
                 setup, your credentials will appear here immediately.
               </p>
@@ -195,7 +196,7 @@ export default function OrderAccessPage() {
               <LoadingSpinner text="Decrypting credentials..." />
             </div>
           ) : !accessDetails ? (
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 text-center space-y-2">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 sm:p-8 text-center space-y-2 shadow-soft">
               <AlertCircle className="h-8 w-8 text-slate-400 mx-auto" />
               <h3 className="text-base font-bold text-slate-800">No Credentials Configured Yet</h3>
               <p className="text-xs text-slate-500 max-w-md mx-auto">
@@ -204,7 +205,7 @@ export default function OrderAccessPage() {
               </p>
             </div>
           ) : (
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-soft space-y-6 min-w-0">
               <div className="border-b border-slate-100 pb-4">
                 <h3 className="text-base font-bold text-slate-900">Credentials &amp; Access Keys</h3>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -213,16 +214,16 @@ export default function OrderAccessPage() {
                 </p>
               </div>
 
-              {/* Delivery Blocks */}
-              <div className="space-y-4">
+              {/* Delivery Blocks with Inset Tactile Treatment */}
+              <div className="space-y-3.5 min-w-0">
                 {/* Login Email / Username */}
                 {(accessDetails.loginEmail || accessDetails.loginUsername) && (
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 gap-3">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-[#F7F8FB] border border-slate-200/80 shadow-inset gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                         Login Email / Username
                       </span>
-                      <p className="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-0.5">
+                      <p className="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-0.5 break-all">
                         {accessDetails.loginEmail || accessDetails.loginUsername}
                       </p>
                     </div>
@@ -233,7 +234,7 @@ export default function OrderAccessPage() {
                           "loginEmail"
                         )
                       }
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-2xs self-start sm:self-center"
+                      className="inline-flex items-center gap-1.5 h-8.5 px-3 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-[#F7F8FB] shadow-soft active:shadow-pressed transition-all shrink-0 self-start sm:self-center"
                     >
                       {copiedField === "loginEmail" ? (
                         <>
@@ -252,21 +253,21 @@ export default function OrderAccessPage() {
 
                 {/* Login Password (Masked initially) */}
                 {accessDetails.loginPassword && (
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 gap-3">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-[#F7F8FB] border border-slate-200/80 shadow-inset gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                         Password
                       </span>
-                      <p className="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-0.5 tracking-wider">
+                      <p className="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-0.5 tracking-wider break-all">
                         {revealedFields["password"]
                           ? accessDetails.loginPassword
                           : "••••••••••••••••"}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2 self-start sm:self-center">
+                    <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
                       <button
                         onClick={() => toggleReveal("password")}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+                        className="inline-flex items-center gap-1.5 h-8.5 px-3 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-[#F7F8FB] shadow-soft active:shadow-pressed transition-all"
                       >
                         {revealedFields["password"] ? (
                           <>
@@ -285,7 +286,7 @@ export default function OrderAccessPage() {
                         onClick={() =>
                           copyToClipboard(accessDetails.loginPassword || "", "password")
                         }
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+                        className="inline-flex items-center gap-1.5 h-8.5 px-3 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-[#F7F8FB] shadow-soft active:shadow-pressed transition-all"
                       >
                         {copiedField === "password" ? (
                           <>
@@ -305,21 +306,21 @@ export default function OrderAccessPage() {
 
                 {/* License Key (Masked initially) */}
                 {accessDetails.licenseKey && (
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 gap-3">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-[#F7F8FB] border border-slate-200/80 shadow-inset gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                         License Key
                       </span>
-                      <p className="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-0.5 tracking-wider">
+                      <p className="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-0.5 tracking-wider break-all">
                         {revealedFields["licenseKey"]
                           ? accessDetails.licenseKey
                           : "••••-••••-••••-••••"}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2 self-start sm:self-center">
+                    <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
                       <button
                         onClick={() => toggleReveal("licenseKey")}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+                        className="inline-flex items-center gap-1.5 h-8.5 px-3 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-[#F7F8FB] shadow-soft active:shadow-pressed transition-all"
                       >
                         {revealedFields["licenseKey"] ? (
                           <>
@@ -338,7 +339,7 @@ export default function OrderAccessPage() {
                         onClick={() =>
                           copyToClipboard(accessDetails.licenseKey || "", "licenseKey")
                         }
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+                        className="inline-flex items-center gap-1.5 h-8.5 px-3 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-[#F7F8FB] shadow-soft active:shadow-pressed transition-all"
                       >
                         {copiedField === "licenseKey" ? (
                           <>
@@ -358,12 +359,12 @@ export default function OrderAccessPage() {
 
                 {/* Login URL */}
                 {accessDetails.loginUrl && (
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 gap-3">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-[#F7F8FB] border border-slate-200/80 shadow-inset gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                         Official Login URL
                       </span>
-                      <p className="text-xs sm:text-sm font-semibold text-slate-700 truncate max-w-sm mt-0.5">
+                      <p className="text-xs sm:text-sm font-semibold text-slate-700 break-all mt-0.5">
                         {accessDetails.loginUrl}
                       </p>
                     </div>
@@ -371,7 +372,7 @@ export default function OrderAccessPage() {
                       href={accessDetails.loginUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs self-start sm:self-center"
+                      className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-xs font-bold transition-all shadow-soft shrink-0 self-start sm:self-center"
                     >
                       <span>Open Login</span>
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -381,12 +382,12 @@ export default function OrderAccessPage() {
 
                 {/* Activation Link */}
                 {accessDetails.activationLink && (
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 gap-3">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-emerald-50/60 border border-emerald-200/80 shadow-inset gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block">
                         Activation Link / Invitation
                       </span>
-                      <p className="text-xs sm:text-sm font-semibold text-emerald-900 truncate max-w-sm mt-0.5">
+                      <p className="text-xs sm:text-sm font-semibold text-emerald-950 break-all mt-0.5">
                         {accessDetails.activationLink}
                       </p>
                     </div>
@@ -394,7 +395,7 @@ export default function OrderAccessPage() {
                       href={accessDetails.activationLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs self-start sm:self-center"
+                      className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-soft shrink-0 self-start sm:self-center"
                     >
                       <span>Activate Product</span>
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -404,20 +405,20 @@ export default function OrderAccessPage() {
 
                 {/* Download URL */}
                 {accessDetails.downloadUrl && (
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 gap-3">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-[#F7F8FB] border border-slate-200/80 shadow-inset gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                         Download Package
                       </span>
-                      <p className="text-xs sm:text-sm font-semibold text-slate-700 truncate max-w-sm mt-0.5">
-                        Official Software Installer / Asset Package
+                      <p className="text-xs sm:text-sm font-semibold text-slate-700 break-all mt-0.5">
+                        Official Software Installer / Package
                       </p>
                     </div>
                     <a
                       href={accessDetails.downloadUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-bold transition-all shadow-xs self-start sm:self-center"
+                      className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-bold transition-all shadow-soft shrink-0 self-start sm:self-center"
                     >
                       <Download className="h-3.5 w-3.5" />
                       <span>Download</span>
@@ -427,11 +428,11 @@ export default function OrderAccessPage() {
 
                 {/* Public Instructions / Notes */}
                 {(accessDetails.publicInstructions || accessDetails.additionalInstructions) && (
-                  <div className="p-5 rounded-2xl bg-blue-50/60 border border-blue-100 space-y-2">
+                  <div className="p-4 sm:p-5 rounded-xl bg-blue-50/70 border border-blue-200/70 shadow-soft space-y-1.5">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-blue-900">
                       Important Instructions
                     </h4>
-                    <p className="text-xs sm:text-sm text-blue-950 leading-relaxed whitespace-pre-line">
+                    <p className="text-xs sm:text-sm text-blue-950 leading-relaxed whitespace-pre-line break-words">
                       {accessDetails.publicInstructions || accessDetails.additionalInstructions}
                     </p>
                   </div>
@@ -450,7 +451,7 @@ export default function OrderAccessPage() {
               <LoadingSpinner text="Loading activation steps..." />
             </div>
           ) : !activationProcess || activationProcess.blocks?.length === 0 ? (
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center space-y-3">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-8 text-center space-y-3 shadow-soft">
               <BookOpen className="h-8 w-8 text-slate-400 mx-auto" />
               <h3 className="text-base font-bold text-slate-800">
                 No Custom Activation Steps Needed
@@ -461,15 +462,15 @@ export default function OrderAccessPage() {
               </p>
               <button
                 onClick={() => setActiveTab("access")}
-                className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700"
+                className="inline-flex items-center text-xs font-bold text-primary-600 hover:text-primary-700"
               >
                 Go to Access Details <ArrowLeft className="h-3.5 w-3.5 ml-1 rotate-180" />
               </button>
             </div>
           ) : (
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-soft space-y-6 min-w-0">
               <div className="border-b border-slate-100 pb-4">
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
                   {activationProcess.title || "Official Product Activation Guide"}
                 </h3>
                 {activationProcess.subtitle && (
@@ -478,7 +479,7 @@ export default function OrderAccessPage() {
               </div>
 
               {/* Structured Activation Blocks */}
-              <div className="space-y-4">
+              <div className="space-y-4 min-w-0">
                 {activationProcess.blocks
                   .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map((block, idx) => (

@@ -91,7 +91,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Revenue Chart Visual Breakdown */}
-      <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-6">
+      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
           <div>
             <h3 className="text-base font-bold text-slate-900">
@@ -112,7 +112,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* CSS Bar Chart Visualization */}
-        <div className="h-52 flex items-end justify-between gap-2 sm:gap-6 pt-6 px-2">
+        <div className="h-48 sm:h-52 flex items-end justify-between gap-2 sm:gap-6 pt-6 px-2">
           {metrics.revenueChartData.map((item, idx) => {
             const maxRev = 12000;
             const heightPercent = Math.min(100, Math.round((item.revenue / maxRev) * 100));
@@ -128,7 +128,7 @@ export default function AdminDashboardPage() {
                     className="w-full bg-gradient-to-t from-blue-600 to-purple-500 rounded-t-xl group-hover:brightness-110 transition-all duration-300"
                   />
                 </div>
-                <div className="text-xs font-bold text-slate-700 mt-1">{item.date}</div>
+                <div className="text-[11px] sm:text-xs font-bold text-slate-700 mt-1">{item.date}</div>
               </div>
             );
           })}
@@ -137,10 +137,10 @@ export default function AdminDashboardPage() {
 
       {/* Pending Verification Priority Queue */}
       {metrics.pendingOrders.length > 0 && (
-        <div className="rounded-3xl border-2 border-purple-300 bg-purple-50/30 p-6 shadow-card space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-purple-200">
+        <div className="rounded-2xl border border-purple-200/80 bg-purple-50/30 p-5 sm:p-6 shadow-soft space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-purple-200/60">
             <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-xl bg-purple-600 text-white flex items-center justify-center">
+              <div className="h-8 w-8 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0">
                 <Clock className="h-4 w-4" />
               </div>
               <div>
@@ -152,14 +152,56 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
             </div>
-            <Link href="/admin/payments">
-              <Button variant="purple" size="sm">
-                View All Queue
+            <Link href="/admin/orders">
+              <Button variant="secondary" size="sm" className="font-bold text-xs">
+                View All Orders
               </Button>
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Stacked Pending Orders (< md) */}
+          <div className="space-y-3 md:hidden">
+            {metrics.pendingOrders.map((order) => (
+              <div
+                key={order.id}
+                className="p-3.5 rounded-xl bg-white border border-purple-200/80 shadow-xs space-y-2.5"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-bold text-xs text-slate-900">#{order.orderNumber}</span>
+                    <span className="text-[10px] text-slate-500 font-bold block">{order.customerName}</span>
+                  </div>
+                  <span className="font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-[11px] border border-purple-200">
+                    {order.transactionId}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
+                  <span className="text-slate-500 font-mono">{order.senderNumber}</span>
+                  <span className="font-black text-slate-900">{formatPrice(order.totalAmount)}</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <Link href={`/admin/orders/${order.id}`}>
+                    <Button variant="secondary" size="sm" className="w-full text-xs h-8 font-bold justify-center">
+                      Review
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    className="w-full text-xs h-8 font-bold justify-center bg-emerald-600 hover:bg-emerald-700 text-white"
+                    onClick={() => handleQuickApprove(order.id)}
+                  >
+                    Approve
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table (>= md) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="border-b border-purple-200/60 text-purple-900 uppercase font-bold">
@@ -187,14 +229,13 @@ export default function AdminDashboardPage() {
                     </td>
                     <td className="py-3 text-right space-x-2">
                       <Link href={`/admin/orders/${order.id}`}>
-                        <Button variant="outline" size="sm" className="text-xs h-7 px-2">
+                        <Button variant="secondary" size="sm" className="text-xs h-7 px-2">
                           Review
                         </Button>
                       </Link>
                       <Button
-                        variant="success"
                         size="sm"
-                        className="text-xs h-7 px-2.5"
+                        className="text-xs h-7 px-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
                         onClick={() => handleQuickApprove(order.id)}
                       >
                         Approve
@@ -209,7 +250,7 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Recent Orders Table */}
-      <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-5">
+      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <h3 className="font-bold text-slate-900 text-base">Recent Orders</h3>
           <Link
@@ -220,7 +261,39 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Mobile Stacked Orders (< md) */}
+        <div className="space-y-3 md:hidden">
+          {metrics.recentOrders.map((order) => (
+            <div
+              key={order.id}
+              className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-xs space-y-2.5"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-xs text-slate-900">#{order.orderNumber}</span>
+                  <span className="text-[10px] text-slate-400 block">{formatShortDate(order.createdAt)}</span>
+                </div>
+                <OrderStatusBadge status={order.status} size="sm" />
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-semibold text-slate-700 truncate max-w-[180px]">
+                  {order.items[0]?.productName || "Digital Tool"}
+                </span>
+                <span className="font-black text-slate-900">{formatPrice(order.totalAmount)}</span>
+              </div>
+
+              <Link href={`/admin/orders/${order.id}`} className="block">
+                <Button variant="secondary" size="sm" className="w-full text-xs h-8 font-bold justify-center">
+                  Manage Order
+                </Button>
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Table (>= md) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-100 text-slate-400 uppercase tracking-wider font-bold">
@@ -254,7 +327,7 @@ export default function AdminDashboardPage() {
                   </td>
                   <td className="py-3.5 text-right">
                     <Link href={`/admin/orders/${order.id}`}>
-                      <Button variant="outline" size="sm" className="text-xs h-7 px-2.5">
+                      <Button variant="secondary" size="sm" className="text-xs h-7 px-2.5">
                         Manage
                       </Button>
                     </Link>

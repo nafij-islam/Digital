@@ -57,7 +57,7 @@ export const Modal: React.FC<ModalProps> = ({
   return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -65,44 +65,48 @@ export const Modal: React.FC<ModalProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs"
           />
 
-          {/* Dialog Card */}
+          {/* Dialog Card / Mobile Bottom Sheet */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 40, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.98 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
-              "relative w-full rounded-3xl bg-white p-6 sm:p-7 shadow-2xl border border-slate-100 z-10 my-auto",
+              "relative w-full max-h-[calc(100dvh-2.5rem)] sm:max-h-[90dvh] flex flex-col rounded-t-3xl sm:rounded-3xl bg-white p-5 sm:p-7 shadow-floating border border-slate-100 z-10",
               sizes[size],
               className
             )}
           >
+            {/* Mobile Grab Indicator */}
+            <div className="sm:hidden w-10 h-1 rounded-full bg-slate-200 mx-auto mb-3 shrink-0" />
+
             {(title || showCloseButton) && (
-              <div className="flex items-start justify-between pb-4 border-b border-slate-100 mb-5">
-                <div>
+              <div className="flex items-start justify-between pb-3.5 border-b border-slate-100 mb-4 shrink-0">
+                <div className="pr-4">
                   {title && (
-                    <h3 className="text-lg font-bold text-slate-900 tracking-tight">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
                       {title}
                     </h3>
                   )}
                   {description && (
-                    <p className="mt-1 text-xs text-slate-500">{description}</p>
+                    <p className="mt-0.5 text-xs text-slate-500 leading-relaxed">{description}</p>
                   )}
                 </div>
                 {showCloseButton && (
                   <button
                     onClick={onClose}
-                    className="rounded-full p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+                    className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors shrink-0"
+                    aria-label="Close dialog"
                   >
-                    <X className="h-5 w-5" />
+                    <X className="h-4 w-4 sm:h-5 sm:w-5" />
                   </button>
                 )}
               </div>
             )}
-            <div>{children}</div>
+            <div className="flex-1 overflow-y-auto pr-0.5 safe-pb">{children}</div>
           </motion.div>
         </div>
       )}

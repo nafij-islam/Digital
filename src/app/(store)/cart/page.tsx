@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/Button";
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, ShieldCheck, Tag } from "lucide-react";
 import { useToast } from "@/hooks/useToast";
 
+import { Container } from "@/components/common/Container";
+
 export default function CartPage() {
   const {
     items,
@@ -43,9 +45,9 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-2xl mx-auto py-24 px-4 text-center space-y-6">
-        <div className="h-20 w-20 rounded-3xl bg-slate-100 flex items-center justify-center text-slate-400 mx-auto">
-          <ShoppingBag className="h-10 w-10" />
+      <Container className="py-20 text-center space-y-6">
+        <div className="h-20 w-20 rounded-2xl bg-[var(--bg-surface)] border border-slate-200/80 shadow-soft flex items-center justify-center text-slate-400 mx-auto">
+          <ShoppingBag className="h-10 w-10 text-primary-500" />
         </div>
         <div className="space-y-2">
           <h2 className="text-2xl font-black text-slate-900">Your Cart is Empty</h2>
@@ -54,17 +56,17 @@ export default function CartPage() {
           </p>
         </div>
         <Link href="/products">
-          <Button variant="gradient" size="lg" className="font-bold">
+          <Button variant="primary" size="lg" className="font-bold">
             Browse All Products
           </Button>
         </Link>
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+    <Container className="py-8 sm:py-10 space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             Shopping Cart
@@ -73,18 +75,18 @@ export default function CartPage() {
             Review your selected digital licenses and proceed to manual checkout.
           </p>
         </div>
-        <Button variant="ghost" size="sm" onClick={clearCart} className="text-rose-600 hover:bg-rose-50">
+        <Button variant="ghost" size="sm" onClick={clearCart} className="text-rose-600 hover:bg-rose-50 self-start sm:self-auto">
           Clear Cart
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Cart Items List */}
-        <div className="lg:col-span-8 space-y-4">
+        <div className="lg:col-span-8 space-y-3.5">
           {items.map((item) => (
             <div
               key={item.id}
-              className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 sm:p-5 shadow-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
               <div className="flex items-center gap-4 min-w-0">
                 <div className="h-16 w-16 rounded-2xl bg-slate-100 overflow-hidden relative shrink-0 border border-slate-200">
@@ -150,7 +152,7 @@ export default function CartPage() {
 
         {/* Order Summary & Coupon Card */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-card space-y-6">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-5 sm:p-6 shadow-soft space-y-5">
             <h3 className="font-bold text-slate-900 text-base pb-3 border-b border-slate-100">
               Order Summary
             </h3>
@@ -167,7 +169,7 @@ export default function CartPage() {
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value)}
                     placeholder="e.g. WELCOME10"
-                    className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-xs uppercase placeholder:normal-case focus:border-primary-500 focus:outline-none"
+                    className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs uppercase placeholder:normal-case shadow-inset focus:border-primary-500 focus:outline-none"
                   />
                   <Button type="submit" variant="secondary" size="sm">
                     Apply
@@ -175,7 +177,7 @@ export default function CartPage() {
                 </div>
               </form>
             ) : (
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs">
+              <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs">
                 <div className="flex items-center gap-1.5 text-emerald-800 font-semibold">
                   <Tag className="h-4 w-4" />
                   <span>{couponCode}</span>
@@ -213,7 +215,7 @@ export default function CartPage() {
             </div>
 
             <Link href="/checkout" className="block">
-              <Button variant="gradient" size="lg" className="w-full font-bold shadow-md">
+              <Button variant="primary" size="lg" className="w-full font-bold shadow-soft">
                 Proceed to Checkout <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
             </Link>
@@ -225,6 +227,6 @@ export default function CartPage() {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

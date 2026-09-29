@@ -9,6 +9,8 @@ import { Select } from "@/components/ui/Select";
 import { Search, SlidersHorizontal, Sparkles } from "lucide-react";
 import { ProductFilterParams } from "@/types/product";
 
+import { Container } from "@/components/common/Container";
+
 function ProductsContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "";
@@ -32,29 +34,29 @@ function ProductsContent() {
   const products = data?.products || [];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <Container className="py-8 sm:py-10 space-y-6">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-8 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-bold text-white">
-            <Sparkles className="h-3.5 w-3.5" /> Official Marketplace Catalog
+      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-soft flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+        <div className="space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 border border-primary-200/60 px-3 py-1 text-xs font-bold text-primary-700">
+            <Sparkles className="h-3.5 w-3.5 text-primary-600" /> Official Marketplace Catalog
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
             All Digital Products &amp; Tools
           </h1>
-          <p className="text-xs sm:text-sm text-white/80 max-w-xl">
+          <p className="text-xs sm:text-sm text-slate-600 max-w-xl">
             Browse verified digital subscriptions, developer tools, and license keys with instant bKash/Nagad checkout.
           </p>
         </div>
 
-        <div className="text-right shrink-0">
-          <span className="text-2xl font-black">{products.length}</span>
-          <div className="text-xs text-white/80">Available Products</div>
+        <div className="text-left md:text-right shrink-0 relative z-10">
+          <span className="text-2xl sm:text-3xl font-black text-slate-900">{products.length}</span>
+          <div className="text-xs text-slate-500 font-medium">Available Products</div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 shadow-soft flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Search */}
         <div className="w-full md:w-80">
           <Input
@@ -98,7 +100,7 @@ function ProductsContent() {
 
       {/* Grid */}
       <ProductGrid products={products} isLoading={isLoading} />
-    </div>
+    </Container>
   );
 }
 

@@ -39,7 +39,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200/90 bg-white p-7 sm:p-8 shadow-card space-y-6">
+    <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-raised space-y-6">
       <div className="text-center space-y-1.5">
         <h2 className="text-2xl font-black text-slate-900 tracking-tight">
           Forgot Password
@@ -50,14 +50,14 @@ export default function ForgotPasswordPage() {
       </div>
 
       {isSubmitted ? (
-        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200/80 text-center space-y-3">
           <CheckCircle2 className="h-10 w-10 text-emerald-600 mx-auto" />
           <h4 className="font-bold text-slate-900 text-sm">Check Your Inbox</h4>
           <p className="text-xs text-slate-600 leading-relaxed">
             We have dispatched password reset instructions to your email address.
           </p>
           <Link href="/login" className="block pt-2">
-            <Button variant="primary" size="sm" className="w-full">
+            <Button variant="primary" size="sm" className="w-full font-bold shadow-soft">
               Back to Login
             </Button>
           </Link>
@@ -76,9 +76,9 @@ export default function ForgotPasswordPage() {
 
           <Button
             type="submit"
-            variant="gradient"
+            variant="primary"
             size="lg"
-            className="w-full font-bold shadow-md"
+            className="w-full font-bold shadow-soft h-11 justify-center"
             isLoading={isLoading}
           >
             Send Reset Instructions
