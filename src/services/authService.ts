@@ -7,13 +7,21 @@ import { INITIAL_USERS } from "./mockData";
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     try {
-      const { data } = await apiClient.post<AuthResponse>(
+      const response = await apiClient.post<any>(
         API_ENDPOINTS.AUTH.LOGIN,
         credentials
       );
-      tokenStorage.setToken(data.token, credentials.rememberMe ?? true);
-      tokenStorage.setUser(data.user, credentials.rememberMe ?? true);
-      return data;
+      const resData = response.data;
+      const payload = resData?.data || resData;
+      const user: User = payload.user;
+      const token: string = payload.accessToken || payload.token;
+
+      if (token && user) {
+        tokenStorage.setToken(token, credentials.rememberMe ?? true);
+        tokenStorage.setUser(user, credentials.rememberMe ?? true);
+        return { user, token };
+      }
+      throw new Error("Invalid credentials or response");
     } catch {
       // Mock Fallback for local development
       const email = credentials.email.toLowerCase();
@@ -84,13 +92,21 @@ export const authService = {
 
   register: async (credentials: RegisterCredentials): Promise<AuthResponse> => {
     try {
-      const { data } = await apiClient.post<AuthResponse>(
+      const response = await apiClient.post<any>(
         API_ENDPOINTS.AUTH.REGISTER,
         credentials
       );
-      tokenStorage.setToken(data.token, true);
-      tokenStorage.setUser(data.user, true);
-      return data;
+      const resData = response.data;
+      const payload = resData?.data || resData;
+      const user: User = payload.user;
+      const token: string = payload.accessToken || payload.token;
+
+      if (token && user) {
+        tokenStorage.setToken(token, true);
+        tokenStorage.setUser(user, true);
+        return { user, token };
+      }
+      throw new Error("Invalid registration response");
     } catch {
       const user: User = {
         id: "usr-" + Date.now(),
@@ -114,9 +130,14 @@ export const authService = {
   getCurrentUser: async (): Promise<User | null> => {
     const cachedUser = tokenStorage.getUser();
     try {
-      const { data } = await apiClient.get<User>(API_ENDPOINTS.AUTH.ME);
-      tokenStorage.setUser(data);
-      return data;
+      const response = await apiClient.get<any>(API_ENDPOINTS.AUTH.ME);
+      const resData = response.data;
+      const user = resData?.data?.user || resData?.data || resData;
+      if (user && (user.email || user.id)) {
+        tokenStorage.setUser(user);
+        return user;
+      }
+      return cachedUser;
     } catch {
       return cachedUser;
     }

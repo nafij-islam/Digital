@@ -15,6 +15,7 @@ import {
   INITIAL_AUDIT_LOGS,
   INITIAL_USERS,
 } from "./mockData";
+import { normalizeBackendOrder } from "./orderService";
 
 const ADMIN_ORDERS_KEY = "dg_local_orders";
 const ADMIN_PRODUCTS_KEY = "dg_local_products";
@@ -60,10 +61,19 @@ function logAdminAction(action: string, targetType: any, targetId: string, detai
 export const adminService = {
   getDashboardMetrics: async (): Promise<AdminDashboardMetrics> => {
     try {
-      const { data } = await apiClient.get<AdminDashboardMetrics>(
+      const response = await apiClient.get<any>(
         API_ENDPOINTS.ADMIN.METRICS
       );
-      return data;
+      const resData = response.data;
+      const metrics = resData?.data || resData;
+      if (metrics && typeof metrics.todayOrders === "number") {
+        return {
+          ...metrics,
+          recentOrders: (metrics.recentOrders || []).map(normalizeBackendOrder),
+          pendingOrders: (metrics.pendingOrders || []).map(normalizeBackendOrder),
+        };
+      }
+      throw new Error("Invalid metrics format");
     } catch {
       const orders = getStoreItem<Order[]>(ADMIN_ORDERS_KEY, INITIAL_ORDERS);
       const pendingVerification = orders.filter(
@@ -108,10 +118,22 @@ export const adminService = {
   // Admin Orders
   getOrders: async (status?: OrderStatus, search?: string): Promise<Order[]> => {
     try {
-      const { data } = await apiClient.get<Order[]>(API_ENDPOINTS.ADMIN.ORDERS.LIST, {
+      const response = await apiClient.get<any>(API_ENDPOINTS.ADMIN.ORDERS.LIST, {
         params: { status, search },
       });
-      return data;
+      const resData = response.data;
+      const rawOrders = Array.isArray(resData?.data)
+        ? resData.data
+        : Array.isArray(resData?.orders)
+        ? resData.orders
+        : Array.isArray(resData)
+        ? resData
+        : [];
+
+      if (rawOrders.length > 0) {
+        return rawOrders.map(normalizeBackendOrder);
+      }
+      return getStoreItem<Order[]>(ADMIN_ORDERS_KEY, INITIAL_ORDERS);
     } catch {
       let orders = getStoreItem<Order[]>(ADMIN_ORDERS_KEY, INITIAL_ORDERS);
       if (status) {
@@ -133,8 +155,14 @@ export const adminService = {
 
   getOrderById: async (id: string): Promise<Order | null> => {
     try {
-      const { data } = await apiClient.get<Order>(API_ENDPOINTS.ADMIN.ORDERS.DETAILS(id));
-      return data;
+      const response = await apiClient.get<any>(API_ENDPOINTS.ADMIN.ORDERS.DETAILS(id));
+      const resData = response.data;
+      const raw = resData?.data || (resData?.orderNumber ? resData : null);
+      if (raw) {
+        return normalizeBackendOrder(raw);
+      }
+      const orders = getStoreItem<Order[]>(ADMIN_ORDERS_KEY, INITIAL_ORDERS);
+      return orders.find((o) => o.id === id || o.orderNumber === id) || null;
     } catch {
       const orders = getStoreItem<Order[]>(ADMIN_ORDERS_KEY, INITIAL_ORDERS);
       return orders.find((o) => o.id === id || o.orderNumber === id) || null;

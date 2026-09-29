@@ -24,13 +24,125 @@ function saveLocalOrders(orders: Order[]) {
   }
 }
 
+export function normalizeBackendOrder(o: any): Order {
+  const items = (o.items || []).map((it: any) => ({
+    id: it._id?.toString() || it.id || `item-${Math.random()}`,
+    productId: it.productId?.toString() || "",
+    productName: it.productNameSnapshot || it.productName || "Digital Product",
+    productSlug: it.productSlug || "product",
+    productImage: it.productImageSnapshot || it.productImage || "",
+    planId: it.productPlanId?.toString() || it.planId || "",
+    planName: it.planNameSnapshot || it.planName || "Standard Plan",
+    durationValue: 1,
+    durationUnit: it.durationSnapshot || "months",
+    price:
+      typeof it.unitPrice === "number" && it.unitPrice > 1000
+        ? Math.round(it.unitPrice / 100)
+        : it.unitPrice || it.price || 0,
+    quantity: it.quantity || 1,
+  }));
+
+  const totalAmount =
+    typeof o.total === "number" && o.total > 1000
+      ? Math.round(o.total / 100)
+      : o.total || o.totalAmount || 0;
+  const subtotal =
+    typeof o.subtotal === "number" && o.subtotal > 1000
+      ? Math.round(o.subtotal / 100)
+      : o.subtotal || totalAmount;
+  const discountAmount =
+    typeof o.discount === "number" && o.discount > 1000
+      ? Math.round(o.discount / 100)
+      : o.discount || o.discountAmount || 0;
+
+  const now = o.createdAt || new Date().toISOString();
+
+  return {
+    id: o._id?.toString() || o.id,
+    orderNumber: o.orderNumber || `DV-${Math.floor(10000 + Math.random() * 90000)}`,
+    customerId: o.userId?.toString() || o.customerId || "",
+    customerName: o.customerSnapshot?.name || o.customerName || "Customer",
+    customerEmail: o.customerSnapshot?.email || o.customerEmail || "",
+    customerPhone: o.customerSnapshot?.phone || o.customerPhone || "",
+    items,
+    subtotal,
+    discountAmount,
+    couponCode: o.couponCode,
+    totalAmount,
+    currency: "৳",
+    paymentMethodId: o.paymentSubmission?.paymentMethodId?.toString() || o.paymentMethodId,
+    senderNumber: o.paymentSubmission?.senderPhone || o.senderNumber,
+    transactionId: o.paymentSubmission?.transactionId || o.transactionId,
+    paymentNote: o.paymentSubmission?.note || o.paymentNote,
+    paymentSubmittedAt: o.paymentSubmission?.submittedAt || o.paymentSubmittedAt,
+    paymentVerifiedAt: o.paymentApprovedAt || o.paymentVerifiedAt,
+    status: o.status || "PENDING_PAYMENT",
+    timeline: o.timeline || [
+      {
+        id: "tl-1",
+        status: "PENDING_PAYMENT",
+        title: "Order Placed",
+        description: "Order submitted through checkout.",
+        timestamp: now,
+        completed: true,
+      },
+      {
+        id: "tl-2",
+        status: "PENDING_PAYMENT_VERIFICATION",
+        title: "Payment Submitted",
+        description: "Transaction submitted for manual verification.",
+        timestamp: now,
+        completed: o.status !== "PENDING_PAYMENT",
+      },
+      {
+        id: "tl-3",
+        status: "PAYMENT_APPROVED",
+        title: "Payment Approved",
+        description: "Payment verified by administrator.",
+        timestamp: o.paymentApprovedAt || "",
+        completed: ["PAYMENT_APPROVED", "PROCESSING", "FULFILLED"].includes(o.status),
+      },
+      {
+        id: "tl-4",
+        status: "PROCESSING",
+        title: "Order Processing",
+        description: "Preparing digital product credentials.",
+        timestamp: o.processingAt || "",
+        completed: ["PROCESSING", "FULFILLED"].includes(o.status),
+      },
+      {
+        id: "tl-5",
+        status: "FULFILLED",
+        title: "Delivered",
+        description: "Credentials ready in delivery vault.",
+        timestamp: o.fulfilledAt || "",
+        completed: o.status === "FULFILLED",
+      },
+    ],
+    createdAt: now,
+    updatedAt: o.updatedAt || now,
+  };
+}
+
 export const orderService = {
   getOrders: async (status?: OrderStatus): Promise<Order[]> => {
     try {
-      const { data } = await apiClient.get<Order[]>(API_ENDPOINTS.ORDERS.LIST, {
+      const response = await apiClient.get<any>(API_ENDPOINTS.ORDERS.LIST, {
         params: { status },
       });
-      return data;
+      const resData = response.data;
+      const rawOrders = Array.isArray(resData?.data)
+        ? resData.data
+        : Array.isArray(resData?.orders)
+        ? resData.orders
+        : Array.isArray(resData)
+        ? resData
+        : [];
+
+      if (rawOrders.length > 0) {
+        return rawOrders.map(normalizeBackendOrder);
+      }
+      return getLocalOrders();
     } catch {
       const orders = getLocalOrders();
       if (status) {
@@ -42,8 +154,14 @@ export const orderService = {
 
   getOrderById: async (id: string): Promise<Order | null> => {
     try {
-      const { data } = await apiClient.get<Order>(API_ENDPOINTS.ORDERS.DETAILS(id));
-      return data;
+      const response = await apiClient.get<any>(API_ENDPOINTS.ORDERS.DETAILS(id));
+      const resData = response.data;
+      const raw = resData?.data || (resData?.orderNumber ? resData : null);
+      if (raw) {
+        return normalizeBackendOrder(raw);
+      }
+      const orders = getLocalOrders();
+      return orders.find((o) => o.id === id || o.orderNumber === id) || null;
     } catch {
       const orders = getLocalOrders();
       const found = orders.find((o) => o.id === id || o.orderNumber === id);
@@ -53,15 +171,53 @@ export const orderService = {
 
   createOrder: async (payload: CreateOrderPayload): Promise<Order> => {
     try {
-      const { data } = await apiClient.post<Order>(API_ENDPOINTS.ORDERS.CREATE, payload);
-      return data;
+      // 1. Step 1: Create Order on backend
+      const orderPayload = {
+        items: payload.items.map((it) => ({
+          productPlanId: it.planId,
+          quantity: it.quantity || 1,
+        })),
+        couponCode: payload.couponCode || undefined,
+        customerSnapshot: {
+          name: payload.customerName,
+          email: payload.customerEmail,
+          phone: payload.customerPhone || undefined,
+        },
+      };
+
+      const createRes = await apiClient.post<any>(API_ENDPOINTS.ORDERS.CREATE, orderPayload);
+      const createdOrderData = createRes.data?.data || createRes.data;
+      const orderId = createdOrderData?._id?.toString() || createdOrderData?.id;
+
+      // 2. Step 2: Submit payment transaction if paymentMethodId and transactionId exist
+      if (orderId && payload.paymentMethodId && payload.transactionId) {
+        try {
+          await apiClient.post(`/orders/${orderId}/payment`, {
+            paymentMethodId: payload.paymentMethodId,
+            senderPhone: payload.senderNumber || payload.customerPhone || "01700000000",
+            transactionId: payload.transactionId,
+            note: payload.paymentNote || undefined,
+          });
+        } catch (paymentErr) {
+          console.warn("Payment submission warning:", paymentErr);
+        }
+      }
+
+      if (createdOrderData) {
+        const normalized = normalizeBackendOrder(createdOrderData);
+        // Also update local orders for immediate view
+        const existing = getLocalOrders();
+        saveLocalOrders([normalized, ...existing.filter((o) => o.id !== normalized.id)]);
+        return normalized;
+      }
+      throw new Error("Order creation failed");
     } catch {
+      // Fallback
       const orders = getLocalOrders();
       const randomDigits = Math.floor(10000 + Math.random() * 90000);
       const orderNumber = `DV-${randomDigits}`;
       const newId = `ord-${Date.now()}`;
 
-      // Assemble item information
       const orderItems = payload.items.map((item) => {
         const product = INITIAL_PRODUCTS.find((p) => p.id === item.productId);
         const plan = product?.plans.find((pl) => pl.id === item.planId);
@@ -164,10 +320,25 @@ export const orderService = {
 
   getOrderAccess: async (orderId: string): Promise<OrderAccessDetails | null> => {
     try {
-      const { data } = await apiClient.get<OrderAccessDetails>(
-        API_ENDPOINTS.ORDERS.ACCESS(orderId)
-      );
-      return data;
+      const response = await apiClient.get<any>(API_ENDPOINTS.ORDERS.ACCESS(orderId));
+      const resData = response.data;
+      const data = resData?.data || resData;
+      if (data) {
+        return {
+          orderId,
+          type: data.type || "ACCOUNT_CREDENTIAL",
+          loginEmail: data.loginEmail,
+          loginUsername: data.loginUsername,
+          loginPassword: data.loginPassword,
+          loginUrl: data.loginUrl,
+          licenseKey: data.licenseKey,
+          activationLink: data.activationLink,
+          downloadUrl: data.downloadUrl,
+          publicInstructions: data.publicInstructions,
+          additionalInstructions: data.additionalInstructions,
+        };
+      }
+      throw new Error("No access details found");
     } catch {
       const orders = getLocalOrders();
       const order = orders.find((o) => o.id === orderId);
