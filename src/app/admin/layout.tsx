@@ -25,17 +25,17 @@ export default function AdminLayout({
 
   useEffect(() => {
     if (!isLoginPage && !isLoading) {
-      if (!isAuthenticated) {
+      if (!isAuthenticated || !isAdmin) {
         router.push("/admin/login");
       }
     }
-  }, [isAuthenticated, isLoginPage, isLoading, router]);
+  }, [isAuthenticated, isAdmin, isLoginPage, isLoading, router]);
 
   if (isLoginPage) {
     return <>{children}</>;
   }
 
-  if (isLoading) {
+  if (isLoading || !isAuthenticated || !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950">
         <LoadingSpinner text="Authenticating administrator access..." size="lg" className="text-white" />

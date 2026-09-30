@@ -26,7 +26,7 @@ export default function AccountLayout({
     }
   }, [isLoading, isAuthenticated, router]);
 
-  if (isLoading) {
+  if (isLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <LoadingSpinner text="Checking session..." size="lg" />

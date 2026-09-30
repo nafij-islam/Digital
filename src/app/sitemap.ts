@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://shop.nafij.com";
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://digital-backend-vert.vercel.app/api/v1";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://digital-backend-gamma.vercel.app/api/v1";
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {

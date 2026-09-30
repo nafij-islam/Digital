@@ -3,7 +3,7 @@ import { tokenStorage } from "../auth/token";
 import { auth } from "../auth/firebase";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://digital-backend-vert.vercel.app/api/v1";
+  process.env.NEXT_PUBLIC_API_URL || "https://digital-backend-gamma.vercel.app/api/v1";
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
