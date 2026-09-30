@@ -127,8 +127,7 @@ export const authService = {
     }
   },
 
-  getCurrentUser: async (): Promise<User | null> => {
-    const cachedUser = tokenStorage.getUser();
+  fetchMe: async (): Promise<User | null> => {
     try {
       const response = await apiClient.get<any>(API_ENDPOINTS.AUTH.ME);
       const resData = response.data;
@@ -137,10 +136,17 @@ export const authService = {
         tokenStorage.setUser(user);
         return user;
       }
-      return cachedUser;
-    } catch {
-      return cachedUser;
+      return null;
+    } catch (err: any) {
+      if (err?.status === 401 || err?.status === 403) {
+        tokenStorage.clearToken();
+      }
+      return null;
     }
+  },
+
+  getCurrentUser: async (): Promise<User | null> => {
+    return authService.fetchMe();
   },
 
   logout: async (): Promise<void> => {

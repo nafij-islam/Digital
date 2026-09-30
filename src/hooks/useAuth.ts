@@ -24,18 +24,40 @@ export const useAuth = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isAdmin: false,
 
-  initializeAuth: () => {
+  initializeAuth: async () => {
     const token = tokenStorage.getToken();
-    const user = tokenStorage.getUser();
-    if (token && user) {
+    if (!token) {
       set({
-        token,
-        user,
-        isAuthenticated: true,
-        isAdmin: user.role === "admin" || user.role === "superadmin",
+        token: null,
+        user: null,
+        isAuthenticated: false,
+        isAdmin: false,
         isLoading: false,
       });
-    } else {
+      return;
+    }
+
+    try {
+      const user = await authService.fetchMe();
+      if (user) {
+        const isAdmin = user.role === "admin" || user.role === "superadmin";
+        set({
+          token,
+          user,
+          isAuthenticated: true,
+          isAdmin,
+          isLoading: false,
+        });
+      } else {
+        set({
+          token: null,
+          user: null,
+          isAuthenticated: false,
+          isAdmin: false,
+          isLoading: false,
+        });
+      }
+    } catch {
       set({
         token: null,
         user: null,

@@ -65,6 +65,12 @@ apiClient.interceptors.response.use(
 
       if (status === 403) {
         console.warn("Access forbidden (403): You lack sufficient permissions.");
+        if (typeof window !== "undefined") {
+          const currentPath = window.location.pathname;
+          if (currentPath.startsWith("/admin") && !currentPath.includes("/admin/login")) {
+            window.location.href = "/account";
+          }
+        }
       }
 
       // Return a normalized error object
