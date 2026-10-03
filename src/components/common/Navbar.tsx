@@ -111,23 +111,19 @@ export const Navbar: React.FC = () => {
         )}
       >
         <Container className="flex items-center justify-between gap-4">
-          {/* 1. LEFT REGION: Tactile Pill Brand Badge with User Logo */}
+          {/* 1. LEFT REGION: User Brand Logo */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-[#303057] shadow-raised hover:shadow-floating transition-all border border-[#716DFF]/25 select-none active:shadow-pressed active:translate-y-[1px]"
+            className="group flex items-center select-none active:translate-y-[1px] focus-visible:outline-none"
           >
             <Image
               src="/logo-footer.png"
               alt="shop.nafij"
-              width={124}
-              height={36}
+              width={130}
+              height={38}
               priority
-              className="h-7 sm:h-8 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+              className="h-8 sm:h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />
-            <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#26264A] text-[#6CD6B3] shadow-pressed-sm border border-[#6CD6B3]/20">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
-              VERIFIED STORE
-            </span>
           </Link>
 
           {/* 2. CENTER REGION: Recessed Tactile Pill Navigation (Desktop Only) */}
