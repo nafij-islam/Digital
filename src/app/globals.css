@@ -13,6 +13,31 @@
     --site-bright: #818CF8;
     --site-border: rgba(99, 102, 241, 0.16);
 
+    /* Navbar Customization */
+    --site-navbar-bg: #0B0F19;
+    --site-navbar-text: #CBD5E1;
+    --site-navbar-border: #1E2642;
+
+    /* Card Customization */
+    --site-card-bg: #141A2E;
+    --site-card-border: #1E2642;
+    --site-card-hover-border: #6366F1;
+
+    /* Typography Colors & Scaling */
+    --site-text-main: #F8FAFC;
+    --site-text-secondary: #CBD5E1;
+    --site-text-muted: #94A3B8;
+    --site-base-font-size: 16px;
+
+    /* Product Details Customization */
+    --site-details-bg: #141A2E;
+    --site-details-bay-bg: #0F1424;
+    --site-details-border: #1E2642;
+    --site-details-accent: #6366F1;
+    --site-details-price: #F8FAFC;
+    --site-details-btn-bg: #6366F1;
+    --site-details-btn-text: #FFFFFF;
+
     /* Dynamic Font Variables - Plus Jakarta Sans */
     --font-ui: var(--font-plus-jakarta-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-heading: var(--font-plus-jakarta-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -25,9 +50,9 @@
     --bg-surface: #141A2E;
     --bg-surface-light: #1C233D;
     --bg-card: #141A2E;
-    --text-main: #F8FAFC;
-    --text-secondary: #CBD5E1;
-    --text-muted: #94A3B8;
+    --text-main: var(--site-text-main, #F8FAFC);
+    --text-secondary: var(--site-text-secondary, #CBD5E1);
+    --text-muted: var(--site-text-muted, #94A3B8);
 
     --primary-accent: #6366F1;
     --bright-accent: #818CF8;
@@ -48,8 +73,9 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
-    background-color: #0B0F19;
-    color: #F8FAFC;
+    background-color: var(--site-bg, #0B0F19);
+    color: var(--site-text-main, #F8FAFC);
+    font-size: var(--site-base-font-size, 16px);
     font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -57,24 +83,24 @@
 
   body {
     background-color: var(--site-bg, #0B0F19);
-    color: var(--text-main, #F8FAFC);
+    color: var(--site-text-main, #F8FAFC);
     font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
     min-height: 100dvh;
-    font-size: 15px;
+    font-size: var(--site-base-font-size, 16px);
     line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif);
-    color: #F8FAFC;
+    color: var(--site-text-main, #F8FAFC);
     font-weight: 800;
   }
 
   p {
     font-family: var(--font-body, var(--font-plus-jakarta-sans), sans-serif);
-    color: #CBD5E1;
+    color: var(--site-text-secondary, #CBD5E1);
   }
 }
 

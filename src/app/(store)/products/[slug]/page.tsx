@@ -80,28 +80,35 @@ export default function ProductDetailPage() {
 
   return (
     <Container className="py-6 sm:py-10 space-y-8 animate-fade-in">
-      {/* 1. Pill Breadcrumb Navigation directly matching console style */}
-      <nav className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 text-xs font-mono text-[#AAAAC1] overflow-x-auto no-scrollbar">
-        <Link href="/" className="hover:text-[#F5F5FA] transition-colors shrink-0">
+      {/* 1. Pill Breadcrumb Navigation */}
+      <nav
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-pressed-sm border text-xs font-mono overflow-x-auto no-scrollbar"
+        style={{
+          backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+          borderColor: "var(--site-details-border, #1E2642)",
+          color: "var(--site-text-muted, #94A3B8)",
+        }}
+      >
+        <Link href="/" className="hover:text-white transition-colors shrink-0">
           STORE
         </Link>
-        <ChevronRight className="h-3 w-3 text-[#777790] shrink-0" />
-        <Link href="/products" className="hover:text-[#F5F5FA] transition-colors shrink-0">
+        <ChevronRight className="h-3 w-3 shrink-0" style={{ color: "var(--site-text-muted, #94A3B8)" }} />
+        <Link href="/products" className="hover:text-white transition-colors shrink-0">
           PRODUCTS
         </Link>
-        <ChevronRight className="h-3 w-3 text-[#777790] shrink-0" />
+        <ChevronRight className="h-3 w-3 shrink-0" style={{ color: "var(--site-text-muted, #94A3B8)" }} />
         {product.category && (
           <>
             <Link
               href={`/categories/${product.category.slug}`}
-              className="hover:text-[#F5F5FA] transition-colors shrink-0"
+              className="hover:text-white transition-colors shrink-0"
             >
               {product.category.name.toUpperCase()}
             </Link>
-            <ChevronRight className="h-3 w-3 text-[#777790] shrink-0" />
+            <ChevronRight className="h-3 w-3 shrink-0" style={{ color: "var(--site-text-muted, #94A3B8)" }} />
           </>
         )}
-        <span className="text-[#716DFF] font-bold truncate shrink-0">
+        <span className="font-bold truncate shrink-0" style={{ color: "var(--site-details-accent, #6366F1)" }}>
           {product.name.toUpperCase()}
         </span>
       </nav>
@@ -111,14 +118,30 @@ export default function ProductDetailPage() {
         {/* ================= LEFT 8 COLS: CARTRIDGE SPECS & DOCK ================= */}
         <div className="lg:col-span-8 space-y-6">
           {/* Main Cartridge Chassis Card */}
-          <div className="rounded-3xl bg-[#303057] shadow-raised-lg p-6 sm:p-8 border border-[#383866]/40 space-y-6">
+          <div
+            className="rounded-3xl shadow-raised-lg p-6 sm:p-8 border space-y-6"
+            style={{
+              backgroundColor: "var(--site-details-bg, #141A2E)",
+              borderColor: "var(--site-details-border, #1E2642)",
+            }}
+          >
             {/* Top Hardware Meta Bar */}
-            <div className="flex items-center justify-between pb-4 border-b border-[#383866]/30 text-[11px] font-mono">
-              <span className="text-[#AAAAC1] font-bold tracking-wider">
+            <div
+              className="flex items-center justify-between pb-4 border-b text-[11px] font-mono"
+              style={{ borderColor: "var(--site-details-border, #1E2642)" }}
+            >
+              <span className="font-bold tracking-wider" style={{ color: "var(--site-text-muted, #94A3B8)" }}>
                 PROTOCOL {"//"} 01
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-[#26264A] text-[#6CD6B3] shadow-pressed-sm border border-[#6CD6B3]/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
+              <span
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold shadow-pressed-sm border"
+                style={{
+                  backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+                  borderColor: "rgba(16, 185, 129, 0.3)",
+                  color: "#10B981",
+                }}
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse" />
                 INSTANT VAULT DELIVERY
               </span>
             </div>
@@ -126,7 +149,13 @@ export default function ProductDetailPage() {
             {/* Media Bay & Info */}
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               {/* Recessed Screen Bay for Cartridge Visual */}
-              <div className="relative h-36 w-36 sm:h-44 sm:w-44 rounded-2xl bg-[#26264A] shadow-pressed p-2 shrink-0 border border-[#383866]/50 overflow-hidden flex items-center justify-center">
+              <div
+                className="relative h-36 w-36 sm:h-44 sm:w-44 rounded-2xl shadow-pressed p-2 shrink-0 border overflow-hidden flex items-center justify-center"
+                style={{
+                  backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+                  borderColor: "var(--site-details-border, #1E2642)",
+                }}
+              >
                 {product.imageUrl ? (
                   <Image
                     src={product.imageUrl}
@@ -135,14 +164,21 @@ export default function ProductDetailPage() {
                     className="object-cover p-2 rounded-xl"
                   />
                 ) : (
-                  <Sparkles className="h-12 w-12 text-[#716DFF]" />
+                  <Sparkles className="h-12 w-12" style={{ color: "var(--site-details-accent, #6366F1)" }} />
                 )}
               </div>
 
               {/* Title & Metadata */}
               <div className="flex-1 space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[10px] font-mono font-bold text-[#716DFF] bg-[#26264A] px-2.5 py-0.5 rounded-full border border-[#716DFF]/30 shadow-pressed-sm uppercase">
+                  <span
+                    className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border shadow-pressed-sm uppercase"
+                    style={{
+                      backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+                      borderColor: "var(--site-details-border, #1E2642)",
+                      color: "var(--site-details-accent, #6366F1)",
+                    }}
+                  >
                     {product.category?.name || "Digital Suite"}
                   </span>
                   <ProductBadge
@@ -153,33 +189,47 @@ export default function ProductDetailPage() {
                   />
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl font-black text-[#F5F5FA] tracking-tight uppercase font-heading">
+                <h1
+                  className="text-2xl sm:text-3xl font-black tracking-tight uppercase font-heading"
+                  style={{ color: "var(--site-text-main, #F8FAFC)" }}
+                >
                   {product.name}
                 </h1>
 
-                <p className="text-xs sm:text-sm text-[#AAAAC1] leading-relaxed font-body">
+                <p
+                  className="text-xs sm:text-sm leading-relaxed font-body"
+                  style={{ color: "var(--site-text-secondary, #CBD5E1)" }}
+                >
                   {product.shortDescription}
                 </p>
 
                 {/* Rating & Trust Strip */}
-                <div className="flex items-center gap-4 pt-2 text-xs font-mono text-[#AAAAC1]">
+                <div
+                  className="flex items-center gap-4 pt-2 text-xs font-mono"
+                  style={{ color: "var(--site-text-muted, #94A3B8)" }}
+                >
                   {product.rating > 0 && (
                     <div className="flex items-center gap-1.5">
                       <Star className="h-4 w-4 fill-[#F59E0B] text-[#F59E0B]" />
-                      <span className="font-bold text-[#F5F5FA]">{product.rating.toFixed(1)}</span>
-                      <span className="text-[#777790]">({product.ratingCount} reviews)</span>
+                      <span className="font-bold" style={{ color: "var(--site-text-main, #F8FAFC)" }}>
+                        {product.rating.toFixed(1)}
+                      </span>
+                      <span>({product.ratingCount} reviews)</span>
                     </div>
                   )}
-                  <div className="h-3 w-px bg-[#383866]" />
-                  <div className="flex items-center gap-1 text-[#6CD6B3] font-semibold">
+                  <div className="h-3 w-px" style={{ backgroundColor: "var(--site-details-border, #1E2642)" }} />
+                  <div className="flex items-center gap-1 font-semibold text-[#10B981]">
                     <ShieldCheck className="h-4 w-4" /> 100% Genuine
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Plan Selector (Tactile Neumorphic Buttons) */}
-            <div className="pt-6 border-t border-[#383866]/30">
+            {/* Plan Selector */}
+            <div
+              className="pt-6 border-t"
+              style={{ borderColor: "var(--site-details-border, #1E2642)" }}
+            >
               <PlanSelector
                 plans={product.plans}
                 selectedPlan={selectedPlan}
@@ -190,9 +240,18 @@ export default function ProductDetailPage() {
 
           {/* Features Matrix Card */}
           {product.features && product.features.length > 0 && (
-            <div className="rounded-3xl bg-[#303057] shadow-raised p-6 sm:p-7 border border-[#383866]/30 space-y-4">
-              <div className="flex items-center gap-2 text-sm font-bold text-[#F5F5FA] uppercase tracking-wider font-heading">
-                <Sparkles className="h-4 w-4 text-[#716DFF]" />
+            <div
+              className="rounded-3xl shadow-raised p-6 sm:p-7 border space-y-4"
+              style={{
+                backgroundColor: "var(--site-details-bg, #141A2E)",
+                borderColor: "var(--site-details-border, #1E2642)",
+              }}
+            >
+              <div
+                className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider font-heading"
+                style={{ color: "var(--site-text-main, #F8FAFC)" }}
+              >
+                <Sparkles className="h-4 w-4" style={{ color: "var(--site-details-accent, #6366F1)" }} />
                 KEY FEATURES &amp; SPECIFICATIONS
               </div>
 
@@ -200,10 +259,18 @@ export default function ProductDetailPage() {
                 {product.features.map((feature, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-3 p-3.5 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 text-xs text-[#AAAAC1] font-medium leading-relaxed"
+                    className="flex items-start gap-3 p-3.5 rounded-2xl shadow-pressed-sm border text-xs font-medium leading-relaxed"
+                    style={{
+                      backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+                      borderColor: "var(--site-details-border, #1E2642)",
+                      color: "var(--site-text-secondary, #CBD5E1)",
+                    }}
                   >
-                    <div className="h-5 w-5 rounded-full bg-[#303057] shadow-raised-sm flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="h-3 w-3 text-[#6CD6B3]" />
+                    <div
+                      className="h-5 w-5 rounded-full shadow-raised-sm flex items-center justify-center shrink-0 mt-0.5"
+                      style={{ backgroundColor: "var(--site-details-bg, #141A2E)" }}
+                    >
+                      <Check className="h-3 w-3 text-[#10B981]" />
                     </div>
                     <span>{feature}</span>
                   </div>
@@ -213,38 +280,88 @@ export default function ProductDetailPage() {
           )}
 
           {/* Product Overview & Narrative */}
-          <div className="rounded-3xl bg-[#303057] shadow-raised p-6 sm:p-7 border border-[#383866]/30 space-y-4">
-            <div className="flex items-center gap-2 text-sm font-bold text-[#F5F5FA] uppercase tracking-wider font-heading">
-              <FileText className="h-4 w-4 text-[#716DFF]" />
+          <div
+            className="rounded-3xl shadow-raised p-6 sm:p-7 border space-y-4"
+            style={{
+              backgroundColor: "var(--site-details-bg, #141A2E)",
+              borderColor: "var(--site-details-border, #1E2642)",
+            }}
+          >
+            <div
+              className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider font-heading"
+              style={{ color: "var(--site-text-main, #F8FAFC)" }}
+            >
+              <FileText className="h-4 w-4" style={{ color: "var(--site-details-accent, #6366F1)" }} />
               OVERVIEW &amp; ACCESS DETAILS
             </div>
-            <div className="text-xs sm:text-sm text-[#AAAAC1] leading-relaxed whitespace-pre-line font-body">
+            <div
+              className="text-xs sm:text-sm leading-relaxed whitespace-pre-line font-body"
+              style={{ color: "var(--site-text-secondary, #CBD5E1)" }}
+            >
               {product.description}
             </div>
           </div>
 
-          {/* Delivery Info & Important Notices (Dual Neumorphic Cards) */}
+          {/* Delivery Info & Important Notices */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="rounded-3xl bg-[#303057] shadow-raised p-6 border border-[#383866]/30 space-y-2.5">
-              <div className="h-10 w-10 rounded-2xl bg-[#26264A] shadow-pressed flex items-center justify-center text-[#716DFF] border border-[#383866]/30">
+            <div
+              className="rounded-3xl shadow-raised p-6 border space-y-2.5"
+              style={{
+                backgroundColor: "var(--site-details-bg, #141A2E)",
+                borderColor: "var(--site-details-border, #1E2642)",
+              }}
+            >
+              <div
+                className="h-10 w-10 rounded-2xl shadow-pressed flex items-center justify-center border"
+                style={{
+                  backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+                  borderColor: "var(--site-details-border, #1E2642)",
+                  color: "var(--site-details-accent, #6366F1)",
+                }}
+              >
                 <Truck className="h-5 w-5" />
               </div>
-              <h4 className="text-sm font-bold text-[#F5F5FA] font-heading uppercase">
+              <h4
+                className="text-sm font-bold font-heading uppercase"
+                style={{ color: "var(--site-text-main, #F8FAFC)" }}
+              >
                 Instant Delivery Protocol
               </h4>
-              <p className="text-xs text-[#AAAAC1] leading-relaxed font-body">
+              <p
+                className="text-xs leading-relaxed font-body"
+                style={{ color: "var(--site-text-secondary, #CBD5E1)" }}
+              >
                 {product.deliveryInfo}
               </p>
             </div>
 
-            <div className="rounded-3xl bg-[#303057] shadow-raised p-6 border border-[#383866]/30 space-y-2.5">
-              <div className="h-10 w-10 rounded-2xl bg-[#26264A] shadow-pressed flex items-center justify-center text-[#F59E0B] border border-[#383866]/30">
+            <div
+              className="rounded-3xl shadow-raised p-6 border space-y-2.5"
+              style={{
+                backgroundColor: "var(--site-details-bg, #141A2E)",
+                borderColor: "var(--site-details-border, #1E2642)",
+              }}
+            >
+              <div
+                className="h-10 w-10 rounded-2xl shadow-pressed flex items-center justify-center border"
+                style={{
+                  backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+                  borderColor: "var(--site-details-border, #1E2642)",
+                  color: "#F59E0B",
+                }}
+              >
                 <AlertTriangle className="h-5 w-5" />
               </div>
-              <h4 className="text-sm font-bold text-[#F5F5FA] font-heading uppercase">
+              <h4
+                className="text-sm font-bold font-heading uppercase"
+                style={{ color: "var(--site-text-main, #F8FAFC)" }}
+              >
                 Important Notes
               </h4>
-              <p className="text-xs text-[#AAAAC1] leading-relaxed font-body">
+              <p
+                className="text-xs leading-relaxed font-body"
+                style={{ color: "var(--site-text-secondary, #CBD5E1)" }}
+              >
                 {product.importantNotes ||
                   "Ensure you provide a valid email and phone number at checkout for prompt account provisioning and support."}
               </p>
@@ -253,9 +370,18 @@ export default function ProductDetailPage() {
 
           {/* FAQ Accordion if present */}
           {product.faqs && product.faqs.length > 0 && (
-            <div className="rounded-3xl bg-[#303057] shadow-raised p-6 sm:p-7 border border-[#383866]/30 space-y-4">
-              <div className="flex items-center gap-2 text-sm font-bold text-[#F5F5FA] uppercase tracking-wider font-heading">
-                <HelpCircle className="h-4 w-4 text-[#716DFF]" />
+            <div
+              className="rounded-3xl shadow-raised p-6 sm:p-7 border space-y-4"
+              style={{
+                backgroundColor: "var(--site-details-bg, #141A2E)",
+                borderColor: "var(--site-details-border, #1E2642)",
+              }}
+            >
+              <div
+                className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider font-heading"
+                style={{ color: "var(--site-text-main, #F8FAFC)" }}
+              >
+                <HelpCircle className="h-4 w-4" style={{ color: "var(--site-details-accent, #6366F1)" }} />
                 PRODUCT FAQ
               </div>
 
@@ -263,12 +389,18 @@ export default function ProductDetailPage() {
                 {product.faqs.map((faq, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded-2xl bg-[#26264A] shadow-pressed border border-[#383866]/30 space-y-1.5 text-xs"
+                    className="p-4 rounded-2xl shadow-pressed border space-y-1.5 text-xs"
+                    style={{
+                      backgroundColor: "var(--site-details-bay-bg, #0F1424)",
+                      borderColor: "var(--site-details-border, #1E2642)",
+                    }}
                   >
-                    <h5 className="font-bold text-[#F5F5FA] text-sm">
+                    <h5 className="font-bold text-sm" style={{ color: "var(--site-text-main, #F8FAFC)" }}>
                       {faq.question}
                     </h5>
-                    <p className="text-[#AAAAC1] leading-relaxed">{faq.answer}</p>
+                    <p style={{ color: "var(--site-text-secondary, #CBD5E1)" }} className="leading-relaxed">
+                      {faq.answer}
+                    </p>
                   </div>
                 ))}
               </div>

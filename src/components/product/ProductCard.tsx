@@ -37,12 +37,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <article
       className={cn(
-        "group relative flex flex-col justify-between rounded-3xl bg-[#141A2E] border border-[#1E2642] p-3.5 sm:p-4 shadow-raised hover:shadow-floating transition-all duration-200 hover:-translate-y-1 overflow-hidden select-none animate-fade-in will-change-transform transform-gpu",
+        "group relative flex flex-col justify-between rounded-3xl p-3.5 sm:p-4 shadow-raised hover:shadow-floating transition-all duration-200 hover:-translate-y-1 overflow-hidden select-none animate-fade-in will-change-transform transform-gpu border",
         className
       )}
+      style={{
+        backgroundColor: "var(--site-card-bg, #141A2E)",
+        borderColor: "var(--site-card-border, #1E2642)",
+      }}
     >
       {/* 1. Framed Media Area (Aspect 4/3, rounded-2xl, clean breathing space) */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#0F1424] shadow-pressed border border-[#1E2642]">
+      <div
+        className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-pressed border"
+        style={{
+          backgroundColor: "var(--site-secondary, #0F1424)",
+          borderColor: "var(--site-card-border, #1E2642)",
+        }}
+      >
         <Link href={`/products/${product.slug}`} className="block h-full w-full">
           {product.imageUrl ? (
             <Image
@@ -53,7 +63,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
             />
           ) : (
-            <div className="h-full w-full flex items-center justify-center font-black text-[#818CF8] text-3xl font-mono">
+            <div
+              className="h-full w-full flex items-center justify-center font-black text-3xl font-mono"
+              style={{ color: "var(--site-bright, #818CF8)" }}
+            >
               {product.name.slice(0, 2).toUpperCase()}
             </div>
           )}
@@ -62,7 +75,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Optional Featured / Badge (Top Left) */}
         {(product.badge || product.isFeatured) && !isOutOfStock && (
           <div className="absolute top-2.5 left-2.5 pointer-events-none">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase bg-[#0F1424]/90 text-[#818CF8] shadow-pressed-sm border border-[#6366F1]/40 backdrop-blur-xs">
+            <span
+              className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase shadow-pressed-sm backdrop-blur-xs border"
+              style={{
+                backgroundColor: "var(--site-secondary, #0F1424)",
+                color: "var(--site-bright, #818CF8)",
+                borderColor: "var(--site-primary, #6366F1)",
+              }}
+            >
               {product.badge || "Featured"}
             </span>
           </div>
@@ -70,7 +90,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Out of Stock Overlay */}
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-[#0B0F19]/85 backdrop-blur-2xs flex items-center justify-center">
+          <div
+            className="absolute inset-0 backdrop-blur-2xs flex items-center justify-center"
+            style={{ backgroundColor: "rgba(11, 15, 25, 0.85)" }}
+          >
             <span className="rounded-full bg-[#F43F5E] text-white px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
               Out of Stock
             </span>
@@ -84,14 +107,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Product Name (18px-20px, font-extrabold, max 2 lines) */}
           <Link
             href={`/products/${product.slug}`}
-            className="block text-[18px] sm:text-[20px] font-extrabold text-[#F8FAFC] leading-[1.3] line-clamp-2 group-hover:text-[#818CF8] transition-colors font-heading"
+            className="block text-[18px] sm:text-[20px] font-extrabold leading-[1.3] line-clamp-2 transition-colors font-heading"
+            style={{ color: "var(--site-text-main, #F8FAFC)" }}
           >
             {product.name}
           </Link>
 
-          {/* Short Description (max 2 lines, 14px, readable slate) */}
+          {/* Short Description (max 2 lines, readable) */}
           {shortDesc && (
-            <p className="text-[14px] text-[#CBD5E1] line-clamp-2 leading-[1.5] mt-1.5 font-body">
+            <p
+              className="text-[14px] line-clamp-2 leading-[1.5] mt-1.5 font-body"
+              style={{ color: "var(--site-text-secondary, #CBD5E1)" }}
+            >
               {shortDesc}
             </p>
           )}
@@ -101,11 +128,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className="pt-4 mt-auto space-y-3">
           {/* Main Price & Strikethrough Discount */}
           <div className="flex items-baseline justify-between">
-            <span className="text-[23px] sm:text-[26px] font-black text-[#F8FAFC] font-mono tracking-tight leading-none">
+            <span
+              className="text-[23px] sm:text-[26px] font-black font-mono tracking-tight leading-none"
+              style={{ color: "var(--site-text-main, #F8FAFC)" }}
+            >
               {formatPrice(displayPrice)}
             </span>
             {product.originalPrice && product.originalPrice > displayPrice && (
-              <span className="text-[13px] text-[#94A3B8] line-through font-mono">
+              <span
+                className="text-[13px] line-through font-mono"
+                style={{ color: "var(--site-text-muted, #94A3B8)" }}
+              >
                 {formatPrice(product.originalPrice)}
               </span>
             )}
@@ -117,9 +150,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             className={cn(
               "w-full h-11 sm:h-12 rounded-full flex items-center justify-center text-sm sm:text-base font-extrabold tracking-wide transition-all shadow-raised active:shadow-pressed active:translate-y-[1px] select-none uppercase",
               isOutOfStock
-                ? "bg-[#0F1424] text-[#94A3B8] cursor-not-allowed pointer-events-none border border-[#1E2642]"
-                : "bg-gradient-to-r from-[#4F46E5] to-[#6366F1] text-white hover:brightness-110 hover:shadow-floating"
+                ? "cursor-not-allowed pointer-events-none border"
+                : "text-white hover:brightness-110 hover:shadow-floating"
             )}
+            style={
+              isOutOfStock
+                ? {
+                    backgroundColor: "var(--site-secondary, #0F1424)",
+                    color: "var(--site-text-muted, #94A3B8)",
+                    borderColor: "var(--site-card-border, #1E2642)",
+                  }
+                : {
+                    background: "linear-gradient(135deg, var(--site-primary, #4F46E5), var(--site-bright, #6366F1))",
+                  }
+            }
           >
             {isOutOfStock ? "Out of Stock" : "Buy Now"}
           </Link>

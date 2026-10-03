@@ -27,7 +27,7 @@ export function applyThemeVariables(settings: SiteAppearanceSetting) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
 
-  // Colors
+  // Global Canvas & Brand
   if (settings.backgroundColor) {
     root.style.setProperty("--site-bg", settings.backgroundColor);
     document.body.style.backgroundColor = settings.backgroundColor;
@@ -42,10 +42,75 @@ export function applyThemeVariables(settings: SiteAppearanceSetting) {
     root.style.setProperty("--site-secondary", settings.secondaryColor);
   }
 
-  // Typography
-  const uiFont = getFontFamilyForId(settings.uiFont || "manrope");
+  // Navbar
+  if (settings.navbarBgColor) {
+    root.style.setProperty("--site-navbar-bg", settings.navbarBgColor);
+  }
+  if (settings.navbarTextColor) {
+    root.style.setProperty("--site-navbar-text", settings.navbarTextColor);
+  }
+  if (settings.navbarBorderColor) {
+    root.style.setProperty("--site-navbar-border", settings.navbarBorderColor);
+  }
+
+  // Product & Showcase Cards
+  if (settings.cardBgColor) {
+    root.style.setProperty("--site-card-bg", settings.cardBgColor);
+  }
+  if (settings.cardBorderColor) {
+    root.style.setProperty("--site-card-border", settings.cardBorderColor);
+  }
+  if (settings.cardHoverBorderColor) {
+    root.style.setProperty("--site-card-hover-border", settings.cardHoverBorderColor);
+  }
+
+  // Typography Colors
+  if (settings.textMainColor) {
+    root.style.setProperty("--site-text-main", settings.textMainColor);
+    root.style.setProperty("--text-main", settings.textMainColor);
+  }
+  if (settings.textSecondaryColor) {
+    root.style.setProperty("--site-text-secondary", settings.textSecondaryColor);
+    root.style.setProperty("--text-secondary", settings.textSecondaryColor);
+  }
+  if (settings.textMutedColor) {
+    root.style.setProperty("--site-text-muted", settings.textMutedColor);
+    root.style.setProperty("--text-muted", settings.textMutedColor);
+  }
+
+  // Global Base Font Size
+  if (settings.baseFontSize) {
+    root.style.setProperty("--site-base-font-size", `${settings.baseFontSize}px`);
+    root.style.fontSize = `${settings.baseFontSize}px`;
+  }
+
+  // Product Details Page
+  if (settings.detailsBgColor) {
+    root.style.setProperty("--site-details-bg", settings.detailsBgColor);
+  }
+  if (settings.detailsBayBgColor) {
+    root.style.setProperty("--site-details-bay-bg", settings.detailsBayBgColor);
+  }
+  if (settings.detailsBorderColor) {
+    root.style.setProperty("--site-details-border", settings.detailsBorderColor);
+  }
+  if (settings.detailsAccentColor) {
+    root.style.setProperty("--site-details-accent", settings.detailsAccentColor);
+  }
+  if (settings.detailsPriceColor) {
+    root.style.setProperty("--site-details-price", settings.detailsPriceColor);
+  }
+  if (settings.detailsBtnBgColor) {
+    root.style.setProperty("--site-details-btn-bg", settings.detailsBtnBgColor);
+  }
+  if (settings.detailsBtnTextColor) {
+    root.style.setProperty("--site-details-btn-text", settings.detailsBtnTextColor);
+  }
+
+  // Typography Font Families
+  const uiFont = getFontFamilyForId(settings.uiFont || "plus-jakarta-sans");
   const headingFont = getFontFamilyForId(settings.headingFont || "plus-jakarta-sans");
-  const bodyFont = getFontFamilyForId(settings.bodyFont || "inter");
+  const bodyFont = getFontFamilyForId(settings.bodyFont || "plus-jakarta-sans");
 
   root.style.setProperty("--font-ui", uiFont);
   root.style.setProperty("--font-heading", headingFont);
@@ -57,8 +122,8 @@ export function applyThemeVariables(settings: SiteAppearanceSetting) {
   } else if (settings.productCardHeightMode === "CUSTOM" && settings.productCardHeight) {
     root.style.setProperty("--product-card-height", `${settings.productCardHeight}px`);
   } else {
-    // COMPACT default: 390px
-    root.style.setProperty("--product-card-height", "390px");
+    // COMPACT default: 400px
+    root.style.setProperty("--product-card-height", "400px");
   }
 }
 

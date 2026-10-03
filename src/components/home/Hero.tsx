@@ -160,20 +160,34 @@ export const Hero: React.FC = () => {
           {/* ================= LEFT COLUMN: DYNAMIC SLIDE CONTENT ================= */}
           <div className="lg:col-span-6 space-y-6">
             {/* Top Monospace Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F1424] shadow-pressed-sm border border-[#1E2642] transition-all duration-200">
-              <span className="h-2 w-2 rounded-full bg-[#6366F1] animate-pulse" />
-              <span className="text-[12px] font-mono font-bold tracking-wider text-[#CBD5E1] uppercase">
+            <div
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full shadow-pressed-sm border transition-all duration-200"
+              style={{
+                backgroundColor: "var(--site-secondary, #0F1424)",
+                borderColor: "var(--site-card-border, #1E2642)",
+              }}
+            >
+              <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: "var(--site-primary, #6366F1)" }} />
+              <span
+                className="text-[12px] font-mono font-bold tracking-wider uppercase"
+                style={{ color: "var(--site-text-secondary, #CBD5E1)" }}
+              >
                 {activeSlide.tag}
               </span>
             </div>
 
             {/* Mega Bold Minimal Title with animated transition */}
             <div className="space-y-1.5 min-h-[140px] sm:min-h-[180px] lg:min-h-[210px] flex flex-col justify-center">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#F8FAFC] leading-[1.05] uppercase font-heading transition-all duration-300">
+              <h1
+                className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] uppercase font-heading transition-all duration-300"
+                style={{ color: "var(--site-text-main, #F8FAFC)" }}
+              >
                 {activeSlide.lines.map((line, idx) => (
                   <span key={idx} className="block">
                     {idx === activeSlide.highlightIdx ? (
-                      <span className="text-[#818CF8] drop-shadow-sm">{line}</span>
+                      <span style={{ color: "var(--site-bright, #818CF8)" }} className="drop-shadow-sm">
+                        {line}
+                      </span>
                     ) : (
                       line
                     )}
@@ -183,7 +197,10 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Descriptive Subtitle (Larger & clearer) */}
-            <p className="text-base sm:text-lg text-[#CBD5E1] leading-relaxed max-w-lg font-body min-h-[60px] transition-opacity duration-200">
+            <p
+              className="text-base sm:text-lg leading-relaxed max-w-lg font-body min-h-[60px] transition-opacity duration-200"
+              style={{ color: "var(--site-text-secondary, #CBD5E1)" }}
+            >
               {activeSlide.description}
             </p>
 
@@ -192,7 +209,10 @@ export const Hero: React.FC = () => {
               {/* Primary Solid Indigo Pill Button */}
               <Link
                 href={activeSlide.primaryBtn.href}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#4F46E5] to-[#6366F1] text-white font-extrabold text-sm sm:text-base tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all group"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-white font-extrabold text-sm sm:text-base tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all group"
+                style={{
+                  background: "linear-gradient(135deg, var(--site-primary, #4F46E5), var(--site-bright, #6366F1))",
+                }}
               >
                 <span>{activeSlide.primaryBtn.text}</span>
                 <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
@@ -201,9 +221,14 @@ export const Hero: React.FC = () => {
               {/* Secondary Raised Neumorphic Button */}
               <Link
                 href={activeSlide.secondaryBtn.href}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#141A2E] text-[#F8FAFC] font-extrabold text-sm sm:text-base tracking-wide shadow-raised hover:shadow-floating hover:bg-[#1C233D] active:shadow-pressed active:translate-y-[1px] transition-all border border-[#1E2642]"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-extrabold text-sm sm:text-base tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all border"
+                style={{
+                  backgroundColor: "var(--site-card-bg, #141A2E)",
+                  borderColor: "var(--site-card-border, #1E2642)",
+                  color: "var(--site-text-main, #F8FAFC)",
+                }}
               >
-                <Sparkles className="h-4 w-4 text-[#818CF8]" />
+                <Sparkles className="h-4 w-4" style={{ color: "var(--site-bright, #818CF8)" }} />
                 <span>{activeSlide.secondaryBtn.text}</span>
               </Link>
             </div>
