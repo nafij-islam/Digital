@@ -160,20 +160,20 @@ export const Hero: React.FC = () => {
           {/* ================= LEFT COLUMN: DYNAMIC SLIDE CONTENT ================= */}
           <div className="lg:col-span-6 space-y-6">
             {/* Top Monospace Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 transition-all duration-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#716DFF] animate-pulse" />
-              <span className="text-[11px] font-mono font-bold tracking-wider text-[#AAAAC1] uppercase">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F1424] shadow-pressed-sm border border-[#1E2642] transition-all duration-200">
+              <span className="h-2 w-2 rounded-full bg-[#6366F1] animate-pulse" />
+              <span className="text-[12px] font-mono font-bold tracking-wider text-[#CBD5E1] uppercase">
                 {activeSlide.tag}
               </span>
             </div>
 
             {/* Mega Bold Minimal Title with animated transition */}
-            <div className="space-y-1 min-h-[140px] sm:min-h-[180px] lg:min-h-[200px] flex flex-col justify-center">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#F5F5FA] leading-[1.05] uppercase font-heading transition-all duration-500">
+            <div className="space-y-1.5 min-h-[140px] sm:min-h-[180px] lg:min-h-[210px] flex flex-col justify-center">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#F8FAFC] leading-[1.05] uppercase font-heading transition-all duration-300">
                 {activeSlide.lines.map((line, idx) => (
                   <span key={idx} className="block">
                     {idx === activeSlide.highlightIdx ? (
-                      <span className="text-[#716DFF]">{line}</span>
+                      <span className="text-[#818CF8] drop-shadow-sm">{line}</span>
                     ) : (
                       line
                     )}
@@ -182,17 +182,17 @@ export const Hero: React.FC = () => {
               </h1>
             </div>
 
-            {/* Descriptive Subtitle */}
-            <p className="text-sm sm:text-base text-[#AAAAC1] leading-relaxed max-w-lg font-body min-h-[60px] transition-opacity duration-300">
+            {/* Descriptive Subtitle (Larger & clearer) */}
+            <p className="text-base sm:text-lg text-[#CBD5E1] leading-relaxed max-w-lg font-body min-h-[60px] transition-opacity duration-200">
               {activeSlide.description}
             </p>
 
             {/* Tactile Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              {/* Primary Solid Purple Pill Button */}
+            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+              {/* Primary Solid Indigo Pill Button */}
               <Link
                 href={activeSlide.primaryBtn.href}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all group"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#4F46E5] to-[#6366F1] text-white font-extrabold text-sm sm:text-base tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all group"
               >
                 <span>{activeSlide.primaryBtn.text}</span>
                 <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
@@ -201,22 +201,22 @@ export const Hero: React.FC = () => {
               {/* Secondary Raised Neumorphic Button */}
               <Link
                 href={activeSlide.secondaryBtn.href}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#303057] text-[#F5F5FA] font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating hover:bg-[#353560] active:shadow-pressed active:translate-y-[1px] transition-all border border-[#383866]/30"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#141A2E] text-[#F8FAFC] font-extrabold text-sm sm:text-base tracking-wide shadow-raised hover:shadow-floating hover:bg-[#1C233D] active:shadow-pressed active:translate-y-[1px] transition-all border border-[#1E2642]"
               >
-                <Sparkles className="h-4 w-4 text-[#716DFF]" />
+                <Sparkles className="h-4 w-4 text-[#818CF8]" />
                 <span>{activeSlide.secondaryBtn.text}</span>
               </Link>
             </div>
 
             {/* Console Specs & Controls Row */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#383866]/25 text-[11px] font-mono text-[#777790]">
-              <div className="flex items-center gap-2">
-                <span className="flex items-center gap-1.5 text-[#6CD6B3]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-3.5 border-t border-[#1E2642] text-[12px] font-mono text-[#94A3B8]">
+              <div className="flex items-center gap-2.5">
+                <span className="flex items-center gap-1.5 text-[#10B981] font-bold">
+                  <span className="h-2 w-2 rounded-full bg-[#10B981] animate-pulse" />
                   {activeSlide.trustBadge}
                 </span>
                 <span>•</span>
-                <span>BKASH &amp; NAGAD</span>
+                <span className="font-semibold">BKASH &amp; NAGAD</span>
               </div>
 
               {/* Slider Controls: Arrows & Indicator Pills */}
@@ -229,10 +229,10 @@ export const Hero: React.FC = () => {
                       type="button"
                       onClick={() => setCurrentIdx(idx)}
                       className={cn(
-                        "h-2 rounded-full transition-all duration-300 cursor-pointer",
+                        "h-2.5 rounded-full transition-all duration-200 cursor-pointer",
                         currentIdx === idx
-                          ? "w-6 bg-gradient-to-r from-[#5754D8] to-[#716DFF] shadow-xs"
-                          : "w-2 bg-[#26264A] hover:bg-[#353560] shadow-pressed-sm border border-[#383866]/40"
+                          ? "w-7 bg-gradient-to-r from-[#4F46E5] to-[#6366F1] shadow-xs"
+                          : "w-2.5 bg-[#0F1424] hover:bg-[#1C233D] shadow-pressed-sm border border-[#1E2642]"
                       )}
                       aria-label={`Go to slide ${idx + 1}`}
                     />
@@ -244,7 +244,7 @@ export const Hero: React.FC = () => {
                   <button
                     type="button"
                     onClick={handlePrev}
-                    className="h-8 w-8 rounded-full bg-[#303057] shadow-raised hover:shadow-floating active:shadow-pressed border border-[#383866]/40 flex items-center justify-center text-[#AAAAC1] hover:text-[#F5F5FA] transition-all cursor-pointer"
+                    className="h-9 w-9 rounded-full bg-[#141A2E] shadow-raised hover:shadow-floating active:shadow-pressed border border-[#1E2642] flex items-center justify-center text-[#CBD5E1] hover:text-[#F8FAFC] transition-all cursor-pointer"
                     aria-label="Previous slide"
                   >
                     <ChevronLeft className="h-4 w-4" />
@@ -252,7 +252,7 @@ export const Hero: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="h-8 w-8 rounded-full bg-[#303057] shadow-raised hover:shadow-floating active:shadow-pressed border border-[#383866]/40 flex items-center justify-center text-[#AAAAC1] hover:text-[#F5F5FA] transition-all cursor-pointer"
+                    className="h-9 w-9 rounded-full bg-[#141A2E] shadow-raised hover:shadow-floating active:shadow-pressed border border-[#1E2642] flex items-center justify-center text-[#CBD5E1] hover:text-[#F8FAFC] transition-all cursor-pointer"
                     aria-label="Next slide"
                   >
                     <ChevronRight className="h-4 w-4" />
@@ -265,21 +265,21 @@ export const Hero: React.FC = () => {
           {/* ================= RIGHT COLUMN: SMOOTH BANNER IMAGE DISPLAY ================= */}
           <div className="lg:col-span-6 flex justify-center">
             {/* The Main Tactile Visual Panel Chassis with custom image support */}
-            <div className="relative w-full max-w-[540px] aspect-[4/3] sm:aspect-[16/11] lg:h-[430px] p-3 rounded-3xl bg-[#303057] shadow-raised-lg border border-[#383866]/40 overflow-hidden group">
+            <div className="relative w-full max-w-[540px] aspect-[4/3] sm:aspect-[16/11] lg:h-[430px] p-3 rounded-3xl bg-[#141A2E] shadow-raised-lg border border-[#1E2642] overflow-hidden group">
               {/* Corner Screw Fixtures */}
-              <div className="absolute top-2.5 left-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
-              <div className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
-              <div className="absolute bottom-2.5 left-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
-              <div className="absolute bottom-2.5 right-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
+              <div className="absolute top-2.5 left-2.5 h-2 w-2 rounded-full bg-[#0F1424] shadow-pressed-sm border border-[#1E2642] z-30 pointer-events-none" />
+              <div className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-[#0F1424] shadow-pressed-sm border border-[#1E2642] z-30 pointer-events-none" />
+              <div className="absolute bottom-2.5 left-2.5 h-2 w-2 rounded-full bg-[#0F1424] shadow-pressed-sm border border-[#1E2642] z-30 pointer-events-none" />
+              <div className="absolute bottom-2.5 right-2.5 h-2 w-2 rounded-full bg-[#0F1424] shadow-pressed-sm border border-[#1E2642] z-30 pointer-events-none" />
 
               {/* Recessed Screen Bay for Slide Image */}
-              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#26264A] shadow-pressed border border-[#383866]/50">
-                {/* Images Stacked for Smooth Fade / Cross-fade Transition */}
+              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#0F1424] shadow-pressed border border-[#1E2642]">
+                {/* Images Stacked for Smooth Cross-fade Transition */}
                 {slides.map((slide, idx) => (
                   <div
                     key={slide.id}
                     className={cn(
-                      "absolute inset-0 transition-opacity duration-700 ease-in-out",
+                      "absolute inset-0 transition-opacity duration-500 ease-in-out",
                       currentIdx === idx
                         ? "opacity-100 z-10"
                         : "opacity-0 z-0 pointer-events-none"
@@ -291,23 +291,23 @@ export const Hero: React.FC = () => {
                       fill
                       priority={idx === 0}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px"
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                     />
 
                     {/* Soft Vignette Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1E1E38]/90 via-[#1E1E38]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19]/90 via-[#0B0F19]/25 to-transparent" />
                   </div>
                 ))}
 
                 {/* Tactile Bottom Floating Badge inside image frame */}
-                <div className="absolute bottom-3 left-3 right-3 z-20 flex items-center justify-between p-3 rounded-xl bg-[#26264A]/90 backdrop-blur-md border border-[#383866]/50 text-xs shadow-pressed-sm">
+                <div className="absolute bottom-3 left-3 right-3 z-20 flex items-center justify-between p-3.5 rounded-xl bg-[#0F1424]/90 backdrop-blur-md border border-[#1E2642] text-xs shadow-pressed-sm">
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="h-2 w-2 rounded-full bg-[#6CD6B3] animate-pulse shrink-0" />
-                    <span className="font-bold text-[11px] sm:text-xs text-[#F5F5FA] truncate">
+                    <span className="h-2 w-2 rounded-full bg-[#10B981] animate-pulse shrink-0" />
+                    <span className="font-extrabold text-[12px] sm:text-[13px] text-[#F8FAFC] truncate">
                       {activeSlide.cardBadge}
                     </span>
                   </div>
-                  <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#716DFF] shrink-0 ml-2">
+                  <span className="text-[11px] sm:text-xs font-mono font-bold text-[#818CF8] shrink-0 ml-2">
                     {activeSlide.cardSubBadge}
                   </span>
                 </div>

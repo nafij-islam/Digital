@@ -104,10 +104,10 @@ export const Navbar: React.FC = () => {
     <>
       <header
         className={cn(
-          "sticky top-0 z-40 w-full transition-all duration-300 py-3 sm:py-4",
+          "sticky top-0 z-40 w-full transition-all duration-200 py-3 sm:py-4",
           isScrolled
-            ? "bg-[#29294D]/95 backdrop-blur-md shadow-floating border-b border-[#383866]/30"
-            : "bg-[#29294D]/80 backdrop-blur-xs"
+            ? "bg-[#0B0F19]/95 backdrop-blur-md shadow-floating border-b border-[#1E2642]"
+            : "bg-[#0B0F19]/80 backdrop-blur-xs"
         )}
       >
         <Container className="flex items-center justify-between gap-4">
@@ -127,7 +127,7 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* 2. CENTER REGION: Recessed Tactile Pill Navigation (Desktop Only) */}
-          <nav className="hidden lg:flex items-center gap-1 p-1 bg-[#26264A] border border-[#383866]/30 rounded-full shadow-pressed-sm">
+          <nav className="hidden lg:flex items-center gap-1.5 p-1.5 bg-[#0F1424] border border-[#1E2642] rounded-full shadow-pressed-sm">
             {navLinks.map((link) => {
               const isActive =
                 pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href + "/"));
@@ -137,13 +137,13 @@ export const Navbar: React.FC = () => {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "px-4 py-1.5 rounded-full text-xs font-bold transition-all relative select-none flex items-center gap-1.5",
+                    "px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all relative select-none flex items-center gap-2",
                     isActive
-                      ? "bg-[#303057] text-[#F5F5FA] shadow-raised-sm border border-[#716DFF]/30"
-                      : "text-[#AAAAC1] hover:text-[#F5F5FA] hover:bg-[#303057]/40"
+                      ? "bg-[#141A2E] text-[#F8FAFC] shadow-raised-sm border border-[#6366F1]/40"
+                      : "text-[#CBD5E1] hover:text-[#F8FAFC] hover:bg-[#141A2E]/60"
                   )}
                 >
-                  <link.icon className={cn("h-3.5 w-3.5", isActive ? "text-[#716DFF]" : "text-[#777790]")} />
+                  <link.icon className={cn("h-4 w-4", isActive ? "text-[#818CF8]" : "text-[#94A3B8]")} />
                   <span>{link.name}</span>
                 </Link>
               );
@@ -155,12 +155,12 @@ export const Navbar: React.FC = () => {
             {/* Desktop Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="hidden sm:flex items-center gap-2.5 h-10 px-3.5 rounded-full bg-[#303057] border border-[#383866]/30 text-xs font-semibold text-[#AAAAC1] hover:text-[#F5F5FA] hover:bg-[#353560] shadow-raised-sm hover:shadow-floating active:shadow-pressed transition-all"
+              className="hidden sm:flex items-center gap-2.5 h-10 px-4 rounded-full bg-[#141A2E] border border-[#1E2642] text-xs sm:text-sm font-semibold text-[#CBD5E1] hover:text-[#F8FAFC] hover:bg-[#1C233D] shadow-raised-sm hover:shadow-floating active:shadow-pressed transition-all"
               aria-label="Search digital products"
             >
-              <Search className="h-3.5 w-3.5 text-[#716DFF]" />
-              <span className="text-[#AAAAC1] text-xs">Search...</span>
-              <kbd className="hidden xl:inline-block rounded-full bg-[#26264A] px-1.5 py-0.5 text-[9px] font-mono text-[#777790] border border-[#383866]/40 shadow-pressed-sm">
+              <Search className="h-4 w-4 text-[#818CF8]" />
+              <span className="text-[#CBD5E1]">Search...</span>
+              <kbd className="hidden xl:inline-block rounded-full bg-[#0F1424] px-1.5 py-0.5 text-[10px] font-mono text-[#94A3B8] border border-[#1E2642] shadow-pressed-sm">
                 ⌘K
               </kbd>
             </button>
@@ -168,22 +168,22 @@ export const Navbar: React.FC = () => {
             {/* Mobile Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="sm:hidden h-10 w-10 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm text-[#AAAAC1] flex items-center justify-center hover:bg-[#353560] active:shadow-pressed transition-all"
+              className="sm:hidden h-10 w-10 rounded-full bg-[#141A2E] border border-[#1E2642] shadow-raised-sm text-[#CBD5E1] flex items-center justify-center hover:bg-[#1C233D] active:shadow-pressed transition-all"
               aria-label="Search"
             >
-              <Search className="h-4 w-4 text-[#716DFF]" />
+              <Search className="h-4 w-4 text-[#818CF8]" />
             </button>
 
             {/* Cart Trigger Button */}
             <button
               onClick={() => setCartOpen(true)}
-              className="relative h-10 px-3.5 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm text-[#F5F5FA] flex items-center justify-center gap-2 hover:bg-[#353560] hover:text-[#716DFF] active:shadow-pressed transition-all"
+              className="relative h-10 px-4 rounded-full bg-[#141A2E] border border-[#1E2642] shadow-raised-sm text-[#F8FAFC] flex items-center justify-center gap-2 hover:bg-[#1C233D] hover:text-[#818CF8] active:shadow-pressed transition-all"
               aria-label="View shopping cart"
             >
               <ShoppingBag className="h-4 w-4" />
-              <span className="hidden sm:inline text-xs font-bold font-mono">CART</span>
+              <span className="hidden sm:inline text-xs sm:text-sm font-bold font-mono">CART</span>
               {totalCartItems > 0 && (
-                <span className="h-4 min-w-[16px] px-1 rounded-full bg-[#716DFF] text-[10px] font-extrabold text-white flex items-center justify-center shadow-xs">
+                <span className="h-4 min-w-[16px] px-1 rounded-full bg-[#6366F1] text-[10px] font-extrabold text-white flex items-center justify-center shadow-xs">
                   {totalCartItems}
                 </span>
               )}
@@ -195,22 +195,22 @@ export const Navbar: React.FC = () => {
                 <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center gap-2 h-10 px-3 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm hover:shadow-floating active:shadow-pressed transition-all"
+                    className="flex items-center gap-2 h-10 px-3.5 rounded-full bg-[#141A2E] border border-[#1E2642] shadow-raised-sm hover:shadow-floating active:shadow-pressed transition-all"
                   >
-                    <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] text-white text-[11px] font-bold flex items-center justify-center shadow-2xs">
+                    <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#4F46E5] to-[#6366F1] text-white text-[11px] font-bold flex items-center justify-center shadow-2xs">
                       {displayInitial}
                     </div>
-                    <span className="text-xs font-bold text-[#F5F5FA] max-w-[100px] truncate">
+                    <span className="text-xs sm:text-sm font-bold text-[#F8FAFC] max-w-[100px] truncate">
                       {displayName.split(" ")[0]}
                     </span>
-                    <ChevronDown className="h-3 w-3 text-[#AAAAC1] ml-0.5" />
+                    <ChevronDown className="h-3.5 w-3.5 text-[#CBD5E1] ml-0.5" />
                   </button>
 
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-[#383866]/50 bg-[#303057] p-2 shadow-floating z-50 animate-fade-in">
-                      <div className="px-3 py-2 border-b border-[#383866]/40 mb-1">
-                        <p className="text-xs font-bold text-[#F5F5FA] truncate">{displayName}</p>
-                        <p className="text-[11px] text-[#AAAAC1] font-mono truncate">{user?.email || "Signed In"}</p>
+                    <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-[#1E2642] bg-[#141A2E] p-2 shadow-floating z-50 animate-fade-in">
+                      <div className="px-3 py-2 border-b border-[#1E2642] mb-1">
+                        <p className="text-xs sm:text-sm font-bold text-[#F8FAFC] truncate">{displayName}</p>
+                        <p className="text-[11px] text-[#94A3B8] font-mono truncate">{user?.email || "Signed In"}</p>
                       </div>
 
                       <div className="space-y-0.5">
@@ -257,13 +257,13 @@ export const Navbar: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Link
                     href="/login"
-                    className="px-3 py-2 text-xs font-bold text-[#AAAAC1] hover:text-[#F5F5FA] transition-colors"
+                    className="px-3.5 py-2 text-xs sm:text-sm font-bold text-[#CBD5E1] hover:text-[#F8FAFC] transition-colors"
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/register"
-                    className="h-10 px-4 rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] hover:brightness-110 text-white text-xs font-bold transition-all shadow-raised hover:shadow-floating active:shadow-pressed flex items-center justify-center gap-1.5"
+                    className="h-10 px-5 rounded-full bg-gradient-to-r from-[#4F46E5] to-[#6366F1] hover:brightness-110 text-white text-xs sm:text-sm font-extrabold transition-all shadow-raised hover:shadow-floating active:shadow-pressed flex items-center justify-center gap-1.5"
                   >
                     <span>Get Access</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -275,7 +275,7 @@ export const Navbar: React.FC = () => {
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setIsMobileDrawerOpen(true)}
-              className="lg:hidden h-10 w-10 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm text-[#F5F5FA] flex items-center justify-center hover:bg-[#353560] active:shadow-pressed transition-all"
+              className="lg:hidden h-10 w-10 rounded-full bg-[#141A2E] border border-[#1E2642] shadow-raised-sm text-[#F8FAFC] flex items-center justify-center hover:bg-[#1C233D] active:shadow-pressed transition-all"
               aria-label="Open mobile menu"
             >
               <Menu className="h-5 w-5" />
@@ -296,14 +296,14 @@ export const Navbar: React.FC = () => {
 
           {/* Tactile Drawer Content */}
           <div
-            className="relative w-[85vw] max-w-sm h-full bg-[#29294D] border-l border-[#383866]/50 shadow-floating p-5 flex flex-col justify-between safe-pb z-10 animate-fade-in"
+            className="relative w-[85vw] max-w-sm h-full bg-[#0B0F19] border-l border-[#1E2642] shadow-floating p-5 flex flex-col justify-between safe-pb z-10 animate-fade-in"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
           >
             <div>
               {/* Drawer Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-[#383866]/40">
+              <div className="flex items-center justify-between pb-4 border-b border-[#1E2642]">
                 <Link
                   href="/"
                   onClick={() => setIsMobileDrawerOpen(false)}
@@ -320,7 +320,7 @@ export const Navbar: React.FC = () => {
                 </Link>
                 <button
                   onClick={() => setIsMobileDrawerOpen(false)}
-                  className="h-8 w-8 rounded-full bg-[#303057] border border-[#383866]/40 shadow-raised-sm flex items-center justify-center text-[#AAAAC1] hover:text-[#F5F5FA]"
+                  className="h-9 w-9 rounded-full bg-[#141A2E] border border-[#1E2642] shadow-raised-sm flex items-center justify-center text-[#CBD5E1] hover:text-[#F8FAFC]"
                   aria-label="Close navigation"
                 >
                   <X className="h-4 w-4" />
@@ -329,13 +329,13 @@ export const Navbar: React.FC = () => {
 
               {/* User Brief if Logged In */}
               {isAuthenticated && (
-                <div className="mt-4 p-3.5 rounded-2xl bg-[#303057] border border-[#383866]/40 shadow-raised-sm flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] text-white font-bold text-xs flex items-center justify-center shadow-2xs">
+                <div className="mt-4 p-3.5 rounded-2xl bg-[#141A2E] border border-[#1E2642] shadow-raised-sm flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-[#4F46E5] to-[#6366F1] text-white font-bold text-xs flex items-center justify-center shadow-2xs">
                     {displayInitial}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-[#F5F5FA] truncate">{displayName}</p>
-                    <p className="text-[11px] text-[#AAAAC1] font-mono truncate">{user?.email || "Signed In"}</p>
+                    <p className="text-xs sm:text-sm font-bold text-[#F8FAFC] truncate">{displayName}</p>
+                    <p className="text-[11px] text-[#94A3B8] font-mono truncate">{user?.email || "Signed In"}</p>
                   </div>
                 </div>
               )}

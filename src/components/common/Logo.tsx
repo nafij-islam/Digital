@@ -59,7 +59,7 @@ export const Logo: React.FC<LogoProps> = ({
       </div>
 
       {variant === "admin" && (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-[#303057] text-[#716DFF] border border-[#353560]/50 shadow-neu-raised">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[#141A2E] text-[#818CF8] border border-[#1E2642] shadow-neu-raised">
           CONSOLE ADMIN
         </span>
       )}

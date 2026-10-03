@@ -141,10 +141,9 @@ export function getFontFamilyForId(fontId: string): string {
       return "var(--font-playfair-display), serif";
     case "merriweather":
       return "var(--font-merriweather), serif";
-    case "times-new-roman":
-    case "times":
-      return '"Times New Roman", Times, Baskerville, Georgia, serif';
+    case "plus-jakarta-sans":
+      return "var(--font-plus-jakarta-sans), sans-serif";
     default:
-      return '"Times New Roman", Times, Baskerville, Georgia, serif';
+      return "var(--font-plus-jakarta-sans), sans-serif";
   }
 }

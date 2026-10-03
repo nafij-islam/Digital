@@ -55,11 +55,10 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="font-serif antialiased text-[#F5F5FA] min-h-screen flex flex-col selection:bg-[#5754D8] selection:text-white bg-[#29294D]"
+        className="font-sans antialiased text-[#F8FAFC] min-h-screen flex flex-col selection:bg-[#6366F1] selection:text-white bg-[#0B0F19]"
         style={{
-          fontFamily: '"Times New Roman", Times, Baskerville, Georgia, serif',
-          backgroundColor: "var(--site-bg, #29294D)",
-          color: "var(--text-main, #F5F5FA)",
+          backgroundColor: "var(--site-bg, #0B0F19)",
+          color: "var(--text-main, #F8FAFC)",
         }}
       >
         <Providers>{children}</Providers>
