@@ -14,18 +14,43 @@ interface AuthState {
   register: (credentials: RegisterCredentials) => Promise<User>;
   logout: () => Promise<void>;
   updateProfile: (data: Partial<User>) => Promise<User>;
-  initializeAuth: () => void;
+  initializeAuth: () => Promise<void>;
 }
 
+// Client-side initial hydration to prevent Navbar flash & avoid false redirect loops
+const getInitialState = () => {
+  if (typeof window === "undefined") {
+    return {
+      user: null,
+      token: null,
+      isLoading: true,
+      isAuthenticated: false,
+      isAdmin: false,
+    };
+  }
+
+  const token = tokenStorage.getToken();
+  const user = tokenStorage.getUser();
+  const isAuthenticated = !!token && !!user;
+  const role = String(user?.role || "").toLowerCase();
+  const isAdmin = isAuthenticated && (role === "admin" || role === "superadmin");
+
+  return {
+    user,
+    token,
+    isLoading: false,
+    isAuthenticated,
+    isAdmin,
+  };
+};
+
 export const useAuth = create<AuthState>((set, get) => ({
-  user: null,
-  token: null,
-  isLoading: true,
-  isAuthenticated: false,
-  isAdmin: false,
+  ...getInitialState(),
 
   initializeAuth: async () => {
     const token = tokenStorage.getToken();
+    const cachedUser = tokenStorage.getUser();
+
     if (!token) {
       set({
         token: null,
@@ -37,10 +62,23 @@ export const useAuth = create<AuthState>((set, get) => ({
       return;
     }
 
+    // Immediately hydrate to prevent UI flash
+    if (cachedUser) {
+      const role = String(cachedUser.role || "").toLowerCase();
+      set({
+        token,
+        user: cachedUser,
+        isAuthenticated: true,
+        isAdmin: role === "admin" || role === "superadmin",
+        isLoading: false,
+      });
+    }
+
     try {
       const user = await authService.fetchMe();
       if (user) {
-        const isAdmin = user.role === "admin" || user.role === "superadmin";
+        const role = String(user.role || "").toLowerCase();
+        const isAdmin = role === "admin" || role === "superadmin";
         set({
           token,
           user,
@@ -49,6 +87,20 @@ export const useAuth = create<AuthState>((set, get) => ({
           isLoading: false,
         });
       } else {
+        // If fetchMe returned null and token was cleared
+        if (!tokenStorage.getToken()) {
+          set({
+            token: null,
+            user: null,
+            isAuthenticated: false,
+            isAdmin: false,
+            isLoading: false,
+          });
+        }
+      }
+    } catch {
+      // If error occurs, check if token was invalidated
+      if (!tokenStorage.getToken()) {
         set({
           token: null,
           user: null,
@@ -57,14 +109,8 @@ export const useAuth = create<AuthState>((set, get) => ({
           isLoading: false,
         });
       }
-    } catch {
-      set({
-        token: null,
-        user: null,
-        isAuthenticated: false,
-        isAdmin: false,
-        isLoading: false,
-      });
+    } finally {
+      set({ isLoading: false });
     }
   },
 
@@ -72,11 +118,14 @@ export const useAuth = create<AuthState>((set, get) => ({
     set({ isLoading: true });
     try {
       const response = await authService.login(credentials);
+      const roleStr = String(response.user.role || "").toLowerCase();
+      const isAdmin = roleStr === "admin" || roleStr === "superadmin";
+
       set({
         user: response.user,
         token: response.token,
         isAuthenticated: true,
-        isAdmin: response.user.role === "admin" || response.user.role === "superadmin",
+        isAdmin,
         isLoading: false,
       });
       return response.user;
@@ -93,6 +142,7 @@ export const useAuth = create<AuthState>((set, get) => ({
       const { idToken } = await signInWithGoogle();
       const response = await authService.loginWithGoogle(idToken);
       const roleStr = String(response.user.role || "").toLowerCase();
+
       set({
         user: response.user,
         token: response.token,
@@ -111,11 +161,13 @@ export const useAuth = create<AuthState>((set, get) => ({
     set({ isLoading: true });
     try {
       const response = await authService.register(credentials);
+      const roleStr = String(response.user.role || "").toLowerCase();
+
       set({
         user: response.user,
         token: response.token,
         isAuthenticated: true,
-        isAdmin: false,
+        isAdmin: roleStr === "admin" || roleStr === "superadmin",
         isLoading: false,
       });
       return response.user;

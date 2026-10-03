@@ -14,10 +14,20 @@ import { Lock, Mail, User, Phone, ArrowRight } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { register: registerUser, loginWithGoogle } = useAuth();
+  const { user: currentUser, isAuthenticated, register: registerUser, loginWithGoogle } = useAuth();
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (isAuthenticated && currentUser) {
+      if (currentUser.role === "admin" || currentUser.role === "superadmin") {
+        router.replace("/admin");
+      } else {
+        router.replace("/account");
+      }
+    }
+  }, [isAuthenticated, currentUser, router]);
 
   const {
     register,

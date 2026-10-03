@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/api/client";
+import { apiClient, getBaseUrl } from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { AuthResponse, LoginCredentials, RegisterCredentials, User } from "@/types/auth";
 import { tokenStorage } from "@/lib/auth/token";
@@ -21,33 +21,36 @@ export const authService = {
         tokenStorage.setUser(user, credentials.rememberMe ?? true);
         return { user, token };
       }
-      throw new Error("Invalid credentials or response");
-    } catch {
-      // Mock Fallback for local development
-      const email = credentials.email.toLowerCase();
-      let user: User;
-
-      if (email.includes("admin")) {
-        user = INITIAL_USERS[1];
-      } else {
-        user = {
-          id: "usr-" + Date.now(),
-          name: email.split("@")[0].replace(/[._]/g, " ").toUpperCase(),
-          email: credentials.email,
-          phone: "01700000000",
-          role: "customer",
-          createdAt: new Date().toISOString(),
-          isEmailVerified: true,
-        };
+      throw new Error("Invalid credentials or response from server");
+    } catch (err: any) {
+      // If server returned a business response error (401 invalid password, 400, 422, etc.)
+      if (err?.status && err.status !== 0) {
+        throw new Error(err.message || "Invalid email or password.");
       }
 
-      const mockResponse: AuthResponse = {
-        user,
-        token: "mock-jwt-token-" + Date.now(),
-      };
-      tokenStorage.setToken(mockResponse.token, credentials.rememberMe ?? true);
-      tokenStorage.setUser(mockResponse.user, credentials.rememberMe ?? true);
-      return mockResponse;
+      // If backend server is completely unreachable (Network Error / status 0)
+      // Check if user is testing with default demo credentials
+      const email = (credentials.email || "").trim().toLowerCase();
+      const isDemoCustomer = email === "nafij@example.com" && credentials.password === "password123";
+      const isDemoAdmin =
+        (email === "admin@digivault.shop" || email === "admin@shop.nafij.com") &&
+        (credentials.password === "admin123" || credentials.password === "ChangeThisPassword123!");
+
+      if (isDemoCustomer || isDemoAdmin) {
+        const user = isDemoAdmin ? INITIAL_USERS[1] : INITIAL_USERS[0];
+        const mockResponse: AuthResponse = {
+          user,
+          token: "demo-token-" + Date.now(),
+        };
+        tokenStorage.setToken(mockResponse.token, credentials.rememberMe ?? true);
+        tokenStorage.setUser(mockResponse.user, credentials.rememberMe ?? true);
+        return mockResponse;
+      }
+
+      throw new Error(
+        err?.message ||
+          `Cannot reach backend server. Please verify backend is running at ${getBaseUrl()}`
+      );
     }
   },
 
@@ -67,26 +70,19 @@ export const authService = {
       const user: User = payload.user;
       const token: string = payload.accessToken || payload.token;
 
-      tokenStorage.setToken(token, true);
-      tokenStorage.setUser(user, true);
-      return { user, token };
-    } catch (error) {
-      // Fallback in dev if backend is not reachable
-      const mockUser: User = {
-        id: "usr-google-" + Date.now(),
-        name: "Google Verified User",
-        email: "user@gmail.com",
-        role: "customer",
-        createdAt: new Date().toISOString(),
-        isEmailVerified: true,
-      };
-      const mockResponse: AuthResponse = {
-        user: mockUser,
-        token: "mock-google-token-" + Date.now(),
-      };
-      tokenStorage.setToken(mockResponse.token, true);
-      tokenStorage.setUser(mockResponse.user, true);
-      return mockResponse;
+      if (token && user) {
+        tokenStorage.setToken(token, true);
+        tokenStorage.setUser(user, true);
+        return { user, token };
+      }
+      throw new Error("Invalid response received from Google sign-in");
+    } catch (err: any) {
+      if (err?.status && err.status !== 0) {
+        throw new Error(err.message || "Google sign-in authentication failed.");
+      }
+      throw new Error(
+        err?.message || `Cannot reach server. Please verify backend is running at ${getBaseUrl()}`
+      );
     }
   },
 
@@ -106,28 +102,27 @@ export const authService = {
         tokenStorage.setUser(user, true);
         return { user, token };
       }
-      throw new Error("Invalid registration response");
-    } catch {
-      const user: User = {
-        id: "usr-" + Date.now(),
-        name: credentials.name,
-        email: credentials.email,
-        phone: credentials.phone,
-        role: "customer",
-        createdAt: new Date().toISOString(),
-        isEmailVerified: false,
-      };
-      const mockResponse: AuthResponse = {
-        user,
-        token: "mock-jwt-token-" + Date.now(),
-      };
-      tokenStorage.setToken(mockResponse.token, true);
-      tokenStorage.setUser(mockResponse.user, true);
-      return mockResponse;
+      throw new Error("Invalid registration response from server");
+    } catch (err: any) {
+      if (err?.status && err.status !== 0) {
+        throw new Error(err.message || "Registration failed. Please check your information.");
+      }
+      throw new Error(
+        err?.message ||
+          `Cannot reach backend server. Please verify backend is running at ${getBaseUrl()}`
+      );
     }
   },
 
   fetchMe: async (): Promise<User | null> => {
+    const token = tokenStorage.getToken();
+    if (!token) return null;
+
+    // Preserve offline demo session
+    if (token.startsWith("demo-token-") || token.startsWith("mock-")) {
+      return tokenStorage.getUser();
+    }
+
     try {
       const response = await apiClient.get<any>(API_ENDPOINTS.AUTH.ME);
       const resData = response.data;
@@ -140,6 +135,12 @@ export const authService = {
     } catch (err: any) {
       if (err?.status === 401 || err?.status === 403) {
         tokenStorage.clearToken();
+        return null;
+      }
+      // If temporary network offline error, retain cached user to prevent logout loops
+      const cached = tokenStorage.getUser();
+      if (cached && (err?.status === 0 || !err?.status)) {
+        return cached;
       }
       return null;
     }
@@ -166,7 +167,7 @@ export const authService = {
     } catch {
       return {
         success: true,
-        message: "Password reset instructions have been sent to your email.",
+        message: "If an account exists with that email, password reset instructions have been sent.",
       };
     }
   },

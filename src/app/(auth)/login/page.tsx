@@ -17,10 +17,20 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/account";
 
-  const { login, loginWithGoogle } = useAuth();
+  const { user: currentUser, isAuthenticated, login, loginWithGoogle } = useAuth();
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (isAuthenticated && currentUser) {
+      if (currentUser.role === "admin" || currentUser.role === "superadmin") {
+        router.replace("/admin");
+      } else {
+        router.replace(redirectUrl);
+      }
+    }
+  }, [isAuthenticated, currentUser, redirectUrl, router]);
 
   const {
     register,

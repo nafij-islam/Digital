@@ -2,11 +2,21 @@ import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "ax
 import { tokenStorage } from "../auth/token";
 import { auth } from "../auth/firebase";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://digital-backend-gamma.vercel.app/api/v1";
+export const getBaseUrl = (): string => {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") {
+      return "http://localhost:5000/api/v1";
+    }
+  }
+  return "https://digital-backend-gamma.vercel.app/api/v1";
+};
 
 export const apiClient: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: getBaseUrl(),
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -14,9 +24,11 @@ export const apiClient: AxiosInstance = axios.create({
   timeout: 25000,
 });
 
-// Request interceptor for attaching fresh auth token
+// Request interceptor for attaching fresh auth token & dynamic baseURL
 apiClient.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
+    config.baseURL = getBaseUrl();
+
     try {
       // 1. Prefer fresh Firebase ID token if user is signed in via Firebase
       if (typeof window !== "undefined" && auth?.currentUser) {

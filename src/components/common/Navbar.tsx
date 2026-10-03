@@ -37,6 +37,9 @@ export const Navbar: React.FC = () => {
   const totalCartItems = getTotalItems();
   const userMenuRef = useRef<HTMLDivElement>(null);
 
+  const displayName = user?.name?.trim() || user?.email?.split("@")[0] || "User";
+  const displayInitial = (displayName[0] || "U").toUpperCase();
+
   useEffect(() => {
     initializeAuth();
   }, [initializeAuth]);
@@ -186,10 +189,10 @@ export const Navbar: React.FC = () => {
                       className="flex items-center gap-2 h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-soft hover:shadow-raised transition-all"
                     >
                       <div className="h-6 w-6 rounded-lg bg-gradient-to-tr from-[var(--site-primary,#356DF3)] to-[var(--site-secondary,#7548F5)] text-white text-[11px] font-bold flex items-center justify-center shadow-2xs">
-                        {user?.name?.[0]?.toUpperCase() || "U"}
+                        {displayInitial}
                       </div>
                       <span className="text-xs font-bold text-slate-800 max-w-[110px] truncate">
-                        {user?.name?.split(" ")[0]}
+                        {displayName.split(" ")[0]}
                       </span>
                       <ChevronDown className="h-3 w-3 text-slate-400 ml-0.5" />
                     </button>
@@ -197,8 +200,8 @@ export const Navbar: React.FC = () => {
                     {isUserMenuOpen && (
                       <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-slate-200/80 bg-white p-2 shadow-floating z-50 animate-in fade-in zoom-in-95 duration-100">
                         <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                          <p className="text-xs font-bold text-slate-900 truncate">{user?.name}</p>
-                          <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email}</p>
+                          <p className="text-xs font-bold text-slate-900 truncate">{displayName}</p>
+                          <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email || "Signed In"}</p>
                         </div>
 
                         <div className="space-y-0.5">
@@ -307,11 +310,11 @@ export const Navbar: React.FC = () => {
               {isAuthenticated && (
                 <div className="mt-4 p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-soft flex items-center gap-3">
                   <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 text-white font-bold text-xs flex items-center justify-center shadow-2xs">
-                    {user?.name?.[0]?.toUpperCase() || "U"}
+                    {displayInitial}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-slate-900 truncate">{user?.name}</p>
-                    <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email}</p>
+                    <p className="text-xs font-bold text-slate-900 truncate">{displayName}</p>
+                    <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email || "Signed In"}</p>
                   </div>
                 </div>
               )}

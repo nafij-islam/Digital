@@ -25,8 +25,8 @@ export default function AdminLoginPage() {
       const user = await login({ email, password, rememberMe: true });
       toast.success(`Admin authenticated: ${user.name}`);
       router.push("/admin");
-    } catch {
-      toast.error("Failed to authenticate as administrator.");
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to authenticate as administrator.");
     } finally {
       setIsLoading(false);
     }
