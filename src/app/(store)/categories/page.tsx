@@ -15,18 +15,18 @@ export default function CategoriesPage() {
     <Container className="py-8 sm:py-10 space-y-8">
       <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-10 shadow-neu-raised space-y-2.5 animate-neu-fade">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#29294D] border border-[#353560]/40 px-3 py-1 text-xs font-mono font-bold text-[#716DFF] shadow-neu-pressed">
-          <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> PROTOCOL DIRECTORY
+          <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> PRODUCT DIRECTORY
         </div>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F5F5FA] tracking-tight">
-          CARTRIDGE SECTORS
+          PRODUCT CATEGORIES
         </h1>
         <p className="text-xs sm:text-sm text-[#AAAAC1] max-w-xl">
-          Browse digital protocols and game software by functional system architecture.
+          Browse verified AI tools, creative suites, developer licenses, and cloud subscriptions.
         </p>
       </div>
 
       {isLoading ? (
-        <LoadingSpinner text="Scanning cartridge sectors..." size="lg" />
+        <LoadingSpinner text="Loading product categories..." size="lg" />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((category) => (
@@ -46,15 +46,15 @@ export default function CategoriesPage() {
                     {category.name}
                   </h3>
                   <p className="text-xs text-[#AAAAC1] mt-1 leading-relaxed">
-                    {category.description || "Discover verified digital cartridges and access keys in this sector."}
+                    {category.description || "Discover verified digital subscriptions and access keys in this category."}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center justify-between pt-3 border-t border-[#353560]/40 text-xs font-mono font-bold text-[#716DFF]">
-                <span className="text-[#AAAAC1]">{category.productCount ?? 0} Titles</span>
+                <span className="text-[#AAAAC1]">{category.productCount ?? 0} Products</span>
                 <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  Access Sector <ArrowRight className="h-3.5 w-3.5" />
+                  Explore Category <ArrowRight className="h-3.5 w-3.5" />
                 </span>
               </div>
             </Link>

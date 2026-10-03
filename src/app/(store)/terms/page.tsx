@@ -31,7 +31,7 @@ export default function TermsPage() {
           <section className="space-y-2">
             <h2 className="text-base font-bold text-[#F5F5FA]">1. Acceptance of Terms</h2>
             <p>
-              By accessing and purchasing from NAFIJ GAME LAB, you agree to comply with and be bound by these Console Terms of Service. If you do not agree, please do not use our platform.
+              By accessing and purchasing from NAFIJ DIGITAL STORE, you agree to comply with and be bound by these Terms of Service. If you do not agree, please do not use our platform.
             </p>
           </section>
 

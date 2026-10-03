@@ -73,7 +73,7 @@ export const CartDrawer: React.FC = () => {
                 <div>
                   <h3 className="font-black text-[#F5F5FA] text-base font-heading uppercase">Your Cart</h3>
                   <p className="text-xs font-mono text-[#AAAAC1]">
-                    {items.length} {items.length === 1 ? "cartridge" : "cartridges"} loaded
+                    {items.length} {items.length === 1 ? "product" : "products"} selected
                   </p>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export const CartDrawer: React.FC = () => {
                   <div>
                     <h4 className="font-bold text-[#F5F5FA] text-base font-heading uppercase">Your cart is empty</h4>
                     <p className="text-xs text-[#AAAAC1] mt-1 max-w-xs">
-                      Discover our verified software cartridges, licenses, and mini games.
+                      Discover our verified AI subscriptions, creative suites, and software licenses.
                     </p>
                   </div>
                   <Button

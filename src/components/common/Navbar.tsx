@@ -15,7 +15,6 @@ import {
   Package,
   Layers,
   ArrowRight,
-  Gamepad2,
   Sparkles,
   Flame,
   HelpCircle,
@@ -117,15 +116,15 @@ export const Navbar: React.FC = () => {
             className="group flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#303057] shadow-raised hover:shadow-floating transition-all border border-[#716DFF]/20 select-none active:shadow-pressed active:translate-y-[1px]"
           >
             <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] flex items-center justify-center text-white shadow-2xs">
-              <Gamepad2 className="h-3.5 w-3.5" />
+              <Sparkles className="h-3.5 w-3.5" />
             </div>
             <div className="flex items-baseline gap-2">
               <span className="text-xs sm:text-sm font-extrabold tracking-wider text-[#F5F5FA] uppercase font-heading">
-                NAFIJ GAME LAB
+                NAFIJ DIGITAL
               </span>
               <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#26264A] text-[#6CD6B3] shadow-pressed-sm border border-[#6CD6B3]/20">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
-                ONLINE
+                VERIFIED STORE
               </span>
             </div>
           </Link>
@@ -310,10 +309,10 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center justify-between pb-4 border-b border-[#383866]/40">
                 <div className="flex items-center gap-2">
                   <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] flex items-center justify-center text-white">
-                    <Gamepad2 className="h-3.5 w-3.5" />
+                    <Sparkles className="h-3.5 w-3.5" />
                   </div>
                   <span className="text-xs font-extrabold tracking-wider text-[#F5F5FA] uppercase font-heading">
-                    NAFIJ GAME LAB
+                    NAFIJ DIGITAL
                   </span>
                 </div>
                 <button

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils/formatters";
 import { cn } from "@/lib/utils/cn";
-import { Play, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { getOptimizedImageUrl } from "@/lib/image/cloudinary";
 
 interface ProductCardProps {
@@ -33,7 +33,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     quality: "auto:good",
   });
 
-  // Zero-padded index for console cartridge styling (01 // PROTOCOL)
+  // Zero-padded index for digital catalog styling (01 // DIGITAL)
   const paddedIndex = String(index + 1).padStart(2, "0");
 
   return (
@@ -43,10 +43,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         className
       )}
     >
-      {/* 1. TOP META ROW: e.g. 01 // PROTOCOL + Tag */}
+      {/* 1. TOP META ROW: e.g. 01 // DIGITAL + Tag */}
       <div className="flex items-center justify-between pb-3.5 border-b border-[#383866]/30 text-[11px] font-mono">
         <span className="text-[#AAAAC1] font-bold tracking-wider">
-          {paddedIndex} {"// PROTOCOL"}
+          {paddedIndex} {"// DIGITAL"}
         </span>
 
         {product.badge ? (
@@ -64,7 +64,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )}
       </div>
 
-      {/* 2. MIDDLE CONTENT ROW: Cartridge Emblem + Title & Description */}
+      {/* 2. MIDDLE CONTENT ROW: Product Emblem + Title & Description */}
       <div className="py-4 space-y-3">
         <div className="flex items-start gap-3.5">
           {/* Square Tactile Icon Bay */}
@@ -104,12 +104,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </div>
 
-      {/* 3. BOTTOM ROW: Recessed Price Tag + Tactile "Play Game ▶" Pill Button */}
+      {/* 3. BOTTOM ROW: Recessed Price Tag + Tactile "Get Access ➔" Pill Button */}
       <div className="pt-3.5 border-t border-[#383866]/30 flex items-center justify-between gap-3 mt-auto">
         {/* Recessed Price Module */}
         <div className="flex flex-col">
           <span className="text-[10px] font-mono font-bold tracking-wider text-[#777790] uppercase">
-            BEST PRICE
+            STARTING AT
           </span>
           <span className="text-base sm:text-lg font-black font-mono text-[#F5F5FA]">
             {formatPrice(displayPrice)}
@@ -126,8 +126,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               : "bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white hover:brightness-110 shadow-raised hover:shadow-floating"
           )}
         >
-          <span>{isOutOfStock ? "Sold Out" : "Play Game"}</span>
-          {!isOutOfStock && <Play className="h-3 w-3 fill-current ml-0.5" />}
+          <span>{isOutOfStock ? "Sold Out" : "Get Access"}</span>
+          {!isOutOfStock && <ArrowRight className="h-3 w-3 ml-0.5" />}
         </Link>
       </div>
     </article>

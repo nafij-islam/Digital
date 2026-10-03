@@ -85,10 +85,10 @@ function LoginForm() {
     <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised space-y-6 animate-neu-fade">
       <div className="text-center space-y-1.5">
         <h2 className="text-2xl font-black text-[#F5F5FA] tracking-tight">
-          OPERATOR ACCESS
+          ACCOUNT LOGIN
         </h2>
         <p className="text-xs text-[#AAAAC1]">
-          Access your digital cartridges, orders, and telemetry vault.
+          Access your digital subscriptions, orders, and credential vault.
         </p>
       </div>
 

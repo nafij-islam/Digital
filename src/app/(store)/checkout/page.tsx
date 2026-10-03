@@ -251,13 +251,13 @@ export default function CheckoutPage() {
                   <span className="text-xs text-[#AAAAC1] leading-relaxed">
                     I agree to the{" "}
                     <Link href="/terms" className="text-[#716DFF] underline font-semibold">
-                      Console Protocols &amp; Terms
+                      Terms of Service
                     </Link>{" "}
-                    and understand my cartridge license will be marked as{" "}
+                    and understand my digital subscription will be marked as{" "}
                     <span className="font-bold text-[#716DFF]">
                       Pending Verification
                     </span>{" "}
-                    until telemetry is verified.
+                    until payment is verified.
                   </span>
                 </label>
                 {errors.acceptTerms && (

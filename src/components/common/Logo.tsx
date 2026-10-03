@@ -26,12 +26,12 @@ export const Logo: React.FC<LogoProps> = ({
     >
       <div className="h-6 w-6 rounded-full bg-[#303057] shadow-neu-raised flex items-center justify-center text-[#716DFF] group-hover:scale-105 transition-transform">
         <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
-          <path d="M6 12a1 1 0 0 1 1-1h1V10a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2H10v1a1 1 0 1 1-2 0v-1H7a1 1 0 0 1-1-1Zm9-2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm2 3a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-2 3a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-7-8C5.5 6 3 8.5 3 12c0 3.5 2.5 6 5 6h8c2.5 0 5-2.5 5-6 0-3.5-2.5-6-5-6H8Z" />
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
         </svg>
       </div>
 
       <span className="font-black text-xs sm:text-sm tracking-widest text-[#F5F5FA] uppercase font-mono">
-        NAFIJ GAME LAB
+        NAFIJ DIGITAL
       </span>
 
       {variant === "admin" && (

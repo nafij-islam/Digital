@@ -75,10 +75,10 @@ export default function RegisterPage() {
     <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised space-y-6 animate-neu-fade">
       <div className="text-center space-y-1.5">
         <h2 className="text-2xl font-black text-[#F5F5FA] tracking-tight">
-          ENROLL OPERATOR
+          CREATE ACCOUNT
         </h2>
         <p className="text-xs text-[#AAAAC1]">
-          Register a free account for cartridge saves, orders, and telemetry.
+          Register a free account to manage subscriptions, orders, and credentials.
         </p>
       </div>
 

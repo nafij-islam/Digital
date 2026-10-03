@@ -15,7 +15,6 @@ import {
   FileText,
   AlertTriangle,
   ArrowLeft,
-  Gamepad2,
   Check,
 } from "lucide-react";
 import { useProduct } from "@/hooks/useProducts";
@@ -50,7 +49,7 @@ export default function ProductDetailPage() {
           <LoadingSpinner text="" size="md" />
         </div>
         <p className="mt-4 text-xs font-mono text-[#AAAAC1] uppercase tracking-wider">
-          {"// LOADING CARTRIDGE SPECS..."}
+          {"// LOADING PRODUCT SPECS..."}
         </p>
       </Container>
     );
@@ -62,10 +61,10 @@ export default function ProductDetailPage() {
         <div className="rounded-3xl bg-[#303057] shadow-raised p-8 text-center max-w-md mx-auto border border-[#383866]/40 space-y-4">
           <AlertTriangle className="h-10 w-10 text-[#EF7B98] mx-auto" />
           <h2 className="text-xl font-black text-[#F5F5FA] font-heading uppercase">
-            Cartridge Not Found
+            Product Not Found
           </h2>
           <p className="text-xs text-[#AAAAC1]">
-            We couldn&apos;t locate the requested digital software cartridge or plan.
+            We couldn&apos;t locate the requested digital software subscription or plan.
           </p>
           <Link
             href="/products"
@@ -84,11 +83,11 @@ export default function ProductDetailPage() {
       {/* 1. Pill Breadcrumb Navigation directly matching console style */}
       <nav className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 text-xs font-mono text-[#AAAAC1] overflow-x-auto no-scrollbar">
         <Link href="/" className="hover:text-[#F5F5FA] transition-colors shrink-0">
-          CONSOLE
+          STORE
         </Link>
         <ChevronRight className="h-3 w-3 text-[#777790] shrink-0" />
         <Link href="/products" className="hover:text-[#F5F5FA] transition-colors shrink-0">
-          CARTRIDGES
+          PRODUCTS
         </Link>
         <ChevronRight className="h-3 w-3 text-[#777790] shrink-0" />
         {product.category && (
@@ -136,7 +135,7 @@ export default function ProductDetailPage() {
                     className="object-cover p-2 rounded-xl"
                   />
                 ) : (
-                  <Gamepad2 className="h-12 w-12 text-[#716DFF]" />
+                  <Sparkles className="h-12 w-12 text-[#716DFF]" />
                 )}
               </div>
 
@@ -257,7 +256,7 @@ export default function ProductDetailPage() {
             <div className="rounded-3xl bg-[#303057] shadow-raised p-6 sm:p-7 border border-[#383866]/30 space-y-4">
               <div className="flex items-center gap-2 text-sm font-bold text-[#F5F5FA] uppercase tracking-wider font-heading">
                 <HelpCircle className="h-4 w-4 text-[#716DFF]" />
-                CARTRIDGE FAQ
+                PRODUCT FAQ
               </div>
 
               <div className="space-y-3 pt-2">

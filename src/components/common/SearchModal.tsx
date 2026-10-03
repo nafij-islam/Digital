@@ -45,7 +45,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search games, AI tools, Canva Pro, JetBrains, Windows keys..."
+          placeholder="Search ChatGPT Plus, Gemini Advanced, Canva Pro, JetBrains, Windows..."
           className="w-full rounded-2xl border border-[#383866]/50 bg-[#26264A] pl-12 pr-10 py-3 text-sm text-[#F5F5FA] placeholder:text-[#777790] shadow-pressed focus:bg-[#232342] focus:border-[#716DFF] focus:outline-none focus:ring-2 focus:ring-[#716DFF]/20 transition-all font-mono"
         />
         {query && (
@@ -63,10 +63,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
       {!query && (
         <div className="space-y-4 py-2">
           <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#777790] flex items-center gap-1.5">
-            <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> POPULAR CARTRIDGES
+            <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> POPULAR PRODUCTS
           </div>
           <div className="flex flex-wrap gap-2">
-            {["Canva Pro", "ChatGPT Plus", "Snake", "2048", "Windows 11 Pro", "JetBrains"].map(
+            {["ChatGPT Plus", "Gemini Advanced", "Canva Pro", "Claude Pro", "Windows 11 Pro", "JetBrains"].map(
               (term) => (
                 <button
                   key={term}
@@ -86,7 +86,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         <div className="max-h-80 overflow-y-auto space-y-2 divide-y divide-[#383866]/30">
           {products.length === 0 ? (
             <div className="py-8 text-center text-[#AAAAC1] text-xs font-mono">
-              No cartridges found matching &ldquo;<span className="font-bold text-[#F5F5FA]">{query}</span>&rdquo;
+              No products found matching &ldquo;<span className="font-bold text-[#F5F5FA]">{query}</span>&rdquo;
             </div>
           ) : (
             products.slice(0, 5).map((product) => (

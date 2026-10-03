@@ -14,9 +14,6 @@ import {
   Check,
   Package,
   Activity,
-  Sliders,
-  Volume2,
-  Dice5,
 } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils/cn";
@@ -45,24 +42,24 @@ export const Hero: React.FC = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40">
               <span className="h-1.5 w-1.5 rounded-full bg-[#716DFF] animate-pulse" />
               <span className="text-[11px] font-mono font-bold tracking-wider text-[#AAAAC1] uppercase">
-                GAME.NAFIJ.COM
+                DIGITAL.NAFIJ.COM
               </span>
             </div>
 
-            {/* Mega Bold Minimal Title: PLAY. FOCUS. COMPETE. */}
+            {/* Mega Bold Minimal Title: PREMIUM. DIGITAL. ACCOUNTS. */}
             <div className="space-y-1">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#F5F5FA] leading-[1.05] uppercase font-heading">
-                PLAY.
+                PREMIUM.
                 <br />
-                <span className="text-[#716DFF]">FOCUS.</span>
+                <span className="text-[#716DFF]">DIGITAL.</span>
                 <br />
-                COMPETE.
+                ACCOUNTS.
               </h1>
             </div>
 
             {/* Descriptive Subtitle */}
             <p className="text-sm sm:text-base text-[#AAAAC1] leading-relaxed max-w-lg font-body">
-              A collection of interactive mini games and verified digital licenses built for speed, memory, focus and fun. Crafted with soft dark surfaces, tactile physical feedback, and zero latency.
+              Verified subscriptions for ChatGPT Plus, Google Gemini Advanced, Canva Pro, developer tools, and genuine software licenses. Automated delivery with local bKash &amp; Nagad checkout.
             </p>
 
             {/* Tactile Action Buttons */}
@@ -72,7 +69,7 @@ export const Hero: React.FC = () => {
                 href="#products"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all group"
               >
-                <span>EXPLORE GAMES</span>
+                <span>EXPLORE PRODUCTS</span>
                 <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               </Link>
 
@@ -81,8 +78,8 @@ export const Hero: React.FC = () => {
                 href="/deals"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#303057] text-[#F5F5FA] font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating hover:bg-[#353560] active:shadow-pressed active:translate-y-[1px] transition-all border border-[#383866]/30"
               >
-                <Dice5 className="h-4 w-4 text-[#716DFF]" />
-                <span>RANDOM GAME</span>
+                <Sparkles className="h-4 w-4 text-[#716DFF]" />
+                <span>ACTIVE DEALS</span>
               </Link>
             </div>
 
@@ -90,10 +87,12 @@ export const Hero: React.FC = () => {
             <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-[#777790] pt-3 border-t border-[#383866]/25">
               <span className="flex items-center gap-1.5 text-[#6CD6B3]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
-                ZERO LATENCY MINI GAMES
+                INSTANT VAULT DISPATCH
               </span>
               <span>•</span>
-              <span>KEYBOARD + TOUCH READY</span>
+              <span>100% REPLACEMENT WARRANTY</span>
+              <span>•</span>
+              <span className="text-[#AAAAC1]">BKASH / NAGAD</span>
             </div>
           </div>
 
@@ -117,7 +116,7 @@ export const Hero: React.FC = () => {
                       {/* Meter 1: 70% */}
                       <div className="p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 space-y-1.5">
                         <div className="flex justify-between items-center text-[10px] font-mono font-bold text-[#AAAAC1]">
-                          <span>CPU LOAD</span>
+                          <span>VAULT DISPATCH</span>
                           <span className="text-[#716DFF]">{sliderVal}%</span>
                         </div>
                         <div className="h-2.5 w-full rounded-full bg-[#1E1E38] shadow-pressed-sm overflow-hidden p-0.5">
@@ -128,22 +127,22 @@ export const Hero: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Meter 2: 40% */}
+                      {/* Meter 2: 100% */}
                       <div className="p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 space-y-1.5">
                         <div className="flex justify-between items-center text-[10px] font-mono font-bold text-[#AAAAC1]">
-                          <span>MEMORY BUFFER</span>
-                          <span className="text-[#6CD6B3]">60%</span>
+                          <span>WARRANTY COVERAGE</span>
+                          <span className="text-[#6CD6B3]">100%</span>
                         </div>
                         <div className="h-2.5 w-full rounded-full bg-[#1E1E38] shadow-pressed-sm overflow-hidden p-0.5">
-                          <div className="h-full w-[60%] rounded-full bg-gradient-to-r from-[#5754D8] via-[#716DFF] to-[#6CD6B3]" />
+                          <div className="h-full w-full rounded-full bg-gradient-to-r from-[#5754D8] via-[#716DFF] to-[#6CD6B3]" />
                         </div>
                       </div>
                     </div>
 
-                    {/* Right: Tactile Rotary Knob / Frequency Controller */}
+                    {/* Right: Tactile Rotary Knob / Security Controller */}
                     <div className="p-3.5 rounded-2xl bg-[#2C2C52] shadow-raised-sm border border-[#383866]/40 flex flex-col items-center justify-center text-center">
                       <div className="text-[10px] font-mono font-bold text-[#AAAAC1] mb-2 uppercase tracking-wider">
-                        NAFIJ CORE
+                        SECURITY CORE
                       </div>
 
                       {/* Concentric Tactile Dial */}
@@ -167,7 +166,7 @@ export const Hero: React.FC = () => {
 
                       <div className="flex items-center gap-3 text-[10px] font-mono text-[#777790] mt-2">
                         <span>|&lt;</span>
-                        <span className="text-[#F5F5FA] font-bold">60Hz</span>
+                        <span className="text-[#F5F5FA] font-bold">256-BIT</span>
                         <span>&gt;|</span>
                       </div>
                     </div>
@@ -219,8 +218,8 @@ export const Hero: React.FC = () => {
                     <div className="h-6 w-px bg-[#383866]/40" />
 
                     <div className="flex items-center gap-1.5">
-                      <Volume2 className="h-3.5 w-3.5 text-[#716DFF]" />
-                      <span className="text-[10px] font-mono text-[#AAAAC1]">AUDIO FX</span>
+                      <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" />
+                      <span className="text-[10px] font-mono text-[#AAAAC1]">AUTO VAULT</span>
                     </div>
                   </div>
 
@@ -229,7 +228,7 @@ export const Hero: React.FC = () => {
                     {/* Digital Precision Display */}
                     <div className="p-3.5 rounded-2xl bg-[#26264A] shadow-pressed border border-[#383866]/40 space-y-1">
                       <div className="text-[9px] font-mono font-bold tracking-wider text-[#777790] uppercase">
-                        PRECISION ACCURACY
+                        FULFILLMENT ACCURACY
                       </div>
                       <div className="flex items-baseline justify-between">
                         <span className="text-xl font-black font-mono text-[#F5F5FA]">
@@ -319,7 +318,7 @@ export const Hero: React.FC = () => {
                   <button
                     type="button"
                     className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#716DFF] flex items-center justify-center transition-all cursor-pointer"
-                    aria-label="Cartridges"
+                    aria-label="Products"
                   >
                     <Package className="h-3.5 w-3.5" />
                   </button>

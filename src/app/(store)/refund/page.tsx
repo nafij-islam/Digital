@@ -31,7 +31,7 @@ export default function RefundPage() {
           <section className="space-y-2">
             <h2 className="text-base font-bold text-[#F5F5FA]">1. Full Duration Replacement Guarantee</h2>
             <p>
-              Every digital cartridge subscription and license purchased on NAFIJ GAME LAB comes with an active replacement warranty for the entire validity period of your selected plan. If an activation key or workspace invite encounters any downtime or disruption, our support team will issue an immediate replacement key or restore your access.
+              Every digital subscription and license purchased on NAFIJ DIGITAL STORE comes with an active replacement warranty for the entire validity period of your selected plan. If an activation key or workspace invite encounters any downtime or disruption, our support team will issue an immediate replacement key or restore your access.
             </p>
           </section>
 

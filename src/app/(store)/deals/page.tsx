@@ -15,13 +15,13 @@ export default function DealsPage() {
       {/* Banner */}
       <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-10 shadow-neu-raised space-y-3 animate-neu-fade">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#29294D] border border-[#353560]/40 px-3 py-1 text-xs font-mono font-bold text-[#EF7B98] shadow-neu-pressed">
-          <Flame className="h-4 w-4 fill-[#EF7B98] text-[#EF7B98]" /> SPECIAL FLASH PROTOCOLS
+          <Flame className="h-4 w-4 fill-[#EF7B98] text-[#EF7B98]" /> SPECIAL FLASH OFFERS
         </div>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F5F5FA] tracking-tight">
-          PRIORITY CARTRIDGE DEALS
+          EXCLUSIVE DIGITAL DEALS
         </h1>
         <p className="text-xs sm:text-sm text-[#AAAAC1] max-w-xl leading-relaxed">
-          Unlock high-tier digital cartridges and developer bundles with exclusive discount rates.
+          Unlock high-tier AI subscriptions, developer bundles, and lifetime keys with exclusive discount rates.
         </p>
       </div>
 

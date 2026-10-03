@@ -50,14 +50,14 @@ export default function CartPage() {
           <ShoppingBag className="h-10 w-10 text-[#716DFF]" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-black text-[#F5F5FA]">Console Storage is Empty</h2>
+          <h2 className="text-2xl font-black text-[#F5F5FA]">Your Cart is Empty</h2>
           <p className="text-xs sm:text-sm text-[#AAAAC1] max-w-sm mx-auto">
-            You haven&apos;t loaded any digital cartridges or protocols yet.
+            You haven&apos;t added any digital products or subscriptions yet.
           </p>
         </div>
         <Link href="/products">
           <Button variant="primary" size="lg" className="font-bold">
-            Explore Cartridges
+            Explore Products
           </Button>
         </Link>
       </Container>
@@ -69,7 +69,7 @@ export default function CartPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#353560]/40">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-[#F5F5FA] tracking-tight">
-            ACTIVE CARTRIDGES ({items.length})
+            SELECTED PRODUCTS ({items.length})
           </h1>
           <p className="text-xs text-[#AAAAC1] mt-1">
             Review your selected digital licenses before deploying to your account.
@@ -197,7 +197,7 @@ export default function CartPage() {
             {/* Calculations */}
             <div className="space-y-2.5 text-xs text-[#AAAAC1]">
               <div className="flex justify-between">
-                <span>Cartridge Subtotal</span>
+                <span>Products Subtotal</span>
                 <span className="font-bold text-[#F5F5FA]">{formatPrice(getSubtotal())}</span>
               </div>
               {discountAmount > 0 && (

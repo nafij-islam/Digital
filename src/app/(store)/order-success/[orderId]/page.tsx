@@ -33,13 +33,13 @@ export default function OrderSuccessPage() {
   if (!order) {
     return (
       <Container className="py-20 text-center space-y-4">
-        <h2 className="text-2xl font-black text-[#F5F5FA]">Cartridge Transmission Not Found</h2>
+        <h2 className="text-2xl font-black text-[#F5F5FA]">Order Record Not Found</h2>
         <p className="text-xs text-[#AAAAC1]">
           We couldn&apos;t find an order with this identification reference.
         </p>
         <Link href="/">
           <Button variant="primary" size="sm">
-            Return to Console Home
+            Return to Store Home
           </Button>
         </Link>
       </Container>
@@ -135,7 +135,7 @@ export default function OrderSuccessPage() {
               </Link>
               <Link href="/products" className="flex-1">
                 <Button variant="secondary" size="md" className="w-full font-semibold justify-center">
-                  Explore Cartridges
+                  Explore Products
                 </Button>
               </Link>
             </div>

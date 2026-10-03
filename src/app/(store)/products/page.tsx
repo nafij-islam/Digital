@@ -39,20 +39,20 @@ function ProductsContent() {
       <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden animate-neu-fade">
         <div className="space-y-2 relative z-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#29294D] border border-[#353560]/40 px-3 py-1 text-xs font-mono font-bold text-[#716DFF] shadow-neu-pressed">
-            <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> PROTOCOL {"//"} ALL CARTRIDGES
+            <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> DIGITAL STORE {"//"} ALL PRODUCTS
           </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F5F5FA] tracking-tight">
-            CONSOLE LIBRARY CATALOG
+            ALL DIGITAL SUBSCRIPTIONS
           </h1>
           <p className="text-xs sm:text-sm text-[#AAAAC1] max-w-xl">
-            Browse verified digital cartridges, cloud services, and tools with instant physical activation.
+            Browse verified AI subscriptions, cloud services, developer tools, and license keys with instant activation.
           </p>
         </div>
 
         <div className="text-left md:text-right shrink-0 relative z-10">
           <div className="inline-block p-4 rounded-2xl bg-[#29294D] shadow-neu-pressed border border-[#353560]/40">
             <span className="text-2xl sm:text-3xl font-black text-[#6CD6B3]">{products.length}</span>
-            <div className="text-[10px] text-[#777790] uppercase tracking-wider font-mono">Available Titles</div>
+            <div className="text-[10px] text-[#777790] uppercase tracking-wider font-mono">Active Products</div>
           </div>
         </div>
       </div>

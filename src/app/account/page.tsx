@@ -17,14 +17,17 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+
 export default function AccountOverviewPage() {
   const { user } = useAuth();
   const { data: orders = [] } = useOrders();
+
 
   const pendingOrders = orders.filter(
     (o) => o.status === "PENDING_PAYMENT" || o.status === "PENDING_PAYMENT_VERIFICATION"
   );
   const fulfilledOrders = orders.filter((o) => o.status === "FULFILLED");
+
 
   return (
     <div className="space-y-6">
@@ -32,13 +35,13 @@ export default function AccountOverviewPage() {
       <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-neu-fade">
         <div className="space-y-1">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#29294D] border border-[#353560]/40 px-3 py-1 text-xs font-mono font-bold text-[#716DFF] shadow-neu-pressed">
-            <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> CONSOLE OPERATOR VAULT
+            <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> CUSTOMER ACCOUNT VAULT
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-[#F5F5FA] tracking-tight">
-            Hello, {user?.name || "Operator"}!
+            Hello, {user?.name || "Customer"}!
           </h1>
           <p className="text-xs text-[#AAAAC1]">
-            Track your digital cartridge transmissions, unlock credentials, and review orders.
+            Track your digital subscriptions, unlock credentials, and review orders.
           </p>
         </div>
 
@@ -82,7 +85,7 @@ export default function AccountOverviewPage() {
         <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-5 shadow-neu-raised space-y-2 animate-neu-fade">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#AAAAC1]">
-              Total Cartridges
+              Total Orders
             </span>
             <div className="h-8 w-8 rounded-xl bg-[#29294D] text-[#AAAAC1] flex items-center justify-center border border-[#353560]/40 shadow-neu-pressed">
               <ShoppingBag className="h-4 w-4" />
@@ -96,12 +99,12 @@ export default function AccountOverviewPage() {
       {fulfilledOrders.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-base sm:text-lg font-bold text-[#F5F5FA] font-mono tracking-wider">ACTIVE CARTRIDGE KEYS</h2>
+            <h2 className="text-base sm:text-lg font-bold text-[#F5F5FA] font-mono tracking-wider">ACTIVE SUBSCRIPTION KEYS</h2>
             <Link
               href="/account/orders"
               className="text-xs font-mono font-bold text-[#716DFF] hover:underline flex items-center gap-1"
             >
-              All Transmissions <ArrowRight className="h-3.5 w-3.5" />
+              All Orders <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
@@ -119,7 +122,7 @@ export default function AccountOverviewPage() {
                         <CheckCircle2 className="h-3 w-3" /> FULFILLED
                       </div>
                       <h3 className="font-bold text-[#F5F5FA] text-sm sm:text-base">
-                        {item?.productName || "Digital Cartridge"}
+                        {item?.productName || "Digital Subscription"}
                       </h3>
                       <p className="text-xs text-[#AAAAC1] mt-0.5 font-mono">
                         Plan: <span className="font-semibold text-[#716DFF]">{item?.planName}</span>
@@ -154,18 +157,18 @@ export default function AccountOverviewPage() {
       {/* Recent Orders */}
       <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-5 sm:p-6 shadow-neu-raised space-y-4 animate-neu-fade">
         <div className="flex items-center justify-between pb-3 border-b border-[#353560]/40">
-          <h3 className="font-bold text-[#F5F5FA] text-base font-mono tracking-wider">RECENT TRANSMISSIONS</h3>
+          <h3 className="font-bold text-[#F5F5FA] text-base font-mono tracking-wider">RECENT ORDERS</h3>
           <Link
             href="/account/orders"
             className="text-xs font-mono font-bold text-[#716DFF] hover:underline flex items-center gap-1"
           >
-            All Transmissions <ArrowRight className="h-3.5 w-3.5" />
+            All Orders <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
         {orders.length === 0 ? (
           <div className="py-8 text-center text-[#777790] text-xs font-mono">
-            No transmissions detected yet. Start by exploring our library!
+            No orders placed yet. Start by exploring our store!
           </div>
         ) : (
           <>
@@ -185,7 +188,7 @@ export default function AccountOverviewPage() {
                   </div>
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-semibold text-[#AAAAC1] truncate max-w-[180px]">
-                      {order.items[0]?.productName || "Digital Cartridge"}
+                      {order.items[0]?.productName || "Digital Subscription"}
                     </span>
                     <span className="font-mono font-black text-[#6CD6B3]">{formatPrice(order.totalAmount)}</span>
                   </div>
@@ -212,7 +215,7 @@ export default function AccountOverviewPage() {
                 <thead>
                   <tr className="border-b border-[#353560]/40 text-[#777790] uppercase tracking-wider font-bold">
                     <th className="pb-3">Order ID</th>
-                    <th className="pb-3">Cartridge</th>
+                    <th className="pb-3">Product</th>
                     <th className="pb-3">Amount</th>
                     <th className="pb-3">Date</th>
                     <th className="pb-3">Status</th>
@@ -224,7 +227,7 @@ export default function AccountOverviewPage() {
                     <tr key={order.id} className="hover:bg-[#29294D]/40">
                       <td className="py-3.5 font-bold text-[#F5F5FA]">#{order.orderNumber}</td>
                       <td className="py-3.5 text-[#AAAAC1]">
-                        {order.items[0]?.productName || "Digital Cartridge"}
+                        {order.items[0]?.productName || "Digital Subscription"}
                         {order.items.length > 1 && (
                           <span className="text-[10px] text-[#777790] ml-1">
                             (+{order.items.length - 1} more)

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, ArrowRight, HelpCircle, Gamepad2 } from "lucide-react";
+import { ChevronDown, HelpCircle, Sparkles } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils/cn";
 
@@ -11,20 +11,20 @@ export const FaqCta: React.FC = () => {
 
   const faqs = [
     {
-      q: "How does digital credential access and cartridge activation work?",
-      a: "Select your desired tool or mini-game license, proceed through checkout with bKash or Nagad, and receive your credentials directly in your secure Delivery Vault (/account/orders/[id]/access) with one-click copy and instant activation guides.",
+      q: "How does digital subscription access and activation work?",
+      a: "Choose your desired subscription (ChatGPT Plus, Gemini Advanced, Canva Pro, JetBrains, Windows keys, etc.), complete checkout via bKash or Nagad, and receive your credentials and setup guides directly in your order vault (/account) within 5-15 minutes.",
     },
     {
-      q: "Are all licenses and game passes genuine with full duration warranty?",
-      a: "Yes. 100% of our products, licenses, and subscriptions are genuine with complete replacement warranty coverage throughout your active plan period.",
+      q: "Are all subscriptions and licenses genuine with a full duration warranty?",
+      a: "Yes, 100%. Every subscription, license key, and software pass is 100% genuine with an active replacement warranty covering the entire duration of your plan.",
     },
     {
-      q: "Can I play and run games on mobile and touch devices?",
-      a: "Absolutely. All games and tactile control components are 100% responsive, optimized for both touch displays and hardware keyboard controls with zero latency.",
+      q: "What payment methods are supported in Bangladesh?",
+      a: "We accept bKash, Nagad, and Rocket with seamless checkout and zero extra transaction fees. Fast order verification ensures prompt dispatch directly to your dashboard.",
     },
     {
-      q: "Where can I get support if I need assistance?",
-      a: "You can submit an instant support ticket from your account dashboard or connect directly with our verification team on WhatsApp for prompt resolution.",
+      q: "What should I do if an account or key has an issue?",
+      a: "Our support team is active 24/7. Simply submit a ticket from your account dashboard or contact us directly on WhatsApp, and our team will resolve the issue or issue a fresh replacement immediately.",
     },
   ];
 
@@ -40,13 +40,13 @@ export const FaqCta: React.FC = () => {
           <div className="text-center space-y-2 mb-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 text-[10px] font-mono font-bold text-[#716DFF] uppercase tracking-wider">
               <HelpCircle className="h-3 w-3" />
-              SYSTEM FAQ
+              STORE FAQ
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-[#F5F5FA] tracking-tight uppercase font-heading">
               FREQUENTLY ASKED QUESTIONS
             </h2>
             <p className="text-xs sm:text-sm text-[#AAAAC1]">
-              Everything you need to know about console cartridges, orders, and delivery.
+              Everything you need to know about digital subscriptions, orders, and delivery.
             </p>
           </div>
 
@@ -95,22 +95,22 @@ export const FaqCta: React.FC = () => {
           </div>
         </div>
 
-        {/* Callout Slab directly matching reference image: "Built for simple fun." */}
+        {/* Callout Slab directly matching reference image: "Built for Creators & Professionals." */}
         <div className="rounded-3xl bg-[#303057] shadow-raised-lg p-8 sm:p-12 text-center border border-[#383866]/40 space-y-4 max-w-2xl mx-auto">
           {/* Top Pill Badge */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 text-[10px] font-mono font-bold text-[#AAAAC1] uppercase tracking-wider">
-            <Gamepad2 className="h-3 w-3 text-[#716DFF]" />
-            ABOUT NAFIJ GAME LAB
+            <Sparkles className="h-3 w-3 text-[#716DFF]" />
+            ABOUT NAFIJ DIGITAL STORE
           </div>
 
           {/* Heading */}
           <h3 className="text-2xl sm:text-3xl font-black text-[#F5F5FA] tracking-tight uppercase font-heading">
-            Built for simple fun.
+            Built for creators &amp; pros.
           </h3>
 
           {/* Subtitle */}
           <p className="text-xs sm:text-sm text-[#AAAAC1] leading-relaxed max-w-lg mx-auto font-body">
-            Nafij Game Lab is a collection of small interactive browser games and software licenses focused on speed, memory, reaction and classic gameplay.
+            Nafij Digital Store is the trusted marketplace for verified AI subscriptions (ChatGPT Plus, Gemini Advanced, Canva Pro), developer tools, and genuine software licenses with instant delivery and full warranty.
           </p>
 
           {/* Credits */}

@@ -42,20 +42,20 @@ export default function CategoryProductsPage() {
       <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-neu-fade">
         <div>
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#716DFF]">
-            SECTOR CARTRIDGE ARCHIVE
+            CATEGORY ARCHIVE
           </span>
           <h1 className="text-2xl sm:text-3xl font-black text-[#F5F5FA] tracking-tight mt-1">
-            {currentCategory?.name || "Sector Cartridges"}
+            {currentCategory?.name || "Category Products"}
           </h1>
           <p className="text-xs sm:text-sm text-[#AAAAC1] mt-1 max-w-xl">
             {currentCategory?.description ||
-              "Explore all verified digital tools and subscription cartridges in this sector."}
+              "Explore all verified digital tools and subscriptions in this category."}
           </p>
         </div>
 
         <Link href="/categories">
           <Button variant="secondary" size="sm" leftIcon={<ArrowLeft className="h-3.5 w-3.5" />}>
-            All Sectors
+            All Categories
           </Button>
         </Link>
       </div>

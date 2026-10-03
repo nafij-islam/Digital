@@ -3,77 +3,66 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {
-  Gamepad2,
-  Database,
+  Sparkles,
+  Zap,
   Smartphone,
   ShieldCheck,
-  Trophy,
+  Activity,
+  ArrowRight,
   RotateCcw,
-  Play,
-  Sparkles,
+  CheckCircle2,
 } from "lucide-react";
 import { Container } from "@/components/common/Container";
 
 export const TrustProcess: React.FC = () => {
-  const [scores, setScores] = useState({
-    snake: "--",
-    game2048: "1520",
-    memory: "--",
-    pulse: "--",
-    reaction: "--",
-  });
+  const [telemetryTimestamp, setTelemetryTimestamp] = useState("JUST NOW");
 
-  const handleReset = () => {
-    setScores({
-      snake: "--",
-      game2048: "0",
-      memory: "--",
-      pulse: "--",
-      reaction: "--",
-    });
+  const handleRefresh = () => {
+    setTelemetryTimestamp("SYNCED");
+    setTimeout(() => setTelemetryTimestamp("JUST NOW"), 2000);
   };
 
   const systemSpecs = [
     {
       num: "01",
-      icon: Gamepad2,
-      stat: "05",
+      icon: Sparkles,
+      stat: "500+",
       statColor: "text-[#716DFF]",
-      title: "PLAYABLE GAMES",
-      desc: "Snake, 2048, Memory, Pulse, Reaction.",
+      title: "VERIFIED PRODUCTS",
+      desc: "ChatGPT Plus, Gemini Advanced, Canva Pro, JetBrains, Windows & more.",
     },
     {
       num: "02",
-      icon: Database,
-      stat: "LOCAL",
+      icon: Zap,
+      stat: "INSTANT",
       statColor: "text-[#6CD6B3]",
-      title: "HIGH SCORES",
-      desc: "Preserved in browser storage without cookies.",
+      title: "VAULT DELIVERY",
+      desc: "Credentials & activation links dispatched immediately to order dashboard.",
     },
     {
       num: "03",
-      icon: Smartphone,
+      icon: ShieldCheck,
       stat: "100%",
       statColor: "text-[#F5F5FA]",
-      title: "KEYBOARD + TOUCH",
-      desc: "Tailored to responsive tactile display layout.",
+      title: "REPLACEMENT WARRANTY",
+      desc: "Complete warranty coverage for the full duration of your active subscription.",
     },
     {
       num: "04",
-      icon: ShieldCheck,
-      stat: "NO",
+      icon: Smartphone,
+      stat: "LOCAL",
       statColor: "text-[#F59E0B]",
-      title: "ACCOUNT REQUIRED",
-      desc: "Instant access without logins or tracking.",
+      title: "BKASH & NAGAD",
+      desc: "Direct mobile wallet checkout in BDT with zero hidden conversion fees.",
     },
   ];
 
-  const scoreBays = [
-    { name: "SNAKE", val: scores.snake, label: "NO RECORD", href: "/products" },
-    { name: "2048", val: scores.game2048, label: "POINTS", href: "/products" },
-    { name: "MEMORY MATCH", val: scores.memory, label: "NO RECORD", href: "/products" },
-    { name: "PULSE", val: scores.pulse, label: "NO RECORD", href: "/products" },
-    { name: "REACTION", val: scores.reaction, label: "NO RECORD", href: "/products" },
+  const telemetryBays = [
+    { name: "DISPATCH SPEED", val: "< 60s", label: "AUTOMATED", href: "#products", cta: "GET ACCESS" },
+    { name: "ORDERS COMPLETED", val: "1,520+", label: "ACTIVE BUYERS", href: "#products", cta: "GET ACCESS" },
+    { name: "SUCCESS RATE", val: "99.8%", label: "VERIFIED KEYS", href: "#products", cta: "GET ACCESS" },
+    { name: "WARRANTY COVERAGE", val: "100%", label: "GUARANTEED", href: "/refund", cta: "WARRANTY" },
+    { name: "LIVE ASSISTANCE", val: "24/7", label: "WHATSAPP & TICKET", href: "/account/support", cta: "SUPPORT" },
   ];
 
   return (
@@ -112,38 +101,39 @@ export const TrustProcess: React.FC = () => {
           ))}
         </div>
 
-        {/* ================= 2. RECESSED BEST SCORES / ACCESS VAULT PLATE ================= */}
+        {/* ================= 2. RECESSED TELEMETRY / ACCESS VAULT PLATE ================= */}
         <div className="rounded-3xl bg-[#303057] shadow-raised p-6 sm:p-8 border border-[#383866]/30 space-y-6">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#383866]/30">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-2xl bg-[#26264A] shadow-pressed flex items-center justify-center text-[#F59E0B] border border-[#383866]/30">
-                <Trophy className="h-5 w-5" />
+              <div className="h-10 w-10 rounded-2xl bg-[#26264A] shadow-pressed flex items-center justify-center text-[#6CD6B3] border border-[#383866]/30">
+                <Activity className="h-5 w-5 animate-pulse" />
               </div>
               <div>
                 <h3 className="text-base sm:text-lg font-black text-[#F5F5FA] uppercase tracking-wider font-heading">
-                  YOUR BEST SCORES
+                  STORE TELEMETRY &amp; LIVE DISPATCH
                 </h3>
                 <p className="text-[11px] font-mono text-[#777790] uppercase tracking-wider">
-                  PERSISTED LOCALLY IN CLIENT STORAGE
+                  REAL-TIME ORDER FULFILLMENT // BANGLADESH VAULT
                 </p>
               </div>
             </div>
 
-            {/* Reset Scores Button */}
+            {/* Refresh / Status Pill */}
             <button
               type="button"
-              onClick={handleReset}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 text-[10px] font-mono font-bold text-[#AAAAC1] hover:text-[#F5F5FA] active:shadow-pressed transition-all cursor-pointer self-start sm:self-auto"
+              onClick={handleRefresh}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 text-[10px] font-mono font-bold text-[#6CD6B3] hover:text-[#F5F5FA] active:shadow-pressed transition-all cursor-pointer self-start sm:self-auto"
             >
-              <RotateCcw className="h-3 w-3" />
-              <span>RESET SCORES</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
+              <span>LIVE: {telemetryTimestamp}</span>
+              <RotateCcw className="h-3 w-3 text-[#AAAAC1]" />
             </button>
           </div>
 
           {/* 5 Inset Compartment Bays */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-            {scoreBays.map((bay) => (
+            {telemetryBays.map((bay) => (
               <div
                 key={bay.name}
                 className="rounded-2xl bg-[#26264A] shadow-pressed p-4 border border-[#383866]/30 flex flex-col justify-between space-y-3"
@@ -164,8 +154,8 @@ export const TrustProcess: React.FC = () => {
                   href={bay.href}
                   className="w-full inline-flex items-center justify-center gap-1 py-1.5 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[10px] font-bold font-mono text-[#AAAAC1] hover:text-[#716DFF] transition-all border border-[#383866]/40"
                 >
-                  <Play className="h-2.5 w-2.5 fill-current" />
-                  <span>PLAY</span>
+                  <span>{bay.cta}</span>
+                  <ArrowRight className="h-2.5 w-2.5 ml-0.5" />
                 </Link>
               </div>
             ))}
