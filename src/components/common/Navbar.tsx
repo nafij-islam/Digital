@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Search,
@@ -110,23 +111,23 @@ export const Navbar: React.FC = () => {
         )}
       >
         <Container className="flex items-center justify-between gap-4">
-          {/* 1. LEFT REGION: Tactile Pill Brand Badge matching reference image */}
+          {/* 1. LEFT REGION: Tactile Pill Brand Badge with User Logo */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#303057] shadow-raised hover:shadow-floating transition-all border border-[#716DFF]/20 select-none active:shadow-pressed active:translate-y-[1px]"
+            className="group flex items-center gap-2.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-[#303057] shadow-raised hover:shadow-floating transition-all border border-[#716DFF]/25 select-none active:shadow-pressed active:translate-y-[1px]"
           >
-            <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] flex items-center justify-center text-white shadow-2xs">
-              <Sparkles className="h-3.5 w-3.5" />
-            </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-xs sm:text-sm font-extrabold tracking-wider text-[#F5F5FA] uppercase font-heading">
-                NAFIJ DIGITAL
-              </span>
-              <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#26264A] text-[#6CD6B3] shadow-pressed-sm border border-[#6CD6B3]/20">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
-                VERIFIED STORE
-              </span>
-            </div>
+            <Image
+              src="/logo-footer.png"
+              alt="shop.nafij"
+              width={124}
+              height={36}
+              priority
+              className="h-7 sm:h-8 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+            />
+            <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#26264A] text-[#6CD6B3] shadow-pressed-sm border border-[#6CD6B3]/20">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
+              VERIFIED STORE
+            </span>
           </Link>
 
           {/* 2. CENTER REGION: Recessed Tactile Pill Navigation (Desktop Only) */}
@@ -307,14 +308,20 @@ export const Navbar: React.FC = () => {
             <div>
               {/* Drawer Header */}
               <div className="flex items-center justify-between pb-4 border-b border-[#383866]/40">
-                <div className="flex items-center gap-2">
-                  <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] flex items-center justify-center text-white">
-                    <Sparkles className="h-3.5 w-3.5" />
-                  </div>
-                  <span className="text-xs font-extrabold tracking-wider text-[#F5F5FA] uppercase font-heading">
-                    NAFIJ DIGITAL
-                  </span>
-                </div>
+                <Link
+                  href="/"
+                  onClick={() => setIsMobileDrawerOpen(false)}
+                  className="flex items-center group"
+                >
+                  <Image
+                    src="/logo-footer.png"
+                    alt="shop.nafij"
+                    width={110}
+                    height={32}
+                    priority
+                    className="h-7 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                  />
+                </Link>
                 <button
                   onClick={() => setIsMobileDrawerOpen(false)}
                   className="h-8 w-8 rounded-full bg-[#303057] border border-[#383866]/40 shadow-raised-sm flex items-center justify-center text-[#AAAAC1] hover:text-[#F5F5FA]"

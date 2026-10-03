@@ -12,33 +12,58 @@ export interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({
   className,
-  variant = "light",
+  variant = "dark",
   size = "md",
   href = "/",
 }) => {
+  const sizeClasses = {
+    sm: "h-[24px] sm:h-[26px] w-auto",
+    md: "h-[32px] sm:h-[36px] w-auto",
+    lg: "h-[42px] sm:h-[46px] w-auto",
+    xl: "h-[50px] sm:h-[56px] w-auto",
+  };
+
+  const imageDimensions = {
+    sm: { height: 26, width: 90 },
+    md: { height: 36, width: 124 },
+    lg: { height: 46, width: 158 },
+    xl: { height: 56, width: 192 },
+  };
+
+  // On dark backgrounds (#29294D, #303057, #242444, etc), logo-footer.png has white text for "shop."
+  // which provides maximum contrast and looks ultra-clean.
+  // When variant === 'light' (e.g. on pure white surfaces), use logo.png with dark text.
+  const isLight = variant === "light";
+  const logoSrc = isLight ? "/logo.png" : "/logo-footer.png";
+
   return (
     <Link
       href={href}
       className={cn(
-        "inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#29294D] border border-[#353560]/40 shadow-neu-pressed select-none focus-visible:outline-none group transition-all duration-200 hover:border-[#716DFF]/50",
+        "inline-flex items-center gap-2.5 select-none focus-visible:outline-none group transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]",
         className
       )}
     >
-      <div className="h-6 w-6 rounded-full bg-[#303057] shadow-neu-raised flex items-center justify-center text-[#716DFF] group-hover:scale-105 transition-transform">
-        <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-        </svg>
+      <div className="relative flex items-center">
+        <Image
+          src={logoSrc}
+          alt="shop.nafij"
+          width={imageDimensions[size].width}
+          height={imageDimensions[size].height}
+          priority
+          className={cn(
+            "object-contain transition-all duration-200 group-hover:brightness-110",
+            sizeClasses[size]
+          )}
+        />
       </div>
 
-      <span className="font-black text-xs sm:text-sm tracking-widest text-[#F5F5FA] uppercase font-mono">
-        NAFIJ DIGITAL
-      </span>
-
       {variant === "admin" && (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-[#303057] text-[#716DFF] border border-[#353560]/40 shadow-neu-raised">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-[#303057] text-[#716DFF] border border-[#353560]/50 shadow-neu-raised">
           CONSOLE ADMIN
         </span>
       )}
     </Link>
   );
 };
+

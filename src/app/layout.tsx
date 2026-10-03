@@ -6,17 +6,17 @@ import { Providers } from "./providers";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://shop.nafij.com"),
   title: {
-    default: "DigiVault — Premium Digital Tools & Subscriptions Marketplace",
-    template: "%s | DigiVault",
+    default: "shop.nafij — Premium Digital Tools & Subscriptions Marketplace",
+    template: "%s | shop.nafij",
   },
   description:
-    "Buy genuine Canva Pro, ChatGPT Plus, JetBrains, Windows 11 keys, and digital subscriptions in Bangladesh with instant bKash & Nagad payments.",
+    "Buy genuine Canva Pro, ChatGPT Plus, Gemini Advanced, JetBrains, Windows 11 keys, and digital subscriptions with instant automated delivery.",
   keywords: [
+    "shop.nafij",
     "digital subscriptions",
     "canva pro bangladesh",
     "chatgpt plus bkash",
-    "windows 11 key",
-    "jetbrains all products",
+    "gemini advanced",
     "software license bd",
   ],
   alternates: {
@@ -26,10 +26,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://shop.nafij.com",
-    siteName: "DigiVault",
-    title: "DigiVault — Premium Digital Tools & Subscriptions Marketplace",
+    siteName: "shop.nafij",
+    title: "shop.nafij — Premium Digital Tools & Subscriptions Marketplace",
     description:
-      "Buy genuine Canva Pro, ChatGPT Plus, JetBrains, Windows 11 keys, and digital subscriptions in Bangladesh with instant bKash & Nagad payments.",
+      "Buy genuine Canva Pro, ChatGPT Plus, Gemini Advanced, JetBrains, Windows 11 keys, and digital subscriptions with instant automated delivery.",
   },
   icons: {
     icon: "/favicon.ico",

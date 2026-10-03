@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Sparkles, ArrowUpRight, ShieldCheck, Mail } from "lucide-react";
 import { Container } from "./Container";
 
@@ -11,14 +12,15 @@ export const Footer: React.FC = () => {
         <div className="rounded-3xl bg-[#303057] shadow-raised p-6 sm:p-8 grid grid-cols-2 md:grid-cols-5 gap-8 border border-[#383866]/30">
           {/* Column 1: Brand Info (2 cols on md) */}
           <div className="col-span-2 space-y-3.5">
-            <div className="flex items-center gap-2.5">
-              <div className="h-7 w-7 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] flex items-center justify-center text-white shadow-2xs">
-                <Sparkles className="h-4 w-4" />
-              </div>
-              <span className="text-sm font-extrabold tracking-wider text-[#F5F5FA] uppercase font-heading">
-                NAFIJ DIGITAL {"//"} VAULT
-              </span>
-            </div>
+            <Link href="/" className="inline-block group focus-visible:outline-none">
+              <Image
+                src="/logo-footer.png"
+                alt="shop.nafij"
+                width={150}
+                height={44}
+                className="h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+              />
+            </Link>
             <p className="text-[#AAAAC1] text-xs leading-relaxed max-w-sm">
               Enterprise digital tools and genuine subscription marketplace. Verified AI models, creative suites, and software licenses with instant automated delivery.
             </p>
@@ -108,15 +110,20 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Console Status Bar directly matching reference image */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 text-[11px] text-[#777790] border-t border-[#383866]/30">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[#716DFF]" />
-            <span className="font-semibold text-[#F5F5FA]">NAFIJ DIGITAL STORE</span>
-            <span>•</span>
+          <div className="flex items-center gap-2.5">
+            <Image
+              src="/logo-footer.png"
+              alt="shop.nafij"
+              width={80}
+              height={24}
+              className="h-5 w-auto object-contain opacity-95"
+            />
+            <span className="text-[#383866]">•</span>
             <span>Verified Digital Products &amp; Subscriptions</span>
           </div>
 
           <div className="hidden md:flex items-center gap-2 font-mono text-[10px] tracking-wider text-[#716DFF]">
-            <span>nafij.com</span>
+            <span>shop.nafij</span>
             <span className="text-[#383866]">•</span>
             <span className="text-[#AAAAC1]">PREMIUM. DIGITAL. ACCOUNTS.</span>
           </div>
