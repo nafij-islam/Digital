@@ -119,10 +119,10 @@ export const Navbar: React.FC = () => {
             <Image
               src="/logo-footer.png"
               alt="shop.nafij"
-              width={130}
-              height={38}
+              width={145}
+              height={42}
               priority
-              className="h-8 sm:h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+              className="h-[38px] sm:h-[42px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />
           </Link>
 
@@ -312,10 +312,10 @@ export const Navbar: React.FC = () => {
                   <Image
                     src="/logo-footer.png"
                     alt="shop.nafij"
-                    width={110}
-                    height={32}
+                    width={120}
+                    height={34}
                     priority
-                    className="h-7 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                    className="h-[34px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
                   />
                 </Link>
                 <button

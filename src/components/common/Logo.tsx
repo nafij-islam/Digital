@@ -17,17 +17,17 @@ export const Logo: React.FC<LogoProps> = ({
   href = "/",
 }) => {
   const sizeClasses = {
-    sm: "h-[24px] sm:h-[26px] w-auto",
-    md: "h-[32px] sm:h-[36px] w-auto",
-    lg: "h-[42px] sm:h-[46px] w-auto",
-    xl: "h-[50px] sm:h-[56px] w-auto",
+    sm: "h-[30px] sm:h-[32px] w-auto",
+    md: "h-[38px] sm:h-[42px] w-auto",
+    lg: "h-[48px] sm:h-[52px] w-auto",
+    xl: "h-[56px] sm:h-[62px] w-auto",
   };
 
   const imageDimensions = {
-    sm: { height: 26, width: 90 },
-    md: { height: 36, width: 124 },
-    lg: { height: 46, width: 158 },
-    xl: { height: 56, width: 192 },
+    sm: { height: 32, width: 110 },
+    md: { height: 42, width: 145 },
+    lg: { height: 52, width: 180 },
+    xl: { height: 62, width: 214 },
   };
 
   // On dark backgrounds (#29294D, #303057, #242444, etc), logo-footer.png has white text for "shop."

@@ -11,8 +11,12 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-heading)", "var(--font-ui)", "sans-serif"],
-        display: ["var(--font-heading)", "sans-serif"],
+        sans: ['"Times New Roman"', "Times", "Baskerville", "Georgia", "serif"],
+        serif: ['"Times New Roman"', "Times", "Baskerville", "Georgia", "serif"],
+        display: ['"Times New Roman"', "Times", "Baskerville", "Georgia", "serif"],
+        heading: ['"Times New Roman"', "Times", "Baskerville", "Georgia", "serif"],
+        ui: ['"Times New Roman"', "Times", "Baskerville", "Georgia", "serif"],
+        body: ['"Times New Roman"', "Times", "Baskerville", "Georgia", "serif"],
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
       },
       colors: {

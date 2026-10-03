@@ -16,9 +16,9 @@ export const Footer: React.FC = () => {
               <Image
                 src="/logo-footer.png"
                 alt="shop.nafij"
-                width={150}
-                height={44}
-                className="h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                width={160}
+                height={46}
+                className="h-[42px] sm:h-[46px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
               />
             </Link>
             <p className="text-[#AAAAC1] text-xs leading-relaxed max-w-sm">
@@ -114,9 +114,9 @@ export const Footer: React.FC = () => {
             <Image
               src="/logo-footer.png"
               alt="shop.nafij"
-              width={80}
-              height={24}
-              className="h-5 w-auto object-contain opacity-95"
+              width={90}
+              height={26}
+              className="h-[26px] w-auto object-contain opacity-95"
             />
             <span className="text-[#383866]">•</span>
             <span>Verified Digital Products &amp; Subscriptions</span>

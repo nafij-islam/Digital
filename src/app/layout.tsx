@@ -50,13 +50,17 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.ico" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=localStorage.getItem("dg_appearance_settings");if(d){var s=JSON.parse(d);if(s){var root=document.documentElement;if(s.backgroundColor)root.style.setProperty("--site-bg",s.backgroundColor);if(s.surfaceColor)root.style.setProperty("--site-surface",s.surfaceColor);if(s.primaryColor)root.style.setProperty("--site-primary",s.primaryColor);if(s.secondaryColor)root.style.setProperty("--site-secondary",s.secondaryColor);if(s.uiFont)root.style.setProperty("--font-ui","var(--font-"+s.uiFont+"), sans-serif");if(s.headingFont)root.style.setProperty("--font-heading","var(--font-"+s.headingFont+"), sans-serif");if(s.bodyFont)root.style.setProperty("--font-body","var(--font-"+s.bodyFont+"), sans-serif");if(s.productCardHeightMode==="AUTO")root.style.setProperty("--product-card-height","auto");else if(s.productCardHeightMode==="CUSTOM"&&s.productCardHeight)root.style.setProperty("--product-card-height",s.productCardHeight+"px");else root.style.setProperty("--product-card-height","390px");}}}catch(e){}})();`,
+            __html: `(function(){try{var d=localStorage.getItem("dg_appearance_settings");if(d){var s=JSON.parse(d);if(s){var root=document.documentElement;if(s.backgroundColor)root.style.setProperty("--site-bg",s.backgroundColor);if(s.surfaceColor)root.style.setProperty("--site-surface",s.surfaceColor);if(s.primaryColor)root.style.setProperty("--site-primary",s.primaryColor);if(s.secondaryColor)root.style.setProperty("--site-secondary",s.secondaryColor);if(s.productCardHeightMode==="AUTO")root.style.setProperty("--product-card-height","auto");else if(s.productCardHeightMode==="CUSTOM"&&s.productCardHeight)root.style.setProperty("--product-card-height",s.productCardHeight+"px");else root.style.setProperty("--product-card-height","390px");}}}catch(e){}})();`,
           }}
         />
       </head>
       <body
-        className="font-ui antialiased text-[#F5F5FA] min-h-screen flex flex-col selection:bg-[#5754D8] selection:text-white bg-[#29294D]"
-        style={{ backgroundColor: "var(--site-bg, #29294D)", color: "var(--text-main, #F5F5FA)" }}
+        className="font-serif antialiased text-[#F5F5FA] min-h-screen flex flex-col selection:bg-[#5754D8] selection:text-white bg-[#29294D]"
+        style={{
+          fontFamily: '"Times New Roman", Times, Baskerville, Georgia, serif',
+          backgroundColor: "var(--site-bg, #29294D)",
+          color: "var(--text-main, #F5F5FA)",
+        }}
       >
         <Providers>{children}</Providers>
       </body>

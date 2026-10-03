@@ -13,10 +13,10 @@
     --site-bright: #716DFF;
     --site-border: rgba(113, 109, 255, 0.12);
 
-    /* Dynamic Font Variables */
-    --font-ui: var(--font-plus-jakarta-sans), sans-serif;
-    --font-heading: var(--font-plus-jakarta-sans), sans-serif;
-    --font-body: var(--font-inter), sans-serif;
+    /* Dynamic Font Variables - Times New Roman */
+    --font-ui: "Times New Roman", Times, Baskerville, Georgia, serif;
+    --font-heading: "Times New Roman", Times, Baskerville, Georgia, serif;
+    --font-body: "Times New Roman", Times, Baskerville, Georgia, serif;
 
     /* Product Card Height */
     --product-card-height: 390px;
@@ -50,38 +50,35 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #29294D;
     color: #F5F5FA;
+    font-family: "Times New Roman", Times, Baskerville, Georgia, serif;
   }
 
   body {
     background-color: var(--site-bg, #29294D);
     color: var(--text-main, #F5F5FA);
-    font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif);
+    font-family: "Times New Roman", Times, Baskerville, Georgia, serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
     min-height: 100dvh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif);
+    font-family: "Times New Roman", Times, Baskerville, Georgia, serif;
     color: #F5F5FA;
   }
 
   p {
-    font-family: var(--font-body, var(--font-inter), sans-serif);
+    font-family: "Times New Roman", Times, Baskerville, Georgia, serif;
     color: #AAAAC1;
   }
 }
 
-.font-ui {
-  font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif) !important;
-}
-
-.font-heading {
-  font-family: var(--font-heading, var(--font-plus-jakarta-sans), sans-serif) !important;
-}
-
-.font-body {
-  font-family: var(--font-body, var(--font-inter), sans-serif) !important;
+.font-ui,
+.font-heading,
+.font-body,
+.font-sans,
+.font-serif {
+  font-family: "Times New Roman", Times, Baskerville, Georgia, serif !important;
 }
 
 /* Custom Dark Neumorphic Tactile Surfaces */
