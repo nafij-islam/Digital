@@ -29,15 +29,13 @@ Production-ready digital products marketplace frontend built with Next.js App Ro
    npm install
    ```
 
-2. Configure environment variables (`.env.local`):
+2. Configure environment variables (`.env.local` - optional):
    ```env
-   NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
-   NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   NEXT_PUBLIC_APP_NAME="DigiVault Marketplace"
+   NEXT_PUBLIC_DEFAULT_CURRENCY="BDT"
+   NEXT_PUBLIC_CURRENCY_SYMBOL="৳"
+   NEXT_PUBLIC_WHATSAPP_NUMBER="+8801700000000"
    ```
 
 3. Run the development server:

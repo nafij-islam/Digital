@@ -1,11 +1,10 @@
-import { apiClient } from "@/lib/api/client";
-import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { CreateOrderPayload, Order, OrderStatus, OrderAccessDetails } from "@/types/order";
-import { INITIAL_ORDERS, INITIAL_PAYMENT_METHODS, INITIAL_PRODUCTS } from "./mockData";
+import { INITIAL_ORDERS, INITIAL_PAYMENT_METHODS } from "./mockData";
+import { getLocalProducts } from "./productService";
 
-const ORDERS_STORAGE_KEY = "dg_local_orders";
+export const ORDERS_STORAGE_KEY = "dg_local_orders";
 
-function getLocalOrders(): Order[] {
+export function getLocalOrders(): Order[] {
   if (typeof window === "undefined") return INITIAL_ORDERS;
   try {
     const data = localStorage.getItem(ORDERS_STORAGE_KEY);
@@ -15,7 +14,7 @@ function getLocalOrders(): Order[] {
   }
 }
 
-function saveLocalOrders(orders: Order[]) {
+export function saveLocalOrders(orders: Order[]) {
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
@@ -126,237 +125,153 @@ export function normalizeBackendOrder(o: any): Order {
 
 export const orderService = {
   getOrders: async (status?: OrderStatus): Promise<Order[]> => {
-    try {
-      const response = await apiClient.get<any>(API_ENDPOINTS.ORDERS.LIST, {
-        params: { status },
-      });
-      const resData = response.data;
-      const rawOrders = Array.isArray(resData?.data)
-        ? resData.data
-        : Array.isArray(resData?.orders)
-        ? resData.orders
-        : Array.isArray(resData)
-        ? resData
-        : [];
-
-      if (rawOrders.length > 0) {
-        return rawOrders.map(normalizeBackendOrder);
-      }
-      return getLocalOrders();
-    } catch {
-      const orders = getLocalOrders();
-      if (status) {
-        return orders.filter((o) => o.status === status);
-      }
-      return orders;
+    const orders = getLocalOrders();
+    if (status) {
+      return orders.filter((o) => o.status === status);
     }
+    return orders;
   },
 
   getOrderById: async (id: string): Promise<Order | null> => {
-    try {
-      const response = await apiClient.get<any>(API_ENDPOINTS.ORDERS.DETAILS(id));
-      const resData = response.data;
-      const raw = resData?.data || (resData?.orderNumber ? resData : null);
-      if (raw) {
-        return normalizeBackendOrder(raw);
-      }
-      const orders = getLocalOrders();
-      return orders.find((o) => o.id === id || o.orderNumber === id) || null;
-    } catch {
-      const orders = getLocalOrders();
-      const found = orders.find((o) => o.id === id || o.orderNumber === id);
-      return found || null;
-    }
+    const orders = getLocalOrders();
+    const found = orders.find((o) => o.id === id || o.orderNumber === id);
+    return found || null;
   },
 
   createOrder: async (payload: CreateOrderPayload): Promise<Order> => {
-    try {
-      // 1. Step 1: Create Order on backend
-      const orderPayload = {
-        items: payload.items.map((it) => ({
-          productPlanId: it.planId,
-          quantity: it.quantity || 1,
-        })),
-        couponCode: payload.couponCode || undefined,
-        customerSnapshot: {
-          name: payload.customerName,
-          email: payload.customerEmail,
-          phone: payload.customerPhone || undefined,
-        },
+    const orders = getLocalOrders();
+    const allProducts = getLocalProducts();
+    const randomDigits = Math.floor(10000 + Math.random() * 90000);
+    const orderNumber = `DV-${randomDigits}`;
+    const newId = `ord-${Date.now()}`;
+
+    const orderItems = payload.items.map((item) => {
+      const product = allProducts.find((p) => p.id === item.productId);
+      const plan = product?.plans.find((pl) => pl.id === item.planId);
+      return {
+        id: `item-${Date.now()}-${Math.random()}`,
+        productId: item.productId,
+        productName: product?.name || "Digital Product",
+        productSlug: product?.slug || "digital-product",
+        productImage: product?.imageUrl || "",
+        planId: item.planId,
+        planName: plan?.name || "Standard Plan",
+        durationValue: plan?.durationValue || 1,
+        durationUnit: plan?.durationUnit || "months",
+        price: plan?.salePrice || 0,
+        quantity: item.quantity,
       };
+    });
 
-      const createRes = await apiClient.post<any>(API_ENDPOINTS.ORDERS.CREATE, orderPayload);
-      const createdOrderData = createRes.data?.data || createRes.data;
-      const orderId = createdOrderData?._id?.toString() || createdOrderData?.id;
+    const subtotal = orderItems.reduce((acc, it) => acc + it.price * it.quantity, 0);
+    const discountAmount = payload.couponCode ? 50 : 0;
+    const totalAmount = Math.max(0, subtotal - discountAmount);
 
-      // 2. Step 2: Submit payment transaction if paymentMethodId and transactionId exist
-      if (orderId && payload.paymentMethodId && payload.transactionId) {
-        try {
-          await apiClient.post(`/orders/${orderId}/payment`, {
-            paymentMethodId: payload.paymentMethodId,
-            senderPhone: payload.senderNumber || payload.customerPhone || "01700000000",
-            transactionId: payload.transactionId,
-            note: payload.paymentNote || undefined,
-          });
-        } catch (paymentErr) {
-          console.warn("Payment submission warning:", paymentErr);
-        }
+    let paymentMethods = INITIAL_PAYMENT_METHODS;
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("dg_local_pm");
+        if (stored) paymentMethods = JSON.parse(stored);
+      } catch {
+        // use default
       }
-
-      if (createdOrderData) {
-        const normalized = normalizeBackendOrder(createdOrderData);
-        // Also update local orders for immediate view
-        const existing = getLocalOrders();
-        saveLocalOrders([normalized, ...existing.filter((o) => o.id !== normalized.id)]);
-        return normalized;
-      }
-      throw new Error("Order creation failed");
-    } catch {
-      // Fallback
-      const orders = getLocalOrders();
-      const randomDigits = Math.floor(10000 + Math.random() * 90000);
-      const orderNumber = `DV-${randomDigits}`;
-      const newId = `ord-${Date.now()}`;
-
-      const orderItems = payload.items.map((item) => {
-        const product = INITIAL_PRODUCTS.find((p) => p.id === item.productId);
-        const plan = product?.plans.find((pl) => pl.id === item.planId);
-        return {
-          id: `item-${Date.now()}-${Math.random()}`,
-          productId: item.productId,
-          productName: product?.name || "Digital Product",
-          productSlug: product?.slug || "digital-product",
-          productImage: product?.imageUrl || "",
-          planId: item.planId,
-          planName: plan?.name || "Standard Plan",
-          durationValue: plan?.durationValue || 1,
-          durationUnit: plan?.durationUnit || "months",
-          price: plan?.salePrice || 0,
-          quantity: item.quantity,
-        };
-      });
-
-      const subtotal = orderItems.reduce((acc, it) => acc + it.price * it.quantity, 0);
-      const discountAmount = payload.couponCode ? 50 : 0;
-      const totalAmount = Math.max(0, subtotal - discountAmount);
-
-      const paymentMethod =
-        INITIAL_PAYMENT_METHODS.find((p) => p.id === payload.paymentMethodId) ||
-        INITIAL_PAYMENT_METHODS[0];
-
-      const now = new Date().toISOString();
-
-      const newOrder: Order = {
-        id: newId,
-        orderNumber,
-        customerId: "usr-demo-1",
-        customerName: payload.customerName,
-        customerEmail: payload.customerEmail,
-        customerPhone: payload.customerPhone,
-        items: orderItems,
-        subtotal,
-        discountAmount,
-        couponCode: payload.couponCode,
-        totalAmount,
-        currency: "৳",
-        paymentMethodId: payload.paymentMethodId,
-        paymentMethod,
-        senderNumber: payload.senderNumber,
-        transactionId: payload.transactionId,
-        paymentNote: payload.paymentNote,
-        paymentSubmittedAt: now,
-        status: "PENDING_PAYMENT_VERIFICATION",
-        timeline: [
-          {
-            id: `tl-${Date.now()}-1`,
-            status: "PENDING_PAYMENT",
-            title: "Order Placed",
-            description: "Order submitted through checkout.",
-            timestamp: now,
-            completed: true,
-          },
-          {
-            id: `tl-${Date.now()}-2`,
-            status: "PENDING_PAYMENT_VERIFICATION",
-            title: "Payment Submitted",
-            description: `${paymentMethod.displayName} TrxID ${payload.transactionId} submitted for manual verification.`,
-            timestamp: now,
-            completed: true,
-          },
-          {
-            id: `tl-${Date.now()}-3`,
-            status: "PAYMENT_APPROVED",
-            title: "Payment Approval",
-            description: "Awaiting administrator verification.",
-            timestamp: "",
-            completed: false,
-          },
-          {
-            id: `tl-${Date.now()}-4`,
-            status: "PROCESSING",
-            title: "Order Fulfillment",
-            description: "Preparing digital product credentials.",
-            timestamp: "",
-            completed: false,
-          },
-          {
-            id: `tl-${Date.now()}-5`,
-            status: "FULFILLED",
-            title: "Delivered",
-            description: "Credentials will be displayed in this secure delivery vault.",
-            timestamp: "",
-            completed: false,
-          },
-        ],
-        createdAt: now,
-        updatedAt: now,
-      };
-
-      const updated = [newOrder, ...orders];
-      saveLocalOrders(updated);
-      return newOrder;
     }
+
+    const paymentMethod =
+      paymentMethods.find((p) => p.id === payload.paymentMethodId) ||
+      paymentMethods[0] ||
+      INITIAL_PAYMENT_METHODS[0];
+
+    const now = new Date().toISOString();
+
+    const newOrder: Order = {
+      id: newId,
+      orderNumber,
+      customerId: "usr-demo-1",
+      customerName: payload.customerName,
+      customerEmail: payload.customerEmail,
+      customerPhone: payload.customerPhone,
+      items: orderItems,
+      subtotal,
+      discountAmount,
+      couponCode: payload.couponCode,
+      totalAmount,
+      currency: "৳",
+      paymentMethodId: payload.paymentMethodId,
+      paymentMethod,
+      senderNumber: payload.senderNumber,
+      transactionId: payload.transactionId,
+      paymentNote: payload.paymentNote,
+      paymentSubmittedAt: now,
+      status: "PENDING_PAYMENT_VERIFICATION",
+      timeline: [
+        {
+          id: `tl-${Date.now()}-1`,
+          status: "PENDING_PAYMENT",
+          title: "Order Placed",
+          description: "Order submitted through checkout.",
+          timestamp: now,
+          completed: true,
+        },
+        {
+          id: `tl-${Date.now()}-2`,
+          status: "PENDING_PAYMENT_VERIFICATION",
+          title: "Payment Submitted",
+          description: `${paymentMethod.displayName} TrxID ${payload.transactionId} submitted for verification.`,
+          timestamp: now,
+          completed: true,
+        },
+        {
+          id: `tl-${Date.now()}-3`,
+          status: "PAYMENT_APPROVED",
+          title: "Payment Approval",
+          description: "Awaiting administrator verification.",
+          timestamp: "",
+          completed: false,
+        },
+        {
+          id: `tl-${Date.now()}-4`,
+          status: "PROCESSING",
+          title: "Order Fulfillment",
+          description: "Preparing digital product credentials.",
+          timestamp: "",
+          completed: false,
+        },
+        {
+          id: `tl-${Date.now()}-5`,
+          status: "FULFILLED",
+          title: "Delivered",
+          description: "Credentials will be displayed in secure delivery vault.",
+          timestamp: "",
+          completed: false,
+        },
+      ],
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const updated = [newOrder, ...orders];
+    saveLocalOrders(updated);
+    return newOrder;
   },
 
   getOrderAccess: async (orderId: string): Promise<OrderAccessDetails | null> => {
-    try {
-      const response = await apiClient.get<any>(API_ENDPOINTS.ORDERS.ACCESS(orderId));
-      const resData = response.data;
-      const data = resData?.data || resData;
-      if (data) {
-        return {
-          orderId,
-          type: data.type || "ACCOUNT_CREDENTIAL",
-          loginEmail: data.loginEmail,
-          loginUsername: data.loginUsername,
-          loginPassword: data.loginPassword,
-          loginUrl: data.loginUrl,
-          licenseKey: data.licenseKey,
-          activationLink: data.activationLink,
-          downloadUrl: data.downloadUrl,
-          publicInstructions: data.publicInstructions,
-          additionalInstructions: data.additionalInstructions,
-        };
-      }
-      throw new Error("No access details found");
-    } catch {
-      const orders = getLocalOrders();
-      const order = orders.find((o) => o.id === orderId);
-      if (!order || order.status !== "FULFILLED" || !order.deliveryData) {
-        return null;
-      }
-      return {
-        orderId,
-        type: order.deliveryType || "ACCOUNT_CREDENTIAL",
-        loginEmail: order.deliveryData.emailOrUsername,
-        loginPassword: order.deliveryData.password,
-        loginUrl: order.deliveryData.loginUrl,
-        licenseKey: order.deliveryData.licenseKey,
-        activationLink: order.deliveryData.activationLink,
-        downloadUrl: order.deliveryData.downloadUrl,
-        publicInstructions: order.deliveryData.instructions,
-        additionalInstructions: order.deliveryData.notes,
-      };
+    const orders = getLocalOrders();
+    const order = orders.find((o) => o.id === orderId);
+    if (!order || order.status !== "FULFILLED" || !order.deliveryData) {
+      return null;
     }
+    return {
+      orderId,
+      type: order.deliveryType || "ACCOUNT_CREDENTIAL",
+      loginEmail: order.deliveryData.emailOrUsername,
+      loginPassword: order.deliveryData.password,
+      loginUrl: order.deliveryData.loginUrl,
+      licenseKey: order.deliveryData.licenseKey,
+      activationLink: order.deliveryData.activationLink,
+      downloadUrl: order.deliveryData.downloadUrl,
+      publicInstructions: order.deliveryData.instructions,
+      additionalInstructions: order.deliveryData.notes,
+    };
   },
 };

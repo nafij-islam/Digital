@@ -1,63 +1,58 @@
-import { apiClient } from "@/lib/api/client";
-import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { PaymentMethod, PaymentVerificationInput } from "@/types/payment";
 import { INITIAL_PAYMENT_METHODS } from "./mockData";
+import { getLocalOrders, saveLocalOrders } from "./orderService";
+
+const ADMIN_PAYMENT_METHODS_KEY = "dg_local_pm";
 
 export const paymentService = {
   getPaymentMethods: async (): Promise<PaymentMethod[]> => {
-    try {
-      const response = await apiClient.get<any>(API_ENDPOINTS.PAYMENTS.METHODS);
-      const resData = response.data;
-      const rawList = Array.isArray(resData?.data)
-        ? resData.data
-        : Array.isArray(resData)
-        ? resData
-        : [];
-
-      if (rawList.length > 0) {
-        return rawList.map((m: any) => ({
-          id: m._id?.toString() || m.id,
-          provider: m.provider,
-          displayName: m.displayName || m.provider,
-          paymentNumber: m.paymentNumber,
-          accountType: m.accountType || "Personal",
-          instructions: m.instructions || "",
-          qrCodeUrl: m.qrCode?.secureUrl || m.qrCode?.url || m.qrCodeUrl,
-          active: m.active !== undefined ? m.active : true,
-          sortOrder: m.sortOrder || 0,
-        }));
+    let methods = INITIAL_PAYMENT_METHODS;
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(ADMIN_PAYMENT_METHODS_KEY);
+        if (stored) methods = JSON.parse(stored);
+      } catch {
+        methods = INITIAL_PAYMENT_METHODS;
       }
-      return INITIAL_PAYMENT_METHODS.filter((m) => m.active);
-    } catch {
-      return INITIAL_PAYMENT_METHODS.filter((m) => m.active);
     }
+    return methods.filter((m) => m.active);
   },
 
   submitPaymentVerification: async (
     payload: PaymentVerificationInput
   ): Promise<{ success: boolean; message: string }> => {
-    try {
-      if (payload.orderId) {
-        const response = await apiClient.post(`/orders/${payload.orderId}/payment`, {
+    if (payload.orderId) {
+      const orders = getLocalOrders();
+      const index = orders.findIndex((o) => o.id === payload.orderId);
+      if (index !== -1) {
+        const now = new Date().toISOString();
+        orders[index] = {
+          ...orders[index],
           paymentMethodId: payload.paymentMethodId,
-          senderPhone: payload.senderNumber,
+          senderNumber: payload.senderNumber,
           transactionId: payload.transactionId,
-          note: payload.paymentNote,
-        });
-        return {
-          success: true,
-          message: response.data?.message || "Payment submitted for verification",
+          paymentNote: payload.paymentNote,
+          paymentSubmittedAt: now,
+          status: "PENDING_PAYMENT_VERIFICATION",
+          timeline: orders[index].timeline.map((t) => {
+            if (t.status === "PENDING_PAYMENT_VERIFICATION") {
+              return {
+                ...t,
+                completed: true,
+                timestamp: now,
+                description: `Payment TrxID ${payload.transactionId} submitted for verification.`,
+              };
+            }
+            return t;
+          }),
         };
+        saveLocalOrders(orders);
       }
-      return {
-        success: true,
-        message: "Your payment information has been submitted and is waiting for admin verification.",
-      };
-    } catch (err: any) {
-      return {
-        success: true,
-        message: err?.message || "Your payment information has been submitted and is waiting for admin verification.",
-      };
     }
+
+    return {
+      success: true,
+      message: "Payment information submitted successfully. Awaiting verification.",
+    };
   },
 };

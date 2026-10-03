@@ -1,5 +1,3 @@
-import { apiClient } from "@/lib/api/client";
-import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { StoreSettings, HomepageSetting, SiteAppearanceSetting, DEFAULT_SITE_APPEARANCE } from "@/types/settings";
 import { INITIAL_SETTINGS } from "./mockData";
 
@@ -73,131 +71,79 @@ function saveLocalHomepageSettings(settings: HomepageSetting) {
 
 export const settingsService = {
   getSettings: async (): Promise<StoreSettings> => {
-    try {
-      const { data } = await apiClient.get<StoreSettings>(API_ENDPOINTS.ADMIN.SETTINGS.GET);
-      return data;
-    } catch {
-      return getLocalSettings();
-    }
+    return getLocalSettings();
   },
 
   updateSettings: async (settings: Partial<StoreSettings>): Promise<StoreSettings> => {
-    try {
-      const { data } = await apiClient.put<StoreSettings>(
-        API_ENDPOINTS.ADMIN.SETTINGS.UPDATE,
-        settings
-      );
-      return data;
-    } catch {
-      const current = getLocalSettings();
-      const updated = { ...current, ...settings };
-      saveLocalSettings(updated);
-      return updated;
-    }
+    const current = getLocalSettings();
+    const updated = { ...current, ...settings };
+    saveLocalSettings(updated);
+    return updated;
   },
 
   // Public Homepage Settings
   getHomepageSettings: async (): Promise<HomepageSetting> => {
-    try {
-      const { data } = await apiClient.get<HomepageSetting>(API_ENDPOINTS.SETTINGS.HOMEPAGE);
-      return data;
-    } catch {
-      return getLocalHomepageSettings();
-    }
+    return getLocalHomepageSettings();
   },
 
   // Admin Homepage Settings
   getAdminHomepageSettings: async (): Promise<HomepageSetting> => {
-    try {
-      const { data } = await apiClient.get<HomepageSetting>(API_ENDPOINTS.ADMIN.SETTINGS.HOMEPAGE);
-      return data;
-    } catch {
-      return getLocalHomepageSettings();
-    }
+    return getLocalHomepageSettings();
   },
 
   updateHomepageSettings: async (settings: Partial<HomepageSetting>): Promise<HomepageSetting> => {
-    try {
-      const { data } = await apiClient.patch<HomepageSetting>(
-        API_ENDPOINTS.ADMIN.SETTINGS.HOMEPAGE,
-        settings
-      );
-      return data;
-    } catch {
-      const current = getLocalHomepageSettings();
-      const updated = { ...current, ...settings };
-      saveLocalHomepageSettings(updated);
-      return updated;
-    }
+    const current = getLocalHomepageSettings();
+    const updated = { ...current, ...settings };
+    saveLocalHomepageSettings(updated);
+    return updated;
   },
 
   uploadHeroImage: async (file: File): Promise<HomepageSetting> => {
-    const formData = new FormData();
-    formData.append("heroImage", file);
-
-    const { data } = await apiClient.post<HomepageSetting>(
-      API_ENDPOINTS.ADMIN.SETTINGS.HERO_IMAGE,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    return data;
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        const current = getLocalHomepageSettings();
+        const updated: HomepageSetting = {
+          ...current,
+          heroImage: {
+            secureUrl: dataUrl,
+            publicId: `hero-${Date.now()}`,
+          },
+          heroImageEnabled: true,
+        };
+        saveLocalHomepageSettings(updated);
+        resolve(updated);
+      };
+      reader.readAsDataURL(file);
+    });
   },
 
   deleteHeroImage: async (): Promise<HomepageSetting> => {
-    const { data } = await apiClient.delete<HomepageSetting>(API_ENDPOINTS.ADMIN.SETTINGS.HERO_IMAGE);
-    return data;
+    const current = getLocalHomepageSettings();
+    const updated: HomepageSetting = {
+      ...current,
+      heroImage: undefined,
+      heroImageEnabled: false,
+    };
+    saveLocalHomepageSettings(updated);
+    return updated;
   },
 
   // Public Appearance Settings
   getAppearanceSettings: async (): Promise<SiteAppearanceSetting> => {
-    try {
-      const response = await apiClient.get<any>(API_ENDPOINTS.SETTINGS.APPEARANCE);
-      const payload = response.data?.data || response.data;
-      if (payload && payload.backgroundColor) {
-        saveLocalAppearanceSettings(payload);
-        return payload;
-      }
-      return getLocalAppearanceSettings();
-    } catch {
-      return getLocalAppearanceSettings();
-    }
+    return getLocalAppearanceSettings();
   },
 
   // Admin Appearance Settings
   getAdminAppearanceSettings: async (): Promise<SiteAppearanceSetting> => {
-    try {
-      const response = await apiClient.get<any>(API_ENDPOINTS.ADMIN.SETTINGS.APPEARANCE);
-      const payload = response.data?.data || response.data;
-      if (payload && payload.backgroundColor) {
-        saveLocalAppearanceSettings(payload);
-        return payload;
-      }
-      return getLocalAppearanceSettings();
-    } catch {
-      return getLocalAppearanceSettings();
-    }
+    return getLocalAppearanceSettings();
   },
 
   updateAppearanceSettings: async (settings: Partial<SiteAppearanceSetting>): Promise<SiteAppearanceSetting> => {
-    try {
-      const response = await apiClient.patch<any>(
-        API_ENDPOINTS.ADMIN.SETTINGS.APPEARANCE,
-        settings
-      );
-      const payload = response.data?.data || response.data;
-      const current = getLocalAppearanceSettings();
-      const updated = { ...current, ...(payload && payload.backgroundColor ? payload : settings) };
-      saveLocalAppearanceSettings(updated);
-      return updated;
-    } catch {
-      const current = getLocalAppearanceSettings();
-      const updated = { ...current, ...settings };
-      saveLocalAppearanceSettings(updated);
-      return updated;
-    }
+    const current = getLocalAppearanceSettings();
+    const updated = { ...current, ...settings };
+    saveLocalAppearanceSettings(updated);
+    return updated;
   },
 };

@@ -1,5 +1,3 @@
-import { apiClient } from "@/lib/api/client";
-import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { CreateTicketPayload, SupportTicket, TicketMessage } from "@/types/support";
 import { INITIAL_TICKETS } from "./mockData";
 
@@ -26,92 +24,69 @@ function saveLocalTickets(tickets: SupportTicket[]) {
 
 export const supportService = {
   getTickets: async (): Promise<SupportTicket[]> => {
-    try {
-      const { data } = await apiClient.get<SupportTicket[]>(API_ENDPOINTS.SUPPORT.TICKETS);
-      return data;
-    } catch {
-      return getLocalTickets();
-    }
+    return getLocalTickets();
   },
 
   getTicketById: async (id: string): Promise<SupportTicket | null> => {
-    try {
-      const { data } = await apiClient.get<SupportTicket>(API_ENDPOINTS.SUPPORT.TICKET_DETAILS(id));
-      return data;
-    } catch {
-      const tickets = getLocalTickets();
-      return tickets.find((t) => t.id === id || t.ticketNumber === id) || null;
-    }
+    const tickets = getLocalTickets();
+    return tickets.find((t) => t.id === id || t.ticketNumber === id) || null;
   },
 
   createTicket: async (payload: CreateTicketPayload): Promise<SupportTicket> => {
-    try {
-      const { data } = await apiClient.post<SupportTicket>(API_ENDPOINTS.SUPPORT.TICKETS, payload);
-      return data;
-    } catch {
-      const tickets = getLocalTickets();
-      const newId = `tkt-${Date.now()}`;
-      const ticketNumber = `TCK-${Math.floor(1000 + Math.random() * 9000)}`;
-      const now = new Date().toISOString();
+    const tickets = getLocalTickets();
+    const newId = `tkt-${Date.now()}`;
+    const ticketNumber = `TCK-${Math.floor(1000 + Math.random() * 9000)}`;
+    const now = new Date().toISOString();
 
-      const newTicket: SupportTicket = {
-        id: newId,
-        ticketNumber,
-        customerId: "usr-demo-1",
-        customerName: "Nafij Islam",
-        customerEmail: "nafij@example.com",
-        subject: payload.subject,
-        category: payload.category as any,
-        priority: payload.priority,
-        status: "OPEN",
-        orderId: payload.orderId,
-        messages: [
-          {
-            id: `msg-${Date.now()}`,
-            ticketId: newId,
-            senderId: "usr-demo-1",
-            senderName: "Nafij Islam",
-            senderRole: "customer",
-            message: payload.initialMessage,
-            createdAt: now,
-          },
-        ],
-        createdAt: now,
-        updatedAt: now,
-      };
+    const newTicket: SupportTicket = {
+      id: newId,
+      ticketNumber,
+      customerId: "usr-demo-1",
+      customerName: "Nafij Islam",
+      customerEmail: "nafij@example.com",
+      subject: payload.subject,
+      category: payload.category as any,
+      priority: payload.priority,
+      status: "OPEN",
+      orderId: payload.orderId,
+      messages: [
+        {
+          id: `msg-${Date.now()}`,
+          ticketId: newId,
+          senderId: "usr-demo-1",
+          senderName: "Nafij Islam",
+          senderRole: "customer",
+          message: payload.initialMessage,
+          createdAt: now,
+        },
+      ],
+      createdAt: now,
+      updatedAt: now,
+    };
 
-      const updated = [newTicket, ...tickets];
-      saveLocalTickets(updated);
-      return newTicket;
-    }
+    const updated = [newTicket, ...tickets];
+    saveLocalTickets(updated);
+    return newTicket;
   },
 
   sendMessage: async (ticketId: string, message: string): Promise<TicketMessage> => {
-    try {
-      const { data } = await apiClient.post<TicketMessage>(
-        API_ENDPOINTS.SUPPORT.SEND_MESSAGE(ticketId),
-        { message }
-      );
-      return data;
-    } catch {
-      const tickets = getLocalTickets();
-      const ticket = tickets.find((t) => t.id === ticketId);
-      const newMsg: TicketMessage = {
-        id: `msg-${Date.now()}`,
-        ticketId,
-        senderId: "usr-demo-1",
-        senderName: "Nafij Islam",
-        senderRole: "customer",
-        message,
-        createdAt: new Date().toISOString(),
-      };
+    const tickets = getLocalTickets();
+    const ticket = tickets.find((t) => t.id === ticketId);
+    const newMsg: TicketMessage = {
+      id: `msg-${Date.now()}`,
+      ticketId,
+      senderId: "usr-demo-1",
+      senderName: "Nafij Islam",
+      senderRole: "customer",
+      message,
+      createdAt: new Date().toISOString(),
+    };
 
-      if (ticket) {
-        ticket.messages.push(newMsg);
-        ticket.updatedAt = new Date().toISOString();
-        saveLocalTickets(tickets);
-      }
-      return newMsg;
+    if (ticket) {
+      ticket.messages.push(newMsg);
+      ticket.updatedAt = new Date().toISOString();
+      saveLocalTickets(tickets);
     }
+    return newMsg;
   },
 };

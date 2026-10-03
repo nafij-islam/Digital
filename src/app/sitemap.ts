@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next";
+import { INITIAL_PRODUCTS } from "@/services/mockData";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://shop.nafij.com";
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://digital-backend-gamma.vercel.app/api/v1";
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -31,24 +31,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  try {
-    const res = await fetch(`${apiUrl}/products?limit=100`, {
-      next: { revalidate: 3600 },
-    });
-    if (res.ok) {
-      const json = await res.json();
-      const products = json.data?.products || json.products || [];
-      const productRoutes: MetadataRoute.Sitemap = products.map((prod: any) => ({
-        url: `${baseUrl}/products/${prod.slug}`,
-        lastModified: prod.updatedAt ? new Date(prod.updatedAt) : new Date(),
-        changeFrequency: "weekly" as const,
-        priority: 0.8,
-      }));
-      return [...staticRoutes, ...productRoutes];
-    }
-  } catch {
-    // If backend is offline at build time, gracefully return static sitemap
-  }
+  const productRoutes: MetadataRoute.Sitemap = INITIAL_PRODUCTS.map((prod) => ({
+    url: `${baseUrl}/products/${prod.slug}`,
+    lastModified: prod.updatedAt ? new Date(prod.updatedAt) : new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
 
-  return staticRoutes;
+  return [...staticRoutes, ...productRoutes];
 }
