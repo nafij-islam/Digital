@@ -72,13 +72,13 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-raised space-y-6">
+    <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised space-y-6 animate-neu-fade">
       <div className="text-center space-y-1.5">
-        <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-          Create Free Account
+        <h2 className="text-2xl font-black text-[#F5F5FA] tracking-tight">
+          ENROLL OPERATOR
         </h2>
-        <p className="text-xs text-slate-500">
-          Unlock instant access to digital licenses, subscriptions, and exclusive discounts.
+        <p className="text-xs text-[#AAAAC1]">
+          Register a free account for cartridge saves, orders, and telemetry.
         </p>
       </div>
 
@@ -87,7 +87,7 @@ export default function RegisterPage() {
         type="button"
         disabled={isGoogleLoading || isLoading}
         onClick={handleGoogleSignup}
-        className="w-full flex items-center justify-center gap-3 h-11 px-4 rounded-xl border border-slate-200/80 bg-white text-slate-700 text-xs sm:text-sm font-bold shadow-soft hover:shadow-raised active:shadow-pressed transition-all disabled:opacity-60 cursor-pointer"
+        className="w-full flex items-center justify-center gap-3 h-11 px-4 rounded-2xl border border-[#353560]/40 bg-[#29294D] text-[#F5F5FA] text-xs sm:text-sm font-bold shadow-neu-pressed hover:border-[#716DFF] transition-all disabled:opacity-50 cursor-pointer"
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24">
           <path
@@ -112,9 +112,9 @@ export default function RegisterPage() {
 
       {/* Divider */}
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">or email</span>
-        <div className="flex-1 h-px bg-slate-200" />
+        <div className="flex-1 h-px bg-[#353560]/50" />
+        <span className="text-[11px] font-mono font-bold text-[#777790] uppercase tracking-wider">or register with email</span>
+        <div className="flex-1 h-px bg-[#353560]/50" />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -166,22 +166,22 @@ export default function RegisterPage() {
         />
 
         <div className="pt-1">
-          <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-600">
+          <label className="flex items-start gap-2.5 cursor-pointer text-xs text-[#AAAAC1]">
             <input
               type="checkbox"
-              className="mt-0.5 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+              className="mt-0.5 rounded border-[#353560] bg-[#29294D] text-[#716DFF] focus:ring-0"
               {...register("acceptTerms")}
             />
             <span>
               I agree to the{" "}
-              <Link href="/terms" className="text-primary-600 underline font-semibold">
-                Terms of Service
+              <Link href="/terms" className="text-[#716DFF] underline font-semibold">
+                Console Terms of Service
               </Link>{" "}
               and Privacy Policy.
             </span>
           </label>
           {errors.acceptTerms && (
-            <p className="text-xs text-rose-600 font-medium mt-1">
+            <p className="text-xs text-[#EF7B98] font-medium mt-1">
               {errors.acceptTerms.message}
             </p>
           )}
@@ -191,16 +191,16 @@ export default function RegisterPage() {
           type="submit"
           variant="primary"
           size="lg"
-          className="w-full font-bold shadow-soft mt-2 h-11 justify-center"
+          className="w-full font-bold shadow-neu-raised mt-2 h-11 justify-center"
           isLoading={isLoading}
         >
           Create Account <ArrowRight className="h-4 w-4 ml-1.5" />
         </Button>
       </form>
 
-      <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+      <div className="text-center text-xs text-[#AAAAC1] pt-2 border-t border-[#353560]/40">
         Already have an account?{" "}
-        <Link href="/login" className="text-primary-600 font-bold hover:underline">
+        <Link href="/login" className="text-[#716DFF] font-bold hover:underline">
           Sign In
         </Link>
       </div>

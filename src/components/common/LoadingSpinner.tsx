@@ -22,12 +22,12 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center py-12 px-4 gap-3 text-slate-500",
+        "flex flex-col items-center justify-center py-12 px-4 gap-3 text-[#AAAAC1]",
         className
       )}
     >
-      <Loader2 className={cn("animate-spin text-primary-600", sizes[size])} />
-      {text && <p className="text-xs font-medium text-slate-600">{text}</p>}
+      <Loader2 className={cn("animate-spin text-[#716DFF]", sizes[size])} />
+      {text && <p className="text-xs font-mono font-medium text-[#AAAAC1]">{text}</p>}
     </div>
   );
 };

@@ -25,15 +25,15 @@ export const Badge: React.FC<BadgeProps> = ({
   ...props
 }) => {
   const variants = {
-    primary: "bg-blue-50 text-blue-700 border-blue-200/80",
-    secondary: "bg-slate-100 text-slate-700 border-slate-200",
-    outline: "border-slate-300 text-slate-700 bg-white",
-    success: "bg-emerald-50 text-emerald-700 border-emerald-200/80",
-    warning: "bg-amber-50 text-amber-700 border-amber-200/80",
-    danger: "bg-rose-50 text-rose-700 border-rose-200/80",
-    purple: "bg-purple-50 text-purple-700 border-purple-200/80",
-    cyan: "bg-cyan-50 text-cyan-700 border-cyan-200/80",
-    pink: "bg-pink-50 text-pink-700 border-pink-200/80",
+    primary: "bg-[#353560] text-[#F5F5FA] border border-[#716DFF]/30 shadow-raised-sm",
+    secondary: "bg-[#2C2C52] text-[#AAAAC1] border border-[#383866]/40 shadow-raised-sm",
+    outline: "border border-[#383866] text-[#AAAAC1] bg-transparent",
+    success: "bg-[#2C2C52] text-[#6CD6B3] border border-[#6CD6B3]/30 shadow-raised-sm",
+    warning: "bg-[#2C2C52] text-[#F59E0B] border border-[#F59E0B]/30 shadow-raised-sm",
+    danger: "bg-[#2C2C52] text-[#EF7B98] border border-[#EF7B98]/30 shadow-raised-sm",
+    purple: "bg-[#5754D8]/25 text-[#716DFF] border border-[#716DFF]/40 shadow-raised-sm",
+    cyan: "bg-[#2C2C52] text-[#6CD6B3] border border-[#6CD6B3]/30 shadow-raised-sm",
+    pink: "bg-[#2C2C52] text-[#EF7B98] border border-[#EF7B98]/30 shadow-raised-sm",
   };
 
   const sizes = {
@@ -43,15 +43,15 @@ export const Badge: React.FC<BadgeProps> = ({
   };
 
   const dotColors = {
-    primary: "bg-blue-500",
-    secondary: "bg-slate-400",
-    outline: "bg-slate-400",
-    success: "bg-emerald-500",
-    warning: "bg-amber-500",
-    danger: "bg-rose-500",
-    purple: "bg-purple-500",
-    cyan: "bg-cyan-500",
-    pink: "bg-pink-500",
+    primary: "bg-[#716DFF]",
+    secondary: "bg-[#AAAAC1]",
+    outline: "bg-[#AAAAC1]",
+    success: "bg-[#6CD6B3]",
+    warning: "bg-[#F59E0B]",
+    danger: "bg-[#EF7B98]",
+    purple: "bg-[#716DFF]",
+    cyan: "bg-[#6CD6B3]",
+    pink: "bg-[#EF7B98]",
   };
 
   return (

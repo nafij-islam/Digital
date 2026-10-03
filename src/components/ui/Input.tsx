@@ -20,15 +20,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-bold uppercase tracking-wider text-slate-700"
+            className="block text-xs font-bold uppercase tracking-wider text-[#AAAAC1]"
           >
             {label}
-            {props.required && <span className="text-red-500 ml-0.5">*</span>}
+            {props.required && <span className="text-[#EF7B98] ml-0.5">*</span>}
           </label>
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <div className="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute left-3.5 flex items-center pointer-events-none text-[#777790]">
               {leftIcon}
             </div>
           )}
@@ -37,22 +37,22 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={type}
             ref={ref}
             className={cn(
-              "w-full h-11 sm:h-12 rounded-xl border border-slate-200/90 bg-[#F7F8FB] px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 shadow-inset transition-all duration-150 focus:bg-white focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-60",
+              "w-full h-11 sm:h-12 rounded-xl border border-[#383866]/50 bg-[#26264A] px-3.5 text-xs sm:text-sm text-[#F5F5FA] placeholder:text-[#777790] shadow-pressed transition-all duration-150 focus:bg-[#232342] focus:border-[#716DFF] focus:outline-none focus:ring-2 focus:ring-[#716DFF]/25 disabled:cursor-not-allowed disabled:opacity-60",
               leftIcon && "pl-10",
               rightIcon && "pr-10",
-              error && "border-red-400 focus:border-red-500 focus:ring-red-500/10",
+              error && "border-[#EF7B98] focus:border-[#EF7B98] focus:ring-[#EF7B98]/20",
               className
             )}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3.5 flex items-center text-slate-400">
+            <div className="absolute right-3.5 flex items-center text-[#777790]">
               {rightIcon}
             </div>
           )}
         </div>
-        {error && <p className="text-xs text-red-600 font-medium">{error}</p>}
-        {!error && hint && <p className="text-xs text-slate-500">{hint}</p>}
+        {error && <p className="text-xs text-[#EF7B98] font-medium">{error}</p>}
+        {!error && hint && <p className="text-xs text-[#777790]">{hint}</p>}
       </div>
     );
   }

@@ -24,38 +24,38 @@ export default function CategoryProductsPage() {
   return (
     <Container className="py-8 space-y-6">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-xs text-slate-500 font-medium overflow-x-auto no-scrollbar py-1">
-        <Link href="/" className="hover:text-slate-900 transition-colors shrink-0">
-          Home
+      <nav className="flex items-center gap-2 text-xs text-[#AAAAC1] font-mono overflow-x-auto no-scrollbar py-1">
+        <Link href="/" className="hover:text-[#F5F5FA] transition-colors shrink-0">
+          CONSOLE
         </Link>
-        <ChevronRight className="h-3 w-3 text-slate-400 shrink-0" />
-        <Link href="/categories" className="hover:text-slate-900 transition-colors shrink-0">
-          Categories
+        <ChevronRight className="h-3 w-3 text-[#777790] shrink-0" />
+        <Link href="/categories" className="hover:text-[#F5F5FA] transition-colors shrink-0">
+          SECTORS
         </Link>
-        <ChevronRight className="h-3 w-3 text-slate-400 shrink-0" />
-        <span className="text-slate-900 font-semibold truncate shrink-0">
+        <ChevronRight className="h-3 w-3 text-[#777790] shrink-0" />
+        <span className="text-[#716DFF] font-bold truncate shrink-0">
           {currentCategory?.name || slug}
         </span>
       </nav>
 
       {/* Header */}
-      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-neu-fade">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-primary-600">
-            Category Showcase
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#716DFF]">
+            SECTOR CARTRIDGE ARCHIVE
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
-            {currentCategory?.name || "Category Products"}
+          <h1 className="text-2xl sm:text-3xl font-black text-[#F5F5FA] tracking-tight mt-1">
+            {currentCategory?.name || "Sector Cartridges"}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-[#AAAAC1] mt-1 max-w-xl">
             {currentCategory?.description ||
-              "Explore all verified digital tools and subscription plans in this category."}
+              "Explore all verified digital tools and subscription cartridges in this sector."}
           </p>
         </div>
 
         <Link href="/categories">
           <Button variant="secondary" size="sm" leftIcon={<ArrowLeft className="h-3.5 w-3.5" />}>
-            All Categories
+            All Sectors
           </Button>
         </Link>
       </div>

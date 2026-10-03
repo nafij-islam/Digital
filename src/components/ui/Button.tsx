@@ -42,23 +42,23 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        "bg-primary-500 text-white hover:bg-primary-600 shadow-soft hover:shadow-raised border border-primary-600/30",
+        "bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white hover:brightness-110 shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] border border-[#716DFF]/30",
       gradient:
-        "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-soft hover:shadow-raised border border-white/20 hover:brightness-105",
+        "bg-gradient-to-r from-[#5754D8] via-[#716DFF] to-[#8682FF] text-white shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px]",
       purple:
-        "bg-purple-600 text-white hover:bg-purple-700 shadow-soft hover:shadow-raised border border-purple-700/30",
+        "bg-[#5754D8] text-white hover:bg-[#716DFF] shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px]",
       secondary:
-        "bg-[#F7F8FB] text-slate-800 hover:bg-white shadow-soft hover:shadow-raised border border-slate-200/80 active:shadow-inset",
+        "bg-[#303057] text-[#F5F5FA] hover:bg-[#353560] shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] border border-[#383866]/30",
       "soft-raised":
-        "bg-white text-slate-800 hover:bg-[#F7F8FB] shadow-soft hover:shadow-raised border border-slate-200/70",
+        "bg-[#303057] text-[#F5F5FA] hover:bg-[#353560] shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] border border-[#383866]/40",
       outline:
-        "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-xs",
+        "border border-[#383866] bg-[#2C2C52] text-[#F5F5FA] hover:bg-[#303057] shadow-raised-sm active:shadow-pressed active:translate-y-[1px]",
       ghost:
-        "text-slate-600 hover:bg-slate-100/70 hover:text-slate-900 border border-transparent",
+        "text-[#AAAAC1] hover:text-[#F5F5FA] hover:bg-[#303057]/60 active:shadow-pressed border border-transparent",
       danger:
-        "bg-red-500 text-white hover:bg-red-600 shadow-soft hover:shadow-raised border border-red-600/30",
+        "bg-[#EF7B98] text-white hover:brightness-110 shadow-raised active:shadow-pressed active:translate-y-[1px]",
       success:
-        "bg-emerald-500 text-white hover:bg-emerald-600 shadow-soft hover:shadow-raised border border-emerald-600/30",
+        "bg-[#6CD6B3] text-[#1E1E38] font-bold hover:brightness-110 shadow-raised active:shadow-pressed active:translate-y-[1px]",
     };
 
     const sizes = {

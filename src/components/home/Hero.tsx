@@ -1,236 +1,328 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, ShieldCheck, CheckCircle2, Lock, BadgeCheck } from "lucide-react";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-import { useQuery } from "@tanstack/react-query";
-import { settingsService } from "@/services/settingsService";
+import {
+  ArrowDown,
+  Sparkles,
+  Play,
+  Pause,
+  Square,
+  FastForward,
+  Heart,
+  X,
+  Check,
+  Package,
+  Activity,
+  Sliders,
+  Volume2,
+  Dice5,
+} from "lucide-react";
 import { Container } from "@/components/common/Container";
-
-const TOOL_WORDS = ["AI Tools", "Design Tools", "Developer Tools", "Productivity Tools"];
+import { cn } from "@/lib/utils/cn";
 
 export const Hero: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const textWordRef = useRef<HTMLSpanElement>(null);
-  const subtextRef = useRef<HTMLParagraphElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const trustRef = useRef<HTMLDivElement>(null);
-  const visualRef = useRef<HTMLDivElement>(null);
+  // Interactive Physical Console State
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [activeChannel, setActiveChannel] = useState<1 | 2>(1);
+  const [toggleActive, setToggleActive] = useState(true);
+  const [sliderVal, setSliderVal] = useState(70);
+  const [meterVal, setMeterVal] = useState(85.5);
+  const [knobRotation, setKnobRotation] = useState(45);
 
-  const [currentWordIdx, setCurrentWordIdx] = useState(0);
-
-  // Fetch dynamic homepage settings from Backend API
-  const { data: homepageSettings } = useQuery({
-    queryKey: ["homepageSettings"],
-    queryFn: settingsService.getHomepageSettings,
-    staleTime: 1000 * 60 * 5,
-  });
-
-  // GSAP Initial Load Reveal Animation
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        return;
-      }
-
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      if (headlineRef.current) {
-        tl.fromTo(
-          headlineRef.current.children,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 }
-        );
-      }
-
-      if (subtextRef.current) {
-        tl.fromTo(
-          subtextRef.current,
-          { y: 15, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5 },
-          "-=0.3"
-        );
-      }
-
-      if (buttonsRef.current) {
-        tl.fromTo(
-          buttonsRef.current,
-          { y: 15, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.45 },
-          "-=0.25"
-        );
-      }
-
-      if (trustRef.current) {
-        tl.fromTo(
-          trustRef.current.children,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.4, stagger: 0.06 },
-          "-=0.2"
-        );
-      }
-
-      if (visualRef.current) {
-        tl.fromTo(
-          visualRef.current,
-          { scale: 0.97, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.7 },
-          "-=0.5"
-        );
-      }
-    },
-    { scope: containerRef }
-  );
-
-  // Subtle GSAP animated changing words
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!textWordRef.current) return;
-
-      gsap.to(textWordRef.current, {
-        opacity: 0,
-        y: -8,
-        duration: 0.22,
-        onComplete: () => {
-          setCurrentWordIdx((prev) => (prev + 1) % TOOL_WORDS.length);
-          gsap.fromTo(
-            textWordRef.current,
-            { y: 8, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
-          );
-        },
-      });
-    }, 3200);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const heroImageSrc =
-    homepageSettings?.heroImageEnabled !== false && homepageSettings?.heroImage?.secureUrl
-      ? homepageSettings.heroImage.secureUrl
-      : "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=85";
-
-  const heroImageFit = homepageSettings?.heroImageFit === "contain" ? "object-contain" : "object-cover";
-  const heroImageAlt = homepageSettings?.heroImageAlt || "DigiVault Digital Products & Subscriptions";
+  const handleKnobClick = () => {
+    setKnobRotation((prev) => (prev + 45) % 360);
+    setMeterVal((prev) => (prev >= 98 ? 72.4 : Number((prev + 3.8).toFixed(1))));
+  };
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden pt-6 pb-12 lg:pt-12 lg:pb-18">
-      {/* Subtle tactile ambient glow */}
-      <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[340px] bg-gradient-to-tr from-blue-400/10 via-purple-400/10 to-transparent rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-
-      <Container className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Column (7 cols on lg) */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Tactile Editorial Tag */}
-            <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/80 px-3.5 py-1.5 text-xs font-bold text-slate-800 shadow-soft">
-              <BadgeCheck className="h-4 w-4 text-primary-600" />
-              <span>Genuine Software &amp; Verified Passes</span>
+    <section className="relative pt-6 pb-12 lg:pt-10 lg:pb-16 overflow-hidden">
+      <Container>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* ================= LEFT COLUMN: TYPOGRAPHY & CTAs ================= */}
+          <div className="lg:col-span-6 space-y-6 animate-fade-in">
+            {/* Top Monospace Tag Badge matching reference image */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#716DFF] animate-pulse" />
+              <span className="text-[11px] font-mono font-bold tracking-wider text-[#AAAAC1] uppercase">
+                GAME.NAFIJ.COM
+              </span>
             </div>
 
-            {/* Responsive Editorial Headline with clamp() */}
-            <h1
-              ref={headlineRef}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] xl:text-[58px] font-black tracking-tight text-slate-900 leading-[1.14]"
-            >
-              <span className="block">Premium Digital Tools.</span>
-              <span className="block">
-                Simple Access for{" "}
-                <span
-                  ref={textWordRef}
-                  className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent inline-block"
-                >
-                  {TOOL_WORDS[currentWordIdx]}
-                </span>
-              </span>
-              <span className="block text-slate-700 text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-extrabold mt-1">
-                One Trusted Store.
-              </span>
-            </h1>
+            {/* Mega Bold Minimal Title: PLAY. FOCUS. COMPETE. */}
+            <div className="space-y-1">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#F5F5FA] leading-[1.05] uppercase font-heading">
+                PLAY.
+                <br />
+                <span className="text-[#716DFF]">FOCUS.</span>
+                <br />
+                COMPETE.
+              </h1>
+            </div>
 
-            {/* Supporting Copy */}
-            <p
-              ref={subtextRef}
-              className="text-xs sm:text-sm md:text-base text-slate-600 max-w-xl leading-relaxed mx-auto lg:mx-0"
-            >
-              Discover trusted digital subscriptions, software licenses, and productivity tools with simple checkout, bKash &amp; Nagad manual payment, and private delivery vault.
+            {/* Descriptive Subtitle */}
+            <p className="text-sm sm:text-base text-[#AAAAC1] leading-relaxed max-w-lg font-body">
+              A collection of interactive mini games and verified digital licenses built for speed, memory, focus and fun. Crafted with soft dark surfaces, tactile physical feedback, and zero latency.
             </p>
 
-            {/* Primary Action Buttons */}
-            <div
-              ref={buttonsRef}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-1"
-            >
+            {/* Tactile Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              {/* Primary Solid Purple Pill Button */}
               <Link
-                href="/products"
-                className="w-full sm:w-auto inline-flex items-center justify-center h-12 px-6 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:brightness-105 text-white font-bold text-xs sm:text-sm transition-all shadow-soft hover:shadow-raised"
+                href="#products"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all group"
               >
-                <span>Explore Products</span>
-                <ArrowRight className="h-4 w-4 ml-2" />
+                <span>EXPLORE GAMES</span>
+                <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               </Link>
 
+              {/* Secondary Raised Neumorphic Button */}
               <Link
-                href="/categories"
-                className="w-full sm:w-auto inline-flex items-center justify-center h-12 px-6 rounded-xl bg-white hover:bg-[#F7F8FB] text-slate-800 border border-slate-200/80 font-bold text-xs sm:text-sm transition-all shadow-soft hover:shadow-raised"
+                href="/deals"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#303057] text-[#F5F5FA] font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating hover:bg-[#353560] active:shadow-pressed active:translate-y-[1px] transition-all border border-[#383866]/30"
               >
-                <span>Browse Categories</span>
+                <Dice5 className="h-4 w-4 text-[#716DFF]" />
+                <span>RANDOM GAME</span>
               </Link>
             </div>
 
-            {/* Honest Micro-Trust Indicators (No fake stats) */}
-            <div
-              ref={trustRef}
-              className="pt-6 border-t border-slate-200/80 flex flex-wrap items-center justify-center lg:justify-start gap-5 sm:gap-6 text-xs text-slate-600 font-semibold"
-            >
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                <span>Secure Checkout</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-primary-500 shrink-0" />
-                <span>Manual Verification</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Lock className="h-4 w-4 text-purple-600 shrink-0" />
-                <span>Private Delivery Vault</span>
-              </div>
+            {/* Console Specs Row */}
+            <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-[#777790] pt-3 border-t border-[#383866]/25">
+              <span className="flex items-center gap-1.5 text-[#6CD6B3]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
+                ZERO LATENCY MINI GAMES
+              </span>
+              <span>•</span>
+              <span>KEYBOARD + TOUCH READY</span>
             </div>
           </div>
 
-          {/* Right Column: Tactile Visual Panel */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            <div
-              ref={visualRef}
-              className="relative w-full max-w-[540px] aspect-[4/3] sm:aspect-[16/11] lg:h-[450px] p-2.5 sm:p-3 rounded-3xl bg-white border border-slate-200/80 shadow-raised"
-            >
-              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-200/50 group">
-                <Image
-                  src={heroImageSrc}
-                  alt={heroImageAlt}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px)"
-                  className={`${heroImageFit} transition-transform duration-500 group-hover:scale-[1.02]`}
-                />
+          {/* ================= RIGHT COLUMN: INTERACTIVE HARDWARE CONSOLE DECK ================= */}
+          <div className="lg:col-span-6 flex justify-center animate-fade-in">
+            {/* The Main Tactile Console Chassis directly matching reference image */}
+            <div className="relative w-full max-w-[500px] rounded-3xl bg-[#303057] shadow-raised-lg p-6 sm:p-7 border border-[#383866]/40 select-none">
+              {/* Subtle screw fixtures in the 4 corners of the hardware chassis */}
+              <div className="absolute top-3 left-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
+              <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
+              <div className="absolute bottom-3 left-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
+              <div className="absolute bottom-3 right-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
 
-                {/* Subtle tactile bottom badge */}
-                <div className="absolute bottom-3 left-3 right-3 z-20 flex items-center justify-between p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-white/10 text-white text-xs">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                    <span className="font-bold text-[11px] sm:text-xs text-slate-100 truncate">
-                      Verified Digital Delivery
-                    </span>
+              <div className="grid grid-cols-[1fr_auto] gap-5">
+                {/* Console Main Working Surface */}
+                <div className="space-y-5">
+                  {/* Top Row: Dual Recessed Meters & Rotary Frequency Knob */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+                    {/* Left: Recessed Meters */}
+                    <div className="space-y-3">
+                      {/* Meter 1: 70% */}
+                      <div className="p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 space-y-1.5">
+                        <div className="flex justify-between items-center text-[10px] font-mono font-bold text-[#AAAAC1]">
+                          <span>CPU LOAD</span>
+                          <span className="text-[#716DFF]">{sliderVal}%</span>
+                        </div>
+                        <div className="h-2.5 w-full rounded-full bg-[#1E1E38] shadow-pressed-sm overflow-hidden p-0.5">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] transition-all duration-300"
+                            style={{ width: `${sliderVal}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Meter 2: 40% */}
+                      <div className="p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 space-y-1.5">
+                        <div className="flex justify-between items-center text-[10px] font-mono font-bold text-[#AAAAC1]">
+                          <span>MEMORY BUFFER</span>
+                          <span className="text-[#6CD6B3]">60%</span>
+                        </div>
+                        <div className="h-2.5 w-full rounded-full bg-[#1E1E38] shadow-pressed-sm overflow-hidden p-0.5">
+                          <div className="h-full w-[60%] rounded-full bg-gradient-to-r from-[#5754D8] via-[#716DFF] to-[#6CD6B3]" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Tactile Rotary Knob / Frequency Controller */}
+                    <div className="p-3.5 rounded-2xl bg-[#2C2C52] shadow-raised-sm border border-[#383866]/40 flex flex-col items-center justify-center text-center">
+                      <div className="text-[10px] font-mono font-bold text-[#AAAAC1] mb-2 uppercase tracking-wider">
+                        NAFIJ CORE
+                      </div>
+
+                      {/* Concentric Tactile Dial */}
+                      <button
+                        type="button"
+                        onClick={handleKnobClick}
+                        className="relative h-14 w-14 rounded-full bg-[#303057] shadow-raised hover:shadow-floating active:shadow-pressed cursor-pointer transition-all flex items-center justify-center border border-[#383866]/50"
+                        title="Click to tune frequency"
+                      >
+                        {/* Outer ribbed ring */}
+                        <div className="absolute inset-1 rounded-full border border-dashed border-[#716DFF]/30" />
+                        {/* Inner rotating dial */}
+                        <div
+                          className="h-10 w-10 rounded-full bg-[#26264A] shadow-pressed-sm flex items-center justify-center transition-transform duration-300 relative"
+                          style={{ transform: `rotate(${knobRotation}deg)` }}
+                        >
+                          <div className="absolute top-1 h-2 w-1 rounded-full bg-[#716DFF] shadow-xs" />
+                          <div className="h-4 w-4 rounded-full bg-[#303057] shadow-raised-sm" />
+                        </div>
+                      </button>
+
+                      <div className="flex items-center gap-3 text-[10px] font-mono text-[#777790] mt-2">
+                        <span>|&lt;</span>
+                        <span className="text-[#F5F5FA] font-bold">60Hz</span>
+                        <span>&gt;|</span>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-primary-400 shrink-0 ml-2">
-                    bKash &amp; Nagad Ready
-                  </span>
+
+                  {/* Middle Row: Tactile Physical Buttons (Play, Pause, Stop, Forward) */}
+                  <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30">
+                    <button
+                      type="button"
+                      onClick={() => setIsPlaying(false)}
+                      className={cn(
+                        "h-10 w-10 rounded-xl flex items-center justify-center transition-all cursor-pointer",
+                        !isPlaying
+                          ? "bg-[#26264A] shadow-pressed text-[#AAAAC1]"
+                          : "bg-[#303057] shadow-raised text-[#AAAAC1] hover:text-[#F5F5FA] active:shadow-pressed"
+                      )}
+                      aria-label="Stop"
+                    >
+                      <Square className="h-3.5 w-3.5 fill-current" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setIsPlaying(!isPlaying)}
+                      className={cn(
+                        "h-12 w-12 rounded-full flex items-center justify-center transition-all cursor-pointer",
+                        isPlaying
+                          ? "bg-gradient-to-tr from-[#5754D8] to-[#716DFF] text-white shadow-raised shadow-[#716DFF]/30 active:shadow-pressed"
+                          : "bg-[#303057] shadow-raised text-[#AAAAC1] hover:text-white"
+                      )}
+                      aria-label="Play / Pause"
+                    >
+                      {isPlaying ? (
+                        <Pause className="h-4 w-4 fill-current" />
+                      ) : (
+                        <Play className="h-4 w-4 fill-current ml-0.5" />
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSliderVal((prev) => (prev >= 90 ? 40 : prev + 15))}
+                      className="h-10 w-10 rounded-xl bg-[#303057] shadow-raised text-[#AAAAC1] hover:text-[#F5F5FA] active:shadow-pressed flex items-center justify-center transition-all cursor-pointer"
+                      aria-label="Step"
+                    >
+                      <FastForward className="h-3.5 w-3.5 fill-current" />
+                    </button>
+
+                    <div className="h-6 w-px bg-[#383866]/40" />
+
+                    <div className="flex items-center gap-1.5">
+                      <Volume2 className="h-3.5 w-3.5 text-[#716DFF]" />
+                      <span className="text-[10px] font-mono text-[#AAAAC1]">AUDIO FX</span>
+                    </div>
+                  </div>
+
+                  {/* Bottom Row: Precision Digital Readout & Sliding Tactile Switches */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 items-center">
+                    {/* Digital Precision Display */}
+                    <div className="p-3.5 rounded-2xl bg-[#26264A] shadow-pressed border border-[#383866]/40 space-y-1">
+                      <div className="text-[9px] font-mono font-bold tracking-wider text-[#777790] uppercase">
+                        PRECISION ACCURACY
+                      </div>
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-xl font-black font-mono text-[#F5F5FA]">
+                          {meterVal}%
+                        </span>
+                        <Activity className="h-4 w-4 text-[#6CD6B3] animate-pulse" />
+                      </div>
+                    </div>
+
+                    {/* Tactile Sliding Toggle Switch */}
+                    <div className="p-3 rounded-2xl bg-[#2C2C52] shadow-raised-sm border border-[#383866]/30 flex items-center justify-between">
+                      {/* Physical Pill Sliding Switch */}
+                      <button
+                        type="button"
+                        onClick={() => setToggleActive(!toggleActive)}
+                        className={cn(
+                          "relative h-6 w-12 rounded-full p-0.5 transition-colors cursor-pointer shadow-pressed-sm",
+                          toggleActive ? "bg-[#5754D8]" : "bg-[#1E1E38]"
+                        )}
+                        aria-label="Toggle system switch"
+                      >
+                        <div
+                          className={cn(
+                            "h-5 w-5 rounded-full bg-[#F5F5FA] shadow-raised-sm transition-transform duration-200",
+                            toggleActive ? "translate-x-6" : "translate-x-0"
+                          )}
+                        />
+                      </button>
+
+                      {/* Tactile Channel Buttons: [1] and [2] */}
+                      <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#26264A] shadow-pressed-sm">
+                        <button
+                          type="button"
+                          onClick={() => setActiveChannel(1)}
+                          className={cn(
+                            "h-6 w-6 rounded-lg text-[10px] font-mono font-bold flex items-center justify-center transition-all cursor-pointer",
+                            activeChannel === 1
+                              ? "bg-[#303057] text-[#716DFF] shadow-raised-sm"
+                              : "text-[#777790] hover:text-[#AAAAC1]"
+                          )}
+                        >
+                          1
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveChannel(2)}
+                          className={cn(
+                            "h-6 w-6 rounded-lg text-[10px] font-mono font-bold flex items-center justify-center transition-all cursor-pointer",
+                            activeChannel === 2
+                              ? "bg-[#303057] text-[#716DFF] shadow-raised-sm"
+                              : "text-[#777790] hover:text-[#AAAAC1]"
+                          )}
+                        >
+                          2
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Side Vertical Physical Hardware Keypad */}
+                <div className="flex flex-col justify-between py-1 px-1.5 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30">
+                  <button
+                    type="button"
+                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#EF7B98] flex items-center justify-center transition-all cursor-pointer"
+                    aria-label="Like"
+                  >
+                    <Heart className="h-3.5 w-3.5 fill-current" />
+                  </button>
+
+                  <button
+                    type="button"
+                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#AAAAC1] hover:text-[#F5F5FA] flex items-center justify-center transition-all cursor-pointer"
+                    aria-label="Cancel"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+
+                  <button
+                    type="button"
+                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#6CD6B3] flex items-center justify-center transition-all cursor-pointer"
+                    aria-label="Confirm"
+                  >
+                    <Check className="h-3.5 w-3.5" />
+                  </button>
+
+                  <button
+                    type="button"
+                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#716DFF] flex items-center justify-center transition-all cursor-pointer"
+                    aria-label="Cartridges"
+                  >
+                    <Package className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               </div>
             </div>

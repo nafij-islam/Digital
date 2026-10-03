@@ -33,43 +33,38 @@ export const PaymentInstructionCard: React.FC<PaymentInstructionCardProps> = ({
   return (
     <div
       className={cn(
-        "rounded-3xl border p-5 sm:p-6 space-y-4 shadow-sm",
-        isBkash
-          ? "border-pink-200 bg-gradient-to-br from-pink-50/50 via-white to-pink-50/20"
-          : isNagad
-          ? "border-orange-200 bg-gradient-to-br from-orange-50/50 via-white to-orange-50/20"
-          : "border-slate-200 bg-slate-50/50"
+        "rounded-3xl border border-[#353560]/40 bg-[#303057] p-5 sm:p-6 space-y-4 shadow-neu-raised animate-neu-fade"
       )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#353560]/40">
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-            Payment Provider
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#AAAAC1]">
+            Selected Provider
           </span>
-          <h3 className="text-base font-bold text-slate-900">{method.displayName}</h3>
+          <h3 className="text-base font-bold text-[#F5F5FA]">{method.displayName}</h3>
         </div>
 
         <div className="text-right">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-            Amount to Send
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#AAAAC1]">
+            Transfer Amount
           </span>
-          <div className="text-xl font-black text-slate-900">
+          <div className="text-xl font-black text-[#6CD6B3]">
             {formatPrice(amountToPay)}
           </div>
         </div>
       </div>
 
       {/* Number Box with Copy */}
-      <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+      <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-[#29294D] border border-[#353560]/40 shadow-neu-pressed">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="h-9 w-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 shrink-0">
+          <div className="h-9 w-9 rounded-xl bg-[#303057] shadow-neu-raised border border-[#353560]/40 flex items-center justify-center text-[#716DFF] shrink-0">
             <Smartphone className="h-5 w-5" />
           </div>
           <div>
-            <div className="text-[10px] uppercase font-bold text-slate-400">
+            <div className="text-[10px] uppercase font-mono font-bold text-[#777790]">
               {method.displayName} ({method.accountType})
             </div>
-            <div className="text-base sm:text-lg font-black font-mono tracking-wider text-slate-900 truncate">
+            <div className="text-base sm:text-lg font-black font-mono tracking-wider text-[#F5F5FA] truncate">
               {method.paymentNumber}
             </div>
           </div>
@@ -81,7 +76,7 @@ export const PaymentInstructionCard: React.FC<PaymentInstructionCardProps> = ({
           onClick={handleCopyNumber}
           leftIcon={
             copied ? (
-              <Check className="h-3.5 w-3.5 text-emerald-600" />
+              <Check className="h-3.5 w-3.5 text-[#6CD6B3]" />
             ) : (
               <Copy className="h-3.5 w-3.5" />
             )
@@ -94,10 +89,10 @@ export const PaymentInstructionCard: React.FC<PaymentInstructionCardProps> = ({
 
       {/* Instructions list */}
       <div className="space-y-2">
-        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
-          <Info className="h-4 w-4 text-blue-500" /> Instructions
+        <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#AAAAC1]">
+          <Info className="h-4 w-4 text-[#716DFF]" /> Verification Steps
         </div>
-        <div className="rounded-2xl bg-white/80 p-3.5 text-xs text-slate-600 border border-slate-200/60 leading-relaxed whitespace-pre-line font-medium">
+        <div className="rounded-2xl bg-[#29294D] p-3.5 text-xs text-[#AAAAC1] border border-[#353560]/40 shadow-neu-pressed leading-relaxed whitespace-pre-line font-medium">
           {method.instructions}
         </div>
       </div>

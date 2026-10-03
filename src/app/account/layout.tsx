@@ -28,14 +28,14 @@ export default function AccountLayout({
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <LoadingSpinner text="Checking session..." size="lg" />
+      <div className="min-h-screen flex items-center justify-center bg-[#29294D]">
+        <LoadingSpinner text="Authenticating operator session..." size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--site-bg, #F3F5F9)" }}>
+    <div className="min-h-screen flex flex-col bg-[#29294D] text-[#F5F5FA]">
       <Navbar />
       <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="flex flex-col lg:flex-row gap-8 items-start">

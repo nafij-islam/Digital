@@ -36,27 +36,29 @@ function ProductsContent() {
   return (
     <Container className="py-8 sm:py-10 space-y-6">
       {/* Header Banner */}
-      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-soft flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+      <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden animate-neu-fade">
         <div className="space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 border border-primary-200/60 px-3 py-1 text-xs font-bold text-primary-700">
-            <Sparkles className="h-3.5 w-3.5 text-primary-600" /> Official Marketplace Catalog
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#29294D] border border-[#353560]/40 px-3 py-1 text-xs font-mono font-bold text-[#716DFF] shadow-neu-pressed">
+            <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" /> PROTOCOL {"//"} ALL CARTRIDGES
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-            All Digital Products &amp; Tools
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F5F5FA] tracking-tight">
+            CONSOLE LIBRARY CATALOG
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 max-w-xl">
-            Browse verified digital subscriptions, developer tools, and license keys with instant bKash/Nagad checkout.
+          <p className="text-xs sm:text-sm text-[#AAAAC1] max-w-xl">
+            Browse verified digital cartridges, cloud services, and tools with instant physical activation.
           </p>
         </div>
 
         <div className="text-left md:text-right shrink-0 relative z-10">
-          <span className="text-2xl sm:text-3xl font-black text-slate-900">{products.length}</span>
-          <div className="text-xs text-slate-500 font-medium">Available Products</div>
+          <div className="inline-block p-4 rounded-2xl bg-[#29294D] shadow-neu-pressed border border-[#353560]/40">
+            <span className="text-2xl sm:text-3xl font-black text-[#6CD6B3]">{products.length}</span>
+            <div className="text-[10px] text-[#777790] uppercase tracking-wider font-mono">Available Titles</div>
+          </div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-4 shadow-soft flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-4 shadow-neu-raised flex flex-col md:flex-row items-center justify-between gap-4 animate-neu-fade">
         {/* Search */}
         <div className="w-full md:w-80">
           <Input

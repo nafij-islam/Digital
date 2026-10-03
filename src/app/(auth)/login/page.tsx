@@ -82,13 +82,13 @@ function LoginForm() {
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-8 shadow-raised space-y-6">
+    <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-8 shadow-neu-raised space-y-6 animate-neu-fade">
       <div className="text-center space-y-1.5">
-        <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-          Sign In to Your Account
+        <h2 className="text-2xl font-black text-[#F5F5FA] tracking-tight">
+          OPERATOR ACCESS
         </h2>
-        <p className="text-xs text-slate-500">
-          Access your orders, active subscriptions, and secure delivery credentials.
+        <p className="text-xs text-[#AAAAC1]">
+          Access your digital cartridges, orders, and telemetry vault.
         </p>
       </div>
 
@@ -97,7 +97,7 @@ function LoginForm() {
         type="button"
         disabled={isGoogleLoading || isLoading}
         onClick={handleGoogleLogin}
-        className="w-full flex items-center justify-center gap-3 h-11 px-4 rounded-xl border border-slate-200/80 bg-white text-slate-700 text-xs sm:text-sm font-bold shadow-soft hover:shadow-raised active:shadow-pressed transition-all disabled:opacity-60 cursor-pointer"
+        className="w-full flex items-center justify-center gap-3 h-11 px-4 rounded-2xl border border-[#353560]/40 bg-[#29294D] text-[#F5F5FA] text-xs sm:text-sm font-bold shadow-neu-pressed hover:border-[#716DFF] transition-all disabled:opacity-50 cursor-pointer"
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24">
           <path
@@ -122,16 +122,16 @@ function LoginForm() {
 
       {/* Divider */}
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">or email</span>
-        <div className="flex-1 h-px bg-slate-200" />
+        <div className="flex-1 h-px bg-[#353560]/50" />
+        <span className="text-[11px] font-mono font-bold text-[#777790] uppercase tracking-wider">or email protocol</span>
+        <div className="flex-1 h-px bg-[#353560]/50" />
       </div>
 
       {/* Quick demo credentials helper button for convenience */}
-      <div className="p-3 rounded-xl bg-purple-50/70 border border-purple-200/80 text-xs text-purple-900 flex items-center justify-between">
+      <div className="p-3 rounded-2xl bg-[#29294D] border border-[#353560]/40 shadow-neu-pressed text-xs text-[#AAAAC1] flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="h-4 w-4 text-purple-600 shrink-0" />
-          <span>Demo: <strong>nafij@example.com</strong></span>
+          <ShieldCheck className="h-4 w-4 text-[#716DFF] shrink-0" />
+          <span>Demo: <strong className="text-[#F5F5FA]">nafij@example.com</strong></span>
         </div>
         <button
           type="button"
@@ -139,7 +139,7 @@ function LoginForm() {
             setValue("email", "nafij@example.com");
             setValue("password", "password123");
           }}
-          className="text-purple-700 font-bold underline hover:text-purple-900 text-[11px]"
+          className="text-[#716DFF] font-mono font-bold underline hover:text-[#F5F5FA] text-[11px]"
         >
           Auto-fill
         </button>
@@ -167,17 +167,17 @@ function LoginForm() {
         />
 
         <div className="flex items-center justify-between text-xs pt-1">
-          <label className="flex items-center gap-2 cursor-pointer text-slate-600">
+          <label className="flex items-center gap-2 cursor-pointer text-[#AAAAC1]">
             <input
               type="checkbox"
-              className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+              className="rounded border-[#353560] bg-[#29294D] text-[#716DFF] focus:ring-0"
               {...register("rememberMe")}
             />
             <span>Remember me</span>
           </label>
           <Link
             href="/forgot-password"
-            className="text-primary-600 font-semibold hover:underline"
+            className="text-[#716DFF] font-semibold hover:underline"
           >
             Forgot Password?
           </Link>
@@ -187,16 +187,16 @@ function LoginForm() {
           type="submit"
           variant="primary"
           size="lg"
-          className="w-full font-bold shadow-soft mt-2 h-11 justify-center"
+          className="w-full font-bold shadow-neu-raised mt-2 h-11 justify-center"
           isLoading={isLoading}
         >
           Sign In <ArrowRight className="h-4 w-4 ml-1.5" />
         </Button>
       </form>
 
-      <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+      <div className="text-center text-xs text-[#AAAAC1] pt-2 border-t border-[#353560]/40">
         Don&apos;t have an account yet?{" "}
-        <Link href="/register" className="text-primary-600 font-bold hover:underline">
+        <Link href="/register" className="text-[#716DFF] font-bold hover:underline">
           Create account
         </Link>
       </div>

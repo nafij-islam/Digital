@@ -55,8 +55,8 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="font-ui antialiased text-[#101828] min-h-screen flex flex-col selection:bg-blue-600 selection:text-white"
-        style={{ backgroundColor: "var(--site-bg, #F3F5F9)" }}
+        className="font-ui antialiased text-[#F5F5FA] min-h-screen flex flex-col selection:bg-[#5754D8] selection:text-white bg-[#29294D]"
+        style={{ backgroundColor: "var(--site-bg, #29294D)", color: "var(--text-main, #F5F5FA)" }}
       >
         <Providers>{children}</Providers>
       </body>

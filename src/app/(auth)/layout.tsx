@@ -15,8 +15,8 @@ export default function AuthLayout({
 
       <div className="max-w-md w-full mx-auto">{children}</div>
 
-      <div className="max-w-md w-full mx-auto text-center text-xs text-slate-400">
-        © {new Date().getFullYear()} DigiVault Marketplace. Secure encrypted sessions.
+      <div className="max-w-md w-full mx-auto text-center text-xs font-mono text-[#777790]">
+        © {new Date().getFullYear()} NAFIJ GAME LAB • Physical Console Architecture.
       </div>
     </div>
   );

@@ -24,15 +24,15 @@ export const OrderStatusBadge: React.FC<OrderStatusBadgeProps> = ({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border font-semibold tracking-wide",
+        "inline-flex items-center gap-1.5 rounded-full border font-mono font-bold tracking-wider shadow-neu-pressed",
         config.bgColor,
         config.textColor,
         config.borderColor,
-        size === "sm" ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs",
+        size === "sm" ? "px-2.5 py-0.5 text-[10px]" : "px-3.5 py-1 text-xs",
         className
       )}
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-current shrink-0" />
+      <span className="h-1.5 w-1.5 rounded-full bg-current shrink-0 animate-pulse" />
       <span>{config.label}</span>
     </span>
   );

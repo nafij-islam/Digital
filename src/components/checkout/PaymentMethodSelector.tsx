@@ -18,8 +18,8 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
 }) => {
   return (
     <div className="space-y-3">
-      <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
-        Choose Manual Payment Method <span className="text-red-500">*</span>
+      <label className="block text-xs font-mono font-bold uppercase tracking-wider text-[#AAAAC1]">
+        Select Payment Protocol <span className="text-[#EF7B98]">*</span>
       </label>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -35,30 +35,26 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
               className={cn(
                 "relative rounded-2xl border p-4 transition-all duration-200 cursor-pointer flex items-center justify-between",
                 isSelected
-                  ? isBkash
-                    ? "border-pink-500 bg-pink-50/40 ring-2 ring-pink-500/20 shadow-md"
-                    : isNagad
-                    ? "border-orange-500 bg-orange-50/40 ring-2 ring-orange-500/20 shadow-md"
-                    : "border-primary-500 bg-primary-50/40 ring-2 ring-primary-500/20 shadow-md"
-                  : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs"
+                  ? "border-[#716DFF] bg-[#29294D] shadow-neu-pressed"
+                  : "border-[#353560]/40 bg-[#303057] hover:bg-[#353560] shadow-neu-raised"
               )}
             >
               <div className="flex items-center gap-3">
                 <div
                   className={cn(
-                    "h-10 w-10 rounded-xl flex items-center justify-center font-bold text-xs uppercase text-white shadow-xs",
+                    "h-10 w-10 rounded-xl flex items-center justify-center font-bold text-xs uppercase shadow-neu-pressed border border-[#353560]/40",
                     isBkash
-                      ? "bg-gradient-to-tr from-pink-600 to-rose-500"
+                      ? "bg-[#29294D] text-[#EF7B98]"
                       : isNagad
-                      ? "bg-gradient-to-tr from-orange-600 to-amber-500"
-                      : "bg-slate-800"
+                      ? "bg-[#29294D] text-[#6CD6B3]"
+                      : "bg-[#29294D] text-[#716DFF]"
                   )}
                 >
                   {method.provider}
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 text-sm">{method.displayName}</h4>
-                  <p className="text-xs text-slate-500">
+                  <h4 className="font-bold text-[#F5F5FA] text-sm">{method.displayName}</h4>
+                  <p className="text-xs text-[#AAAAC1]">
                     {method.accountType} Transfer
                   </p>
                 </div>
@@ -68,11 +64,11 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
                 <CheckCircle2
                   className={cn(
                     "h-5 w-5",
-                    isBkash ? "text-pink-600" : isNagad ? "text-orange-600" : "text-primary-600"
+                    isBkash ? "text-[#EF7B98]" : isNagad ? "text-[#6CD6B3]" : "text-[#716DFF]"
                   )}
                 />
               ) : (
-                <Circle className="h-5 w-5 text-slate-300" />
+                <Circle className="h-5 w-5 text-[#777790]" />
               )}
             </div>
           );

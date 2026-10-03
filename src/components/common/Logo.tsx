@@ -16,48 +16,27 @@ export const Logo: React.FC<LogoProps> = ({
   size = "md",
   href = "/",
 }) => {
-  const sizeClasses = {
-    sm: "h-[26px] w-auto",
-    md: "h-[36px] sm:h-[38px] md:h-[40px] w-auto",
-    lg: "h-[46px] sm:h-[48px] w-auto",
-    xl: "h-[56px] w-auto",
-  };
-
-  const imageDimensions = {
-    sm: { height: 26, width: 111 },
-    md: { height: 40, width: 171 },
-    lg: { height: 48, width: 205 },
-    xl: { height: 56, width: 240 },
-  };
-
-  const isDarkVariant = variant === "footer" || variant === "dark" || variant === "admin";
-  const logoSrc = isDarkVariant ? "/logo-footer.png" : "/logo.png";
-
   return (
     <Link
       href={href}
       className={cn(
-        "inline-flex items-center gap-2.5 select-none focus-visible:outline-none group",
+        "inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#29294D] border border-[#353560]/40 shadow-neu-pressed select-none focus-visible:outline-none group transition-all duration-200 hover:border-[#716DFF]/50",
         className
       )}
     >
-      <div className="relative flex items-center">
-        <Image
-          src={logoSrc}
-          alt="DigiVault"
-          width={imageDimensions[size].width}
-          height={imageDimensions[size].height}
-          priority
-          className={cn(
-            "object-contain transition-transform duration-200 group-hover:scale-[1.02]",
-            sizeClasses[size]
-          )}
-        />
+      <div className="h-6 w-6 rounded-full bg-[#303057] shadow-neu-raised flex items-center justify-center text-[#716DFF] group-hover:scale-105 transition-transform">
+        <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
+          <path d="M6 12a1 1 0 0 1 1-1h1V10a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2H10v1a1 1 0 1 1-2 0v-1H7a1 1 0 0 1-1-1Zm9-2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm2 3a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-2 3a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-7-8C5.5 6 3 8.5 3 12c0 3.5 2.5 6 5 6h8c2.5 0 5-2.5 5-6 0-3.5-2.5-6-5-6H8Z" />
+        </svg>
       </div>
 
+      <span className="font-black text-xs sm:text-sm tracking-widest text-[#F5F5FA] uppercase font-mono">
+        NAFIJ GAME LAB
+      </span>
+
       {variant === "admin" && (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-400/30 shadow-2xs">
-          Admin
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-[#303057] text-[#716DFF] border border-[#353560]/40 shadow-neu-raised">
+          CONSOLE ADMIN
         </span>
       )}
     </Link>

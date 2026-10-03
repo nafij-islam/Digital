@@ -8,7 +8,7 @@ export default function StoreLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--site-bg, #F3F5F9)" }}>
+    <div className="min-h-screen flex flex-col bg-[#29294D] text-[#F5F5FA]" style={{ backgroundColor: "var(--site-bg, #29294D)" }}>
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />

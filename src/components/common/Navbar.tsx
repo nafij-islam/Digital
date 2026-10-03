@@ -11,14 +11,15 @@ import {
   Menu,
   X,
   ChevronDown,
-  LayoutDashboard,
   Shield,
-  HelpCircle,
   Package,
   Layers,
   ArrowRight,
+  Gamepad2,
+  Sparkles,
+  Flame,
+  HelpCircle,
 } from "lucide-react";
-import { Logo } from "./Logo";
 import { SearchModal } from "./SearchModal";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
@@ -93,213 +94,231 @@ export const Navbar: React.FC = () => {
   }, [isMobileDrawerOpen]);
 
   const navLinks = [
-    { name: "Products", href: "/products" },
-    { name: "Categories", href: "/categories" },
-    { name: "Support", href: "/account/support" },
+    { name: "Products", href: "/products", icon: Package },
+    { name: "Deals", href: "/deals", icon: Flame },
+    { name: "Categories", href: "/categories", icon: Layers },
+    { name: "Support", href: "/account/support", icon: HelpCircle },
   ];
 
   return (
     <>
       <header
         className={cn(
-          "sticky top-0 z-40 w-full transition-all duration-200",
+          "sticky top-0 z-40 w-full transition-all duration-300 py-3 sm:py-4",
           isScrolled
-            ? "bg-[#F3F5F9]/90 backdrop-blur-md shadow-floating border-b border-slate-200/70"
-            : "bg-[#F3F5F9]/80 backdrop-blur-xs border-b border-slate-200/50"
+            ? "bg-[#29294D]/95 backdrop-blur-md shadow-floating border-b border-[#383866]/30"
+            : "bg-[#29294D]/80 backdrop-blur-xs"
         )}
       >
-        <Container className="py-2.5 sm:py-3 min-h-[72px] md:min-h-[78px] flex items-center">
-          {/* Desktop 3-region Grid Layout (1fr auto 1fr) & Mobile Flex */}
-          <div className="w-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center">
-            {/* 1. LEFT REGION: Brand Logo */}
-            <div className="justify-self-start flex items-center">
-              <Logo size="md" />
+        <Container className="flex items-center justify-between gap-4">
+          {/* 1. LEFT REGION: Tactile Pill Brand Badge matching reference image */}
+          <Link
+            href="/"
+            className="group flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#303057] shadow-raised hover:shadow-floating transition-all border border-[#716DFF]/20 select-none active:shadow-pressed active:translate-y-[1px]"
+          >
+            <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] flex items-center justify-center text-white shadow-2xs">
+              <Gamepad2 className="h-3.5 w-3.5" />
             </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-xs sm:text-sm font-extrabold tracking-wider text-[#F5F5FA] uppercase font-heading">
+                NAFIJ GAME LAB
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#26264A] text-[#6CD6B3] shadow-pressed-sm border border-[#6CD6B3]/20">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
+                ONLINE
+              </span>
+            </div>
+          </Link>
 
-            {/* 2. CENTER REGION: Strictly Centered Navigation Menu (Desktop Only) */}
-            <nav className="hidden md:flex justify-self-center items-center gap-1 p-1 bg-[#F7F8FB] border border-slate-200/70 rounded-xl shadow-inset">
-              {navLinks.map((link) => {
-                const isActive =
-                  pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href + "/"));
+          {/* 2. CENTER REGION: Recessed Tactile Pill Navigation (Desktop Only) */}
+          <nav className="hidden lg:flex items-center gap-1 p-1 bg-[#26264A] border border-[#383866]/30 rounded-full shadow-pressed-sm">
+            {navLinks.map((link) => {
+              const isActive =
+                pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href + "/"));
 
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={cn(
-                      "px-4 py-1.5 rounded-lg text-xs font-bold transition-all relative select-none",
-                      isActive
-                        ? "bg-white text-[var(--site-primary,#356DF3)] shadow-soft border border-slate-200/60"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-white/40"
-                    )}
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    "px-4 py-1.5 rounded-full text-xs font-bold transition-all relative select-none flex items-center gap-1.5",
+                    isActive
+                      ? "bg-[#303057] text-[#F5F5FA] shadow-raised-sm border border-[#716DFF]/30"
+                      : "text-[#AAAAC1] hover:text-[#F5F5FA] hover:bg-[#303057]/40"
+                  )}
+                >
+                  <link.icon className={cn("h-3.5 w-3.5", isActive ? "text-[#716DFF]" : "text-[#777790]")} />
+                  <span>{link.name}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* 3. RIGHT REGION: Search / Cart / Account Actions */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Desktop Search Trigger */}
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="hidden sm:flex items-center gap-2.5 h-10 px-3.5 rounded-full bg-[#303057] border border-[#383866]/30 text-xs font-semibold text-[#AAAAC1] hover:text-[#F5F5FA] hover:bg-[#353560] shadow-raised-sm hover:shadow-floating active:shadow-pressed transition-all"
+              aria-label="Search digital products"
+            >
+              <Search className="h-3.5 w-3.5 text-[#716DFF]" />
+              <span className="text-[#AAAAC1] text-xs">Search...</span>
+              <kbd className="hidden xl:inline-block rounded-full bg-[#26264A] px-1.5 py-0.5 text-[9px] font-mono text-[#777790] border border-[#383866]/40 shadow-pressed-sm">
+                ⌘K
+              </kbd>
+            </button>
+
+            {/* Mobile Search Button */}
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="sm:hidden h-10 w-10 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm text-[#AAAAC1] flex items-center justify-center hover:bg-[#353560] active:shadow-pressed transition-all"
+              aria-label="Search"
+            >
+              <Search className="h-4 w-4 text-[#716DFF]" />
+            </button>
+
+            {/* Cart Trigger Button */}
+            <button
+              onClick={() => setCartOpen(true)}
+              className="relative h-10 px-3.5 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm text-[#F5F5FA] flex items-center justify-center gap-2 hover:bg-[#353560] hover:text-[#716DFF] active:shadow-pressed transition-all"
+              aria-label="View shopping cart"
+            >
+              <ShoppingBag className="h-4 w-4" />
+              <span className="hidden sm:inline text-xs font-bold font-mono">CART</span>
+              {totalCartItems > 0 && (
+                <span className="h-4 min-w-[16px] px-1 rounded-full bg-[#716DFF] text-[10px] font-extrabold text-white flex items-center justify-center shadow-xs">
+                  {totalCartItems}
+                </span>
+              )}
+            </button>
+
+            {/* Auth States */}
+            <div className="hidden sm:flex items-center">
+              {isAuthenticated ? (
+                <div className="relative" ref={userMenuRef}>
+                  <button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center gap-2 h-10 px-3 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm hover:shadow-floating active:shadow-pressed transition-all"
                   >
-                    <span>{link.name}</span>
-                    {isActive && (
-                      <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-3 rounded-full bg-[var(--site-primary,#356DF3)]" />
-                    )}
+                    <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] text-white text-[11px] font-bold flex items-center justify-center shadow-2xs">
+                      {displayInitial}
+                    </div>
+                    <span className="text-xs font-bold text-[#F5F5FA] max-w-[100px] truncate">
+                      {displayName.split(" ")[0]}
+                    </span>
+                    <ChevronDown className="h-3 w-3 text-[#AAAAC1] ml-0.5" />
+                  </button>
+
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-[#383866]/50 bg-[#303057] p-2 shadow-floating z-50 animate-fade-in">
+                      <div className="px-3 py-2 border-b border-[#383866]/40 mb-1">
+                        <p className="text-xs font-bold text-[#F5F5FA] truncate">{displayName}</p>
+                        <p className="text-[11px] text-[#AAAAC1] font-mono truncate">{user?.email || "Signed In"}</p>
+                      </div>
+
+                      <div className="space-y-0.5">
+                        <Link
+                          href="/account/orders"
+                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-[#AAAAC1] hover:text-[#F5F5FA] hover:bg-[#353560] rounded-xl transition-colors"
+                        >
+                          <Package className="h-3.5 w-3.5 text-[#716DFF]" />
+                          <span>My Orders &amp; Access</span>
+                        </Link>
+
+                        <Link
+                          href="/account/profile"
+                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-[#AAAAC1] hover:text-[#F5F5FA] hover:bg-[#353560] rounded-xl transition-colors"
+                        >
+                          <UserIcon className="h-3.5 w-3.5 text-[#AAAAC1]" />
+                          <span>Profile Settings</span>
+                        </Link>
+
+                        {isAdmin && (
+                          <Link
+                            href="/admin"
+                            className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-[#716DFF] hover:bg-[#353560] rounded-xl transition-colors"
+                          >
+                            <Shield className="h-3.5 w-3.5 text-[#716DFF]" />
+                            <span>Admin Dashboard</span>
+                          </Link>
+                        )}
+                      </div>
+
+                      <div className="border-t border-[#383866]/40 pt-1 mt-1">
+                        <button
+                          onClick={logout}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-[#EF7B98] hover:bg-[#EF7B98]/10 rounded-xl transition-colors"
+                        >
+                          <LogOut className="h-3.5 w-3.5" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Link
+                    href="/login"
+                    className="px-3 py-2 text-xs font-bold text-[#AAAAC1] hover:text-[#F5F5FA] transition-colors"
+                  >
+                    Sign In
                   </Link>
-                );
-              })}
-            </nav>
-
-            {/* 3. RIGHT REGION: Search / Cart / Account Actions */}
-            <div className="justify-self-end flex items-center gap-2 sm:gap-2.5">
-              {/* Desktop Search Trigger */}
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                className="hidden sm:flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-[#F7F8FB] border border-slate-200/80 text-xs font-semibold text-slate-500 hover:text-slate-900 hover:bg-white shadow-inset hover:shadow-soft transition-all"
-                aria-label="Search digital products"
-              >
-                <Search className="h-3.5 w-3.5 text-slate-400" />
-                <span className="text-slate-400">Search products...</span>
-                <kbd className="hidden lg:inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-mono text-slate-400 border border-slate-200">
-                  ⌘K
-                </kbd>
-              </button>
-
-              {/* Mobile Search Button (Compact) */}
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                className="sm:hidden h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-600 flex items-center justify-center hover:bg-[#F7F8FB] active:shadow-pressed transition-all"
-                aria-label="Search"
-              >
-                <Search className="h-4 w-4" />
-              </button>
-
-              {/* Cart Trigger Button */}
-              <button
-                onClick={() => setCartOpen(true)}
-                className="relative h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-700 flex items-center justify-center hover:bg-[#F7F8FB] hover:text-[var(--site-primary,#356DF3)] active:shadow-pressed transition-all"
-                aria-label="View shopping cart"
-              >
-                <ShoppingBag className="h-4 w-4" />
-                {totalCartItems > 0 && (
-                  <span className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-[var(--site-primary,#356DF3)] text-[10px] font-extrabold text-white flex items-center justify-center shadow-xs">
-                    {totalCartItems}
-                  </span>
-                )}
-              </button>
-
-              {/* Desktop Auth States */}
-              <div className="hidden md:flex items-center">
-                {isAuthenticated ? (
-                  <div className="relative" ref={userMenuRef}>
-                    <button
-                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center gap-2 h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-soft hover:shadow-raised transition-all"
-                    >
-                      <div className="h-6 w-6 rounded-lg bg-gradient-to-tr from-[var(--site-primary,#356DF3)] to-[var(--site-secondary,#7548F5)] text-white text-[11px] font-bold flex items-center justify-center shadow-2xs">
-                        {displayInitial}
-                      </div>
-                      <span className="text-xs font-bold text-slate-800 max-w-[110px] truncate">
-                        {displayName.split(" ")[0]}
-                      </span>
-                      <ChevronDown className="h-3 w-3 text-slate-400 ml-0.5" />
-                    </button>
-
-                    {isUserMenuOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-slate-200/80 bg-white p-2 shadow-floating z-50 animate-in fade-in zoom-in-95 duration-100">
-                        <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                          <p className="text-xs font-bold text-slate-900 truncate">{displayName}</p>
-                          <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email || "Signed In"}</p>
-                        </div>
-
-                        <div className="space-y-0.5">
-                          <Link
-                            href="/account/orders"
-                            className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F3F5F9] rounded-xl transition-colors"
-                          >
-                            <Package className="h-3.5 w-3.5 text-[var(--site-primary,#356DF3)]" />
-                            <span>My Orders &amp; Access</span>
-                          </Link>
-
-                          <Link
-                            href="/account/profile"
-                            className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F3F5F9] rounded-xl transition-colors"
-                          >
-                            <UserIcon className="h-3.5 w-3.5 text-slate-400" />
-                            <span>Profile Settings</span>
-                          </Link>
-
-                          {isAdmin && (
-                            <Link
-                              href="/admin"
-                              className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-purple-700 hover:bg-purple-50 rounded-xl transition-colors"
-                            >
-                              <Shield className="h-3.5 w-3.5 text-purple-600" />
-                              <span>Admin Dashboard</span>
-                            </Link>
-                          )}
-                        </div>
-
-                        <div className="border-t border-slate-100 pt-1 mt-1">
-                          <button
-                            onClick={logout}
-                            className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
-                          >
-                            <LogOut className="h-3.5 w-3.5" />
-                            <span>Sign Out</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href="/login"
-                      className="px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-colors"
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[var(--site-primary,#356DF3)] to-[var(--site-secondary,#7548F5)] hover:brightness-105 text-white text-xs font-bold transition-all shadow-soft hover:shadow-raised flex items-center justify-center gap-1.5"
-                    >
-                      <span>Get Started</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              {/* Mobile Hamburger Button */}
-              <button
-                onClick={() => setIsMobileDrawerOpen(true)}
-                className="md:hidden h-10 w-10 rounded-xl bg-white border border-slate-200/80 shadow-soft text-slate-700 flex items-center justify-center hover:bg-[#F7F8FB] active:shadow-pressed transition-all"
-                aria-label="Open mobile menu"
-              >
-                <Menu className="h-5 w-5" />
-              </button>
+                  <Link
+                    href="/register"
+                    className="h-10 px-4 rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] hover:brightness-110 text-white text-xs font-bold transition-all shadow-raised hover:shadow-floating active:shadow-pressed flex items-center justify-center gap-1.5"
+                  >
+                    <span>Get Access</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              )}
             </div>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setIsMobileDrawerOpen(true)}
+              className="lg:hidden h-10 w-10 rounded-full bg-[#303057] border border-[#383866]/30 shadow-raised-sm text-[#F5F5FA] flex items-center justify-center hover:bg-[#353560] active:shadow-pressed transition-all"
+              aria-label="Open mobile menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
         </Container>
       </header>
 
       {/* Mobile Neumorphic Navigation Drawer */}
       {isMobileDrawerOpen && (
-        <div className="fixed inset-0 z-50 md:hidden flex justify-end">
+        <div className="fixed inset-0 z-50 lg:hidden flex justify-end">
           {/* Backdrop Overlay */}
           <div
             onClick={() => setIsMobileDrawerOpen(false)}
-            className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-[#161623]/70 backdrop-blur-xs transition-opacity"
             aria-hidden="true"
           />
 
           {/* Tactile Drawer Content */}
           <div
-            className="relative w-[85vw] max-w-sm h-full bg-[#F3F5F9] border-l border-slate-200/80 shadow-floating p-5 flex flex-col justify-between safe-pb z-10 animate-in slide-in-from-right duration-200"
+            className="relative w-[85vw] max-w-sm h-full bg-[#29294D] border-l border-[#383866]/50 shadow-floating p-5 flex flex-col justify-between safe-pb z-10 animate-fade-in"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
           >
             <div>
               {/* Drawer Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-200/80">
-                <Logo size="sm" />
+              <div className="flex items-center justify-between pb-4 border-b border-[#383866]/40">
+                <div className="flex items-center gap-2">
+                  <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] flex items-center justify-center text-white">
+                    <Gamepad2 className="h-3.5 w-3.5" />
+                  </div>
+                  <span className="text-xs font-extrabold tracking-wider text-[#F5F5FA] uppercase font-heading">
+                    NAFIJ GAME LAB
+                  </span>
+                </div>
                 <button
                   onClick={() => setIsMobileDrawerOpen(false)}
-                  className="h-9 w-9 rounded-xl bg-white border border-slate-200/80 shadow-soft flex items-center justify-center text-slate-500 hover:text-slate-800"
+                  className="h-8 w-8 rounded-full bg-[#303057] border border-[#383866]/40 shadow-raised-sm flex items-center justify-center text-[#AAAAC1] hover:text-[#F5F5FA]"
                   aria-label="Close navigation"
                 >
                   <X className="h-4 w-4" />
@@ -308,21 +327,21 @@ export const Navbar: React.FC = () => {
 
               {/* User Brief if Logged In */}
               {isAuthenticated && (
-                <div className="mt-4 p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-soft flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 text-white font-bold text-xs flex items-center justify-center shadow-2xs">
+                <div className="mt-4 p-3.5 rounded-2xl bg-[#303057] border border-[#383866]/40 shadow-raised-sm flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-[#5754D8] to-[#716DFF] text-white font-bold text-xs flex items-center justify-center shadow-2xs">
                     {displayInitial}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-slate-900 truncate">{displayName}</p>
-                    <p className="text-[11px] text-slate-400 font-mono truncate">{user?.email || "Signed In"}</p>
+                    <p className="text-xs font-bold text-[#F5F5FA] truncate">{displayName}</p>
+                    <p className="text-[11px] text-[#AAAAC1] font-mono truncate">{user?.email || "Signed In"}</p>
                   </div>
                 </div>
               )}
 
               {/* Primary Navigation Links */}
-              <div className="mt-5 space-y-1.5">
-                <div className="px-2 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                  Navigation
+              <div className="mt-5 space-y-2">
+                <div className="px-2 text-[10px] font-extrabold uppercase tracking-widest text-[#777790] font-mono">
+                  {"// CONSOLE NAVIGATION"}
                 </div>
                 {navLinks.map((link) => {
                   const isActive =
@@ -333,14 +352,17 @@ export const Navbar: React.FC = () => {
                       key={link.name}
                       href={link.href}
                       className={cn(
-                        "flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-bold transition-all",
+                        "flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-bold transition-all",
                         isActive
-                          ? "bg-white text-primary-600 shadow-soft border border-slate-200/70"
-                          : "text-slate-700 hover:bg-white/70"
+                          ? "bg-[#303057] text-[#F5F5FA] shadow-raised-sm border border-[#716DFF]/30"
+                          : "text-[#AAAAC1] hover:bg-[#303057]/50 hover:text-[#F5F5FA]"
                       )}
                     >
-                      <span>{link.name}</span>
-                      <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+                      <div className="flex items-center gap-2.5">
+                        <link.icon className={cn("h-4 w-4", isActive ? "text-[#716DFF]" : "text-[#777790]")} />
+                        <span>{link.name}</span>
+                      </div>
+                      <ArrowRight className="h-3.5 w-3.5 text-[#777790]" />
                     </Link>
                   );
                 })}
@@ -348,81 +370,71 @@ export const Navbar: React.FC = () => {
 
               {/* Account / Order links if Logged In */}
               {isAuthenticated ? (
-                <div className="mt-5 pt-4 border-t border-slate-200/80 space-y-1.5">
-                  <div className="px-2 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                    Account
+                <div className="mt-5 pt-4 border-t border-[#383866]/40 space-y-1.5">
+                  <div className="px-2 text-[10px] font-extrabold uppercase tracking-widest text-[#777790] font-mono">
+                    {"// USER VAULT"}
                   </div>
                   <Link
                     href="/account/orders"
-                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-white/70"
+                    className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-[#AAAAC1] hover:text-[#F5F5FA] rounded-xl"
                   >
-                    <span className="flex items-center gap-2.5">
-                      <Package className="h-4 w-4 text-primary-500" />
-                      <span>My Orders &amp; Access Vault</span>
-                    </span>
-                    <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+                    <Package className="h-4 w-4 text-[#716DFF]" />
+                    <span>My Orders &amp; Access</span>
                   </Link>
 
                   <Link
                     href="/account/profile"
-                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-white/70"
+                    className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-[#AAAAC1] hover:text-[#F5F5FA] rounded-xl"
                   >
-                    <span className="flex items-center gap-2.5">
-                      <UserIcon className="h-4 w-4 text-slate-400" />
-                      <span>Profile</span>
-                    </span>
-                    <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+                    <UserIcon className="h-4 w-4 text-[#777790]" />
+                    <span>Profile Settings</span>
                   </Link>
 
                   {isAdmin && (
                     <Link
                       href="/admin"
-                      className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-purple-700 bg-purple-50/50 border border-purple-200/50"
+                      className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-[#716DFF] rounded-xl"
                     >
-                      <span className="flex items-center gap-2.5">
-                        <Shield className="h-4 w-4 text-purple-600" />
-                        <span>Admin Dashboard</span>
-                      </span>
-                      <ArrowRight className="h-3.5 w-3.5 text-purple-400" />
+                      <Shield className="h-4 w-4" />
+                      <span>Admin Dashboard</span>
                     </Link>
                   )}
                 </div>
-              ) : null}
-            </div>
-
-            {/* Bottom Drawer Actions */}
-            <div className="pt-4 border-t border-slate-200/80">
-              {isAuthenticated ? (
-                <button
-                  onClick={logout}
-                  className="w-full h-11 rounded-xl bg-white border border-rose-200 text-rose-600 text-xs font-bold flex items-center justify-center gap-2 shadow-soft hover:bg-rose-50 active:shadow-pressed"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span>Sign Out</span>
-                </button>
               ) : (
-                <div className="space-y-2">
+                <div className="mt-6 space-y-2.5 pt-4 border-t border-[#383866]/40">
                   <Link
                     href="/login"
-                    className="w-full h-11 rounded-xl bg-white border border-slate-200/90 text-slate-800 text-xs font-bold flex items-center justify-center shadow-soft"
+                    className="w-full flex items-center justify-center h-11 rounded-full bg-[#303057] shadow-raised-sm border border-[#383866]/40 text-xs font-bold text-[#F5F5FA]"
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/register"
-                    className="w-full h-11 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-soft"
+                    className="w-full flex items-center justify-center h-11 rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-xs font-bold text-white shadow-raised"
                   >
-                    <span>Get Started</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                    Create Account
                   </Link>
                 </div>
               )}
             </div>
+
+            {/* Logout button at bottom of mobile drawer */}
+            {isAuthenticated && (
+              <div className="pt-4 border-t border-[#383866]/40">
+                <button
+                  onClick={logout}
+                  className="w-full flex items-center justify-center gap-2 h-11 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#EF7B98]/20 text-xs font-bold text-[#EF7B98]"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Global Search Modal */}
+      {/* Global Instant Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );

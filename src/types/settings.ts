@@ -68,11 +68,11 @@ export interface SiteAppearanceSetting {
 }
 
 export const DEFAULT_SITE_APPEARANCE: SiteAppearanceSetting = {
-  backgroundColor: "#F3F5F9",
-  surfaceColor: "#FFFFFF",
-  primaryColor: "#356DF3",
-  secondaryColor: "#7548F5",
-  uiFont: "manrope",
+  backgroundColor: "#29294D",
+  surfaceColor: "#303057",
+  primaryColor: "#5754D8",
+  secondaryColor: "#716DFF",
+  uiFont: "plus-jakarta-sans",
   headingFont: "plus-jakarta-sans",
   bodyFont: "inter",
   productCardHeightMode: "COMPACT",

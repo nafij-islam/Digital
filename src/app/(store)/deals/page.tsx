@@ -13,15 +13,15 @@ export default function DealsPage() {
   return (
     <Container className="py-8 sm:py-10 space-y-6">
       {/* Banner */}
-      <div className="rounded-2xl border border-slate-200/80 bg-[var(--bg-surface)] p-6 sm:p-10 shadow-soft space-y-3">
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200/60 px-3 py-1 text-xs font-bold text-rose-700">
-          <Flame className="h-4 w-4 fill-rose-500 text-rose-500" /> Special Flash Deals
+      <div className="rounded-3xl border border-[#353560]/40 bg-[#303057] p-6 sm:p-10 shadow-neu-raised space-y-3 animate-neu-fade">
+        <div className="inline-flex items-center gap-2 rounded-full bg-[#29294D] border border-[#353560]/40 px-3 py-1 text-xs font-mono font-bold text-[#EF7B98] shadow-neu-pressed">
+          <Flame className="h-4 w-4 fill-[#EF7B98] text-[#EF7B98]" /> SPECIAL FLASH PROTOCOLS
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-          Exclusive Discounts &amp; Limited Offers
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F5F5FA] tracking-tight">
+          PRIORITY CARTRIDGE DEALS
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600 max-w-xl leading-relaxed">
-          Save up to 75% on genuine software licenses, lifetime retail keys, and extended subscription bundles.
+        <p className="text-xs sm:text-sm text-[#AAAAC1] max-w-xl leading-relaxed">
+          Unlock high-tier digital cartridges and developer bundles with exclusive discount rates.
         </p>
       </div>
 
