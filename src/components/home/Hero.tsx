@@ -1,327 +1,315 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowDown,
+  ArrowRight,
   Sparkles,
-  Play,
-  Pause,
-  Square,
-  FastForward,
-  Heart,
-  X,
-  Check,
-  Package,
-  Activity,
+  ChevronLeft,
+  ChevronRight,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils/cn";
+import { settingsService } from "@/services/settingsService";
+import { HomepageSetting } from "@/types/settings";
+
+interface BannerSlide {
+  id: string;
+  tag: string;
+  lines: [string, string, string];
+  highlightIdx: number;
+  description: string;
+  primaryBtn: { text: string; href: string };
+  secondaryBtn: { text: string; href: string };
+  trustBadge: string;
+  imageUrl: string;
+  imageAlt: string;
+  cardBadge: string;
+  cardSubBadge: string;
+}
+
+const DEFAULT_SLIDES: BannerSlide[] = [
+  {
+    id: "chatgpt",
+    tag: "OPENAI ACCESS // GPT-4o & o1",
+    lines: ["CHATGPT.", "PLUS.", "GPT-4O."],
+    highlightIdx: 1,
+    description:
+      "Official OpenAI ChatGPT Plus access with GPT-4o, DALL·E 3, Canvas, Advanced Voice, and custom GPTs. Automated private vault delivery with replacement warranty.",
+    primaryBtn: { text: "EXPLORE PRODUCTS", href: "#products" },
+    secondaryBtn: { text: "GET CHATGPT NOW", href: "/products/chatgpt-plus" },
+    trustBadge: "INSTANT VAULT DISPATCH",
+    imageUrl:
+      "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&auto=format&fit=crop&q=85",
+    imageAlt: "ChatGPT Plus & GPT-4o Subscription",
+    cardBadge: "⚡ Verified OpenAI Account",
+    cardSubBadge: "bKash & Nagad Ready",
+  },
+  {
+    id: "gemini",
+    tag: "GOOGLE AI // 2M TOKEN CONTEXT",
+    lines: ["GOOGLE.", "GEMINI.", "ADVANCED."],
+    highlightIdx: 1,
+    description:
+      "Experience Google's most capable AI with 2 Million token context, deep reasoning, Imagen 3 generation, and 2TB Google One cloud storage included.",
+    primaryBtn: { text: "EXPLORE PRODUCTS", href: "#products" },
+    secondaryBtn: { text: "GET GEMINI ACCESS", href: "/products/gemini-advanced" },
+    trustBadge: "2TB CLOUD STORAGE INCLUDED",
+    imageUrl:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=85",
+    imageAlt: "Google Gemini Advanced AI Model",
+    cardBadge: "⭐ Official Google AI Pro",
+    cardSubBadge: "Instant Vault Access",
+  },
+  {
+    id: "canva",
+    tag: "CREATIVE SUITE // BEST SELLER",
+    lines: ["CANVA.", "PRO.", "SUITE."],
+    highlightIdx: 1,
+    description:
+      "100M+ premium stock assets, Magic AI studio, 1-click background remover, brand kits, and 1TB cloud storage on your own personal email with zero sharing issues.",
+    primaryBtn: { text: "EXPLORE PRODUCTS", href: "#products" },
+    secondaryBtn: { text: "GET CANVA PRO", href: "/products/canva-pro" },
+    trustBadge: "365 DAYS FULL WARRANTY",
+    imageUrl:
+      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&auto=format&fit=crop&q=85",
+    imageAlt: "Canva Pro Subscription Workspace",
+    cardBadge: "✨ Private Workspace Upgrade",
+    cardSubBadge: "Full 1-Year Guarantee",
+  },
+  {
+    id: "windows-jetbrains",
+    tag: "GENUINE SOFTWARE // ZERO EXPIRY",
+    lines: ["WINDOWS 11.", "& JETBRAINS.", "PRO SUITE."],
+    highlightIdx: 1,
+    description:
+      "100% Genuine lifetime retail keys for Windows 11 Pro and complete JetBrains 16-IDE pack. Official online activation directly through Microsoft & JetBrains.",
+    primaryBtn: { text: "EXPLORE PRODUCTS", href: "#products" },
+    secondaryBtn: { text: "VIEW SOFTWARE KEYS", href: "/products/windows-11-pro-retail-key" },
+    trustBadge: "LIFETIME ONLINE ACTIVATION",
+    imageUrl:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=85",
+    imageAlt: "Windows 11 Pro & JetBrains All Products",
+    cardBadge: "🛡️ 100% Genuine Retail Key",
+    cardSubBadge: "BitLocker & Sandbox",
+  },
+];
 
 export const Hero: React.FC = () => {
-  // Interactive Physical Console State
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [activeChannel, setActiveChannel] = useState<1 | 2>(1);
-  const [toggleActive, setToggleActive] = useState(true);
-  const [sliderVal, setSliderVal] = useState(70);
-  const [meterVal, setMeterVal] = useState(85.5);
-  const [knobRotation, setKnobRotation] = useState(45);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [slides, setSlides] = useState<BannerSlide[]>(DEFAULT_SLIDES);
 
-  const handleKnobClick = () => {
-    setKnobRotation((prev) => (prev + 45) % 360);
-    setMeterVal((prev) => (prev >= 98 ? 72.4 : Number((prev + 3.8).toFixed(1))));
+  // Load custom admin hero image if set
+  useEffect(() => {
+    let mounted = true;
+    settingsService
+      .getHomepageSettings()
+      .then((settings: HomepageSetting) => {
+        if (!mounted) return;
+        if (settings?.heroImageEnabled !== false && settings?.heroImage?.secureUrl) {
+          setSlides((prev) => {
+            const copy = [...prev];
+            copy[0] = {
+              ...copy[0],
+              imageUrl: settings.heroImage?.secureUrl || copy[0].imageUrl,
+              imageAlt: settings.heroImageAlt || copy[0].imageAlt,
+            };
+            return copy;
+          });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // Smooth Auto-advance every 5.5 seconds
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % slides.length);
+    }, 5500);
+
+    return () => clearInterval(interval);
+  }, [isPaused, slides.length]);
+
+  const handlePrev = () => {
+    setCurrentIdx((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  const handleNext = () => {
+    setCurrentIdx((prev) => (prev + 1) % slides.length);
+  };
+
+  const activeSlide = slides[currentIdx];
+
   return (
-    <section className="relative pt-6 pb-12 lg:pt-10 lg:pb-16 overflow-hidden">
+    <section
+      className="relative pt-6 pb-12 lg:pt-10 lg:pb-16 overflow-hidden select-none"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* ================= LEFT COLUMN: TYPOGRAPHY & CTAs ================= */}
-          <div className="lg:col-span-6 space-y-6 animate-fade-in">
-            {/* Top Monospace Tag Badge matching reference image */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40">
+          {/* ================= LEFT COLUMN: DYNAMIC SLIDE CONTENT ================= */}
+          <div className="lg:col-span-6 space-y-6">
+            {/* Top Monospace Tag Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 transition-all duration-300">
               <span className="h-1.5 w-1.5 rounded-full bg-[#716DFF] animate-pulse" />
               <span className="text-[11px] font-mono font-bold tracking-wider text-[#AAAAC1] uppercase">
-                DIGITAL.NAFIJ.COM
+                {activeSlide.tag}
               </span>
             </div>
 
-            {/* Mega Bold Minimal Title: PREMIUM. DIGITAL. ACCOUNTS. */}
-            <div className="space-y-1">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#F5F5FA] leading-[1.05] uppercase font-heading">
-                PREMIUM.
-                <br />
-                <span className="text-[#716DFF]">DIGITAL.</span>
-                <br />
-                ACCOUNTS.
+            {/* Mega Bold Minimal Title with animated transition */}
+            <div className="space-y-1 min-h-[140px] sm:min-h-[180px] lg:min-h-[200px] flex flex-col justify-center">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#F5F5FA] leading-[1.05] uppercase font-heading transition-all duration-500">
+                {activeSlide.lines.map((line, idx) => (
+                  <span key={idx} className="block">
+                    {idx === activeSlide.highlightIdx ? (
+                      <span className="text-[#716DFF]">{line}</span>
+                    ) : (
+                      line
+                    )}
+                  </span>
+                ))}
               </h1>
             </div>
 
             {/* Descriptive Subtitle */}
-            <p className="text-sm sm:text-base text-[#AAAAC1] leading-relaxed max-w-lg font-body">
-              Verified subscriptions for ChatGPT Plus, Google Gemini Advanced, Canva Pro, developer tools, and genuine software licenses. Automated delivery with local bKash &amp; Nagad checkout.
+            <p className="text-sm sm:text-base text-[#AAAAC1] leading-relaxed max-w-lg font-body min-h-[60px] transition-opacity duration-300">
+              {activeSlide.description}
             </p>
 
             {/* Tactile Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               {/* Primary Solid Purple Pill Button */}
               <Link
-                href="#products"
+                href={activeSlide.primaryBtn.href}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating active:shadow-pressed active:translate-y-[1px] transition-all group"
               >
-                <span>EXPLORE PRODUCTS</span>
+                <span>{activeSlide.primaryBtn.text}</span>
                 <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               </Link>
 
               {/* Secondary Raised Neumorphic Button */}
               <Link
-                href="/deals"
+                href={activeSlide.secondaryBtn.href}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#303057] text-[#F5F5FA] font-bold text-xs sm:text-sm tracking-wide shadow-raised hover:shadow-floating hover:bg-[#353560] active:shadow-pressed active:translate-y-[1px] transition-all border border-[#383866]/30"
               >
                 <Sparkles className="h-4 w-4 text-[#716DFF]" />
-                <span>ACTIVE DEALS</span>
+                <span>{activeSlide.secondaryBtn.text}</span>
               </Link>
             </div>
 
-            {/* Console Specs Row */}
-            <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-[#777790] pt-3 border-t border-[#383866]/25">
-              <span className="flex items-center gap-1.5 text-[#6CD6B3]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
-                INSTANT VAULT DISPATCH
-              </span>
-              <span>•</span>
-              <span>100% REPLACEMENT WARRANTY</span>
-              <span>•</span>
-              <span className="text-[#AAAAC1]">BKASH / NAGAD</span>
+            {/* Console Specs & Controls Row */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#383866]/25 text-[11px] font-mono text-[#777790]">
+              <div className="flex items-center gap-2">
+                <span className="flex items-center gap-1.5 text-[#6CD6B3]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#6CD6B3] animate-pulse" />
+                  {activeSlide.trustBadge}
+                </span>
+                <span>•</span>
+                <span>BKASH &amp; NAGAD</span>
+              </div>
+
+              {/* Slider Controls: Arrows & Indicator Pills */}
+              <div className="flex items-center gap-3">
+                {/* Indicator Dots */}
+                <div className="flex items-center gap-1.5">
+                  {slides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setCurrentIdx(idx)}
+                      className={cn(
+                        "h-2 rounded-full transition-all duration-300 cursor-pointer",
+                        currentIdx === idx
+                          ? "w-6 bg-gradient-to-r from-[#5754D8] to-[#716DFF] shadow-xs"
+                          : "w-2 bg-[#26264A] hover:bg-[#353560] shadow-pressed-sm border border-[#383866]/40"
+                      )}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                {/* Arrow Buttons */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="h-8 w-8 rounded-full bg-[#303057] shadow-raised hover:shadow-floating active:shadow-pressed border border-[#383866]/40 flex items-center justify-center text-[#AAAAC1] hover:text-[#F5F5FA] transition-all cursor-pointer"
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="h-8 w-8 rounded-full bg-[#303057] shadow-raised hover:shadow-floating active:shadow-pressed border border-[#383866]/40 flex items-center justify-center text-[#AAAAC1] hover:text-[#F5F5FA] transition-all cursor-pointer"
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* ================= RIGHT COLUMN: INTERACTIVE HARDWARE CONSOLE DECK ================= */}
-          <div className="lg:col-span-6 flex justify-center animate-fade-in">
-            {/* The Main Tactile Console Chassis directly matching reference image */}
-            <div className="relative w-full max-w-[500px] rounded-3xl bg-[#303057] shadow-raised-lg p-6 sm:p-7 border border-[#383866]/40 select-none">
-              {/* Subtle screw fixtures in the 4 corners of the hardware chassis */}
-              <div className="absolute top-3 left-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
-              <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
-              <div className="absolute bottom-3 left-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
-              <div className="absolute bottom-3 right-3 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40" />
+          {/* ================= RIGHT COLUMN: SMOOTH BANNER IMAGE DISPLAY ================= */}
+          <div className="lg:col-span-6 flex justify-center">
+            {/* The Main Tactile Visual Panel Chassis with custom image support */}
+            <div className="relative w-full max-w-[540px] aspect-[4/3] sm:aspect-[16/11] lg:h-[430px] p-3 rounded-3xl bg-[#303057] shadow-raised-lg border border-[#383866]/40 overflow-hidden group">
+              {/* Corner Screw Fixtures */}
+              <div className="absolute top-2.5 left-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
+              <div className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
+              <div className="absolute bottom-2.5 left-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
+              <div className="absolute bottom-2.5 right-2.5 h-2 w-2 rounded-full bg-[#26264A] shadow-pressed-sm border border-[#383866]/40 z-30 pointer-events-none" />
 
-              <div className="grid grid-cols-[1fr_auto] gap-5">
-                {/* Console Main Working Surface */}
-                <div className="space-y-5">
-                  {/* Top Row: Dual Recessed Meters & Rotary Frequency Knob */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-                    {/* Left: Recessed Meters */}
-                    <div className="space-y-3">
-                      {/* Meter 1: 70% */}
-                      <div className="p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 space-y-1.5">
-                        <div className="flex justify-between items-center text-[10px] font-mono font-bold text-[#AAAAC1]">
-                          <span>VAULT DISPATCH</span>
-                          <span className="text-[#716DFF]">{sliderVal}%</span>
-                        </div>
-                        <div className="h-2.5 w-full rounded-full bg-[#1E1E38] shadow-pressed-sm overflow-hidden p-0.5">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-[#5754D8] to-[#716DFF] transition-all duration-300"
-                            style={{ width: `${sliderVal}%` }}
-                          />
-                        </div>
-                      </div>
+              {/* Recessed Screen Bay for Slide Image */}
+              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#26264A] shadow-pressed border border-[#383866]/50">
+                {/* Images Stacked for Smooth Fade / Cross-fade Transition */}
+                {slides.map((slide, idx) => (
+                  <div
+                    key={slide.id}
+                    className={cn(
+                      "absolute inset-0 transition-opacity duration-700 ease-in-out",
+                      currentIdx === idx
+                        ? "opacity-100 z-10"
+                        : "opacity-0 z-0 pointer-events-none"
+                    )}
+                  >
+                    <Image
+                      src={slide.imageUrl}
+                      alt={slide.imageAlt}
+                      fill
+                      priority={idx === 0}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
 
-                      {/* Meter 2: 100% */}
-                      <div className="p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30 space-y-1.5">
-                        <div className="flex justify-between items-center text-[10px] font-mono font-bold text-[#AAAAC1]">
-                          <span>WARRANTY COVERAGE</span>
-                          <span className="text-[#6CD6B3]">100%</span>
-                        </div>
-                        <div className="h-2.5 w-full rounded-full bg-[#1E1E38] shadow-pressed-sm overflow-hidden p-0.5">
-                          <div className="h-full w-full rounded-full bg-gradient-to-r from-[#5754D8] via-[#716DFF] to-[#6CD6B3]" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right: Tactile Rotary Knob / Security Controller */}
-                    <div className="p-3.5 rounded-2xl bg-[#2C2C52] shadow-raised-sm border border-[#383866]/40 flex flex-col items-center justify-center text-center">
-                      <div className="text-[10px] font-mono font-bold text-[#AAAAC1] mb-2 uppercase tracking-wider">
-                        SECURITY CORE
-                      </div>
-
-                      {/* Concentric Tactile Dial */}
-                      <button
-                        type="button"
-                        onClick={handleKnobClick}
-                        className="relative h-14 w-14 rounded-full bg-[#303057] shadow-raised hover:shadow-floating active:shadow-pressed cursor-pointer transition-all flex items-center justify-center border border-[#383866]/50"
-                        title="Click to tune frequency"
-                      >
-                        {/* Outer ribbed ring */}
-                        <div className="absolute inset-1 rounded-full border border-dashed border-[#716DFF]/30" />
-                        {/* Inner rotating dial */}
-                        <div
-                          className="h-10 w-10 rounded-full bg-[#26264A] shadow-pressed-sm flex items-center justify-center transition-transform duration-300 relative"
-                          style={{ transform: `rotate(${knobRotation}deg)` }}
-                        >
-                          <div className="absolute top-1 h-2 w-1 rounded-full bg-[#716DFF] shadow-xs" />
-                          <div className="h-4 w-4 rounded-full bg-[#303057] shadow-raised-sm" />
-                        </div>
-                      </button>
-
-                      <div className="flex items-center gap-3 text-[10px] font-mono text-[#777790] mt-2">
-                        <span>|&lt;</span>
-                        <span className="text-[#F5F5FA] font-bold">256-BIT</span>
-                        <span>&gt;|</span>
-                      </div>
-                    </div>
+                    {/* Soft Vignette Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1E1E38]/90 via-[#1E1E38]/20 to-transparent" />
                   </div>
+                ))}
 
-                  {/* Middle Row: Tactile Physical Buttons (Play, Pause, Stop, Forward) */}
-                  <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30">
-                    <button
-                      type="button"
-                      onClick={() => setIsPlaying(false)}
-                      className={cn(
-                        "h-10 w-10 rounded-xl flex items-center justify-center transition-all cursor-pointer",
-                        !isPlaying
-                          ? "bg-[#26264A] shadow-pressed text-[#AAAAC1]"
-                          : "bg-[#303057] shadow-raised text-[#AAAAC1] hover:text-[#F5F5FA] active:shadow-pressed"
-                      )}
-                      aria-label="Stop"
-                    >
-                      <Square className="h-3.5 w-3.5 fill-current" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setIsPlaying(!isPlaying)}
-                      className={cn(
-                        "h-12 w-12 rounded-full flex items-center justify-center transition-all cursor-pointer",
-                        isPlaying
-                          ? "bg-gradient-to-tr from-[#5754D8] to-[#716DFF] text-white shadow-raised shadow-[#716DFF]/30 active:shadow-pressed"
-                          : "bg-[#303057] shadow-raised text-[#AAAAC1] hover:text-white"
-                      )}
-                      aria-label="Play / Pause"
-                    >
-                      {isPlaying ? (
-                        <Pause className="h-4 w-4 fill-current" />
-                      ) : (
-                        <Play className="h-4 w-4 fill-current ml-0.5" />
-                      )}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setSliderVal((prev) => (prev >= 90 ? 40 : prev + 15))}
-                      className="h-10 w-10 rounded-xl bg-[#303057] shadow-raised text-[#AAAAC1] hover:text-[#F5F5FA] active:shadow-pressed flex items-center justify-center transition-all cursor-pointer"
-                      aria-label="Step"
-                    >
-                      <FastForward className="h-3.5 w-3.5 fill-current" />
-                    </button>
-
-                    <div className="h-6 w-px bg-[#383866]/40" />
-
-                    <div className="flex items-center gap-1.5">
-                      <Sparkles className="h-3.5 w-3.5 text-[#716DFF]" />
-                      <span className="text-[10px] font-mono text-[#AAAAC1]">AUTO VAULT</span>
-                    </div>
+                {/* Tactile Bottom Floating Badge inside image frame */}
+                <div className="absolute bottom-3 left-3 right-3 z-20 flex items-center justify-between p-3 rounded-xl bg-[#26264A]/90 backdrop-blur-md border border-[#383866]/50 text-xs shadow-pressed-sm">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="h-2 w-2 rounded-full bg-[#6CD6B3] animate-pulse shrink-0" />
+                    <span className="font-bold text-[11px] sm:text-xs text-[#F5F5FA] truncate">
+                      {activeSlide.cardBadge}
+                    </span>
                   </div>
-
-                  {/* Bottom Row: Precision Digital Readout & Sliding Tactile Switches */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 items-center">
-                    {/* Digital Precision Display */}
-                    <div className="p-3.5 rounded-2xl bg-[#26264A] shadow-pressed border border-[#383866]/40 space-y-1">
-                      <div className="text-[9px] font-mono font-bold tracking-wider text-[#777790] uppercase">
-                        FULFILLMENT ACCURACY
-                      </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="text-xl font-black font-mono text-[#F5F5FA]">
-                          {meterVal}%
-                        </span>
-                        <Activity className="h-4 w-4 text-[#6CD6B3] animate-pulse" />
-                      </div>
-                    </div>
-
-                    {/* Tactile Sliding Toggle Switch */}
-                    <div className="p-3 rounded-2xl bg-[#2C2C52] shadow-raised-sm border border-[#383866]/30 flex items-center justify-between">
-                      {/* Physical Pill Sliding Switch */}
-                      <button
-                        type="button"
-                        onClick={() => setToggleActive(!toggleActive)}
-                        className={cn(
-                          "relative h-6 w-12 rounded-full p-0.5 transition-colors cursor-pointer shadow-pressed-sm",
-                          toggleActive ? "bg-[#5754D8]" : "bg-[#1E1E38]"
-                        )}
-                        aria-label="Toggle system switch"
-                      >
-                        <div
-                          className={cn(
-                            "h-5 w-5 rounded-full bg-[#F5F5FA] shadow-raised-sm transition-transform duration-200",
-                            toggleActive ? "translate-x-6" : "translate-x-0"
-                          )}
-                        />
-                      </button>
-
-                      {/* Tactile Channel Buttons: [1] and [2] */}
-                      <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#26264A] shadow-pressed-sm">
-                        <button
-                          type="button"
-                          onClick={() => setActiveChannel(1)}
-                          className={cn(
-                            "h-6 w-6 rounded-lg text-[10px] font-mono font-bold flex items-center justify-center transition-all cursor-pointer",
-                            activeChannel === 1
-                              ? "bg-[#303057] text-[#716DFF] shadow-raised-sm"
-                              : "text-[#777790] hover:text-[#AAAAC1]"
-                          )}
-                        >
-                          1
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setActiveChannel(2)}
-                          className={cn(
-                            "h-6 w-6 rounded-lg text-[10px] font-mono font-bold flex items-center justify-center transition-all cursor-pointer",
-                            activeChannel === 2
-                              ? "bg-[#303057] text-[#716DFF] shadow-raised-sm"
-                              : "text-[#777790] hover:text-[#AAAAC1]"
-                          )}
-                        >
-                          2
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Side Vertical Physical Hardware Keypad */}
-                <div className="flex flex-col justify-between py-1 px-1.5 rounded-2xl bg-[#26264A] shadow-pressed-sm border border-[#383866]/30">
-                  <button
-                    type="button"
-                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#EF7B98] flex items-center justify-center transition-all cursor-pointer"
-                    aria-label="Like"
-                  >
-                    <Heart className="h-3.5 w-3.5 fill-current" />
-                  </button>
-
-                  <button
-                    type="button"
-                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#AAAAC1] hover:text-[#F5F5FA] flex items-center justify-center transition-all cursor-pointer"
-                    aria-label="Cancel"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-
-                  <button
-                    type="button"
-                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#6CD6B3] flex items-center justify-center transition-all cursor-pointer"
-                    aria-label="Confirm"
-                  >
-                    <Check className="h-3.5 w-3.5" />
-                  </button>
-
-                  <button
-                    type="button"
-                    className="h-8 w-8 rounded-xl bg-[#303057] shadow-raised-sm hover:shadow-floating active:shadow-pressed text-[#716DFF] flex items-center justify-center transition-all cursor-pointer"
-                    aria-label="Products"
-                  >
-                    <Package className="h-3.5 w-3.5" />
-                  </button>
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#716DFF] shrink-0 ml-2">
+                    {activeSlide.cardSubBadge}
+                  </span>
                 </div>
               </div>
             </div>

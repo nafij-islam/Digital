@@ -6,7 +6,6 @@ import Image from "next/image";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils/formatters";
 import { cn } from "@/lib/utils/cn";
-import { ArrowRight, Sparkles } from "lucide-react";
 import { getOptimizedImageUrl } from "@/lib/image/cloudinary";
 
 interface ProductCardProps {
@@ -17,15 +16,17 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  index = 0,
+  index,
   className,
 }) => {
   const plans = product.plans || [];
   const isOutOfStock = plans.length > 0 && plans.every((p) => p.stock === 0);
 
+  // Authoritative display price from startingPrice or lowest plan
   const lowestPlanPrice =
     plans.length > 0 ? plans[0].salePrice || plans[0].regularPrice : 0;
   const displayPrice = product.startingPrice || lowestPlanPrice;
+
   const shortDesc = product.shortDescription || product.description;
 
   const optimizedImgUrl = getOptimizedImageUrl(product.imageUrl, {
@@ -33,102 +34,96 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     quality: "auto:good",
   });
 
-  // Zero-padded index for digital catalog styling (01 // DIGITAL)
-  const paddedIndex = String(index + 1).padStart(2, "0");
-
   return (
     <article
       className={cn(
-        "group relative flex flex-col justify-between rounded-3xl bg-[#303057] p-5 sm:p-6 shadow-raised hover:shadow-floating transition-all duration-300 hover:-translate-y-1 border border-[#383866]/30 select-none animate-fade-in",
+        "group relative flex flex-col justify-between rounded-3xl bg-[#303057] border border-[#383866]/40 p-3.5 sm:p-4 shadow-raised hover:shadow-floating transition-all duration-300 hover:-translate-y-1 overflow-hidden select-none animate-fade-in",
         className
       )}
     >
-      {/* 1. TOP META ROW: e.g. 01 // DIGITAL + Tag */}
-      <div className="flex items-center justify-between pb-3.5 border-b border-[#383866]/30 text-[11px] font-mono">
-        <span className="text-[#AAAAC1] font-bold tracking-wider">
-          {paddedIndex} {"// DIGITAL"}
-        </span>
+      {/* 1. Framed Media Area (Aspect 4/3, rounded-2xl, clean breathing space) */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#26264A] shadow-pressed border border-[#383866]/40">
+        <Link href={`/products/${product.slug}`} className="block h-full w-full">
+          {product.imageUrl ? (
+            <Image
+              src={optimizedImgUrl}
+              alt={product.name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw"
+              className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center font-bold text-[#716DFF] text-2xl font-mono">
+              {product.name.slice(0, 2).toUpperCase()}
+            </div>
+          )}
+        </Link>
 
-        {product.badge ? (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#26264A] text-[#716DFF] border border-[#716DFF]/30 shadow-pressed-sm">
-            {product.badge}
-          </span>
-        ) : product.isFeatured ? (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#26264A] text-[#6CD6B3] border border-[#6CD6B3]/30 shadow-pressed-sm">
-            FEATURED
-          </span>
-        ) : (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#26264A] text-[#AAAAC1] border border-[#383866]/40 shadow-pressed-sm">
-            GENUINE
-          </span>
+        {/* Optional Featured / Badge (Top Left) */}
+        {(product.badge || product.isFeatured) && !isOutOfStock && (
+          <div className="absolute top-2.5 left-2.5 pointer-events-none">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase bg-[#26264A]/90 text-[#716DFF] shadow-pressed-sm border border-[#716DFF]/40 backdrop-blur-xs">
+              {product.badge || "Featured"}
+            </span>
+          </div>
+        )}
+
+        {/* Out of Stock Overlay */}
+        {isOutOfStock && (
+          <div className="absolute inset-0 bg-[#1E1E38]/85 backdrop-blur-2xs flex items-center justify-center">
+            <span className="rounded-full bg-[#EF7B98] text-white px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
+              Out of Stock
+            </span>
+          </div>
         )}
       </div>
 
-      {/* 2. MIDDLE CONTENT ROW: Product Emblem + Title & Description */}
-      <div className="py-4 space-y-3">
-        <div className="flex items-start gap-3.5">
-          {/* Square Tactile Icon Bay */}
+      {/* 2. Content Area (Product Name & Short Description) */}
+      <div className="flex-1 flex flex-col justify-between pt-3 sm:pt-3.5 pb-2">
+        <div>
+          {/* Product Name (17px-19px, font-bold, max 2 lines) */}
           <Link
             href={`/products/${product.slug}`}
-            className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-[#26264A] shadow-pressed flex items-center justify-center overflow-hidden shrink-0 border border-[#383866]/40 group-hover:scale-105 transition-transform"
+            className="block text-[17px] sm:text-[18px] font-bold text-[#F5F5FA] leading-[1.3] line-clamp-2 group-hover:text-[#716DFF] transition-colors font-heading"
           >
-            {product.imageUrl ? (
-              <Image
-                src={optimizedImgUrl}
-                alt={product.name}
-                fill
-                sizes="64px"
-                className="object-cover p-1 rounded-xl"
-              />
-            ) : (
-              <div className="font-extrabold text-[#716DFF] text-lg font-mono">
-                {product.name.slice(0, 2).toUpperCase()}
-              </div>
-            )}
+            {product.name}
           </Link>
 
-          {/* Title and Short Description */}
-          <div className="min-w-0 flex-1">
-            <Link
-              href={`/products/${product.slug}`}
-              className="block font-black text-base sm:text-lg text-[#F5F5FA] group-hover:text-[#716DFF] transition-colors truncate font-heading uppercase"
-            >
-              {product.name}
-            </Link>
-            {shortDesc && (
-              <p className="text-xs text-[#AAAAC1] line-clamp-2 leading-relaxed mt-1 font-body">
-                {shortDesc}
-              </p>
+          {/* Short Description (max 2 lines, 13px, muted) */}
+          {shortDesc && (
+            <p className="text-[13px] text-[#AAAAC1] line-clamp-2 leading-[1.45] mt-1.5 font-body">
+              {shortDesc}
+            </p>
+          )}
+        </div>
+
+        {/* 3. Main Price & Full-Width CTA */}
+        <div className="pt-3.5 mt-auto space-y-2.5">
+          {/* Main Price & Strikethrough Discount */}
+          <div className="flex items-baseline justify-between">
+            <span className="text-[21px] sm:text-[23px] font-black text-[#F5F5FA] font-mono tracking-tight leading-none">
+              {formatPrice(displayPrice)}
+            </span>
+            {product.originalPrice && product.originalPrice > displayPrice && (
+              <span className="text-xs text-[#777790] line-through font-mono">
+                {formatPrice(product.originalPrice)}
+              </span>
             )}
           </div>
-        </div>
-      </div>
 
-      {/* 3. BOTTOM ROW: Recessed Price Tag + Tactile "Get Access ➔" Pill Button */}
-      <div className="pt-3.5 border-t border-[#383866]/30 flex items-center justify-between gap-3 mt-auto">
-        {/* Recessed Price Module */}
-        <div className="flex flex-col">
-          <span className="text-[10px] font-mono font-bold tracking-wider text-[#777790] uppercase">
-            STARTING AT
-          </span>
-          <span className="text-base sm:text-lg font-black font-mono text-[#F5F5FA]">
-            {formatPrice(displayPrice)}
-          </span>
+          {/* Single Full-Width Action Button (Height: 44px, Rounded Full) */}
+          <Link
+            href={`/products/${product.slug}`}
+            className={cn(
+              "w-full h-11 rounded-full flex items-center justify-center text-sm font-bold tracking-wide transition-all shadow-raised active:shadow-pressed active:translate-y-[1px] select-none uppercase",
+              isOutOfStock
+                ? "bg-[#26264A] text-[#777790] cursor-not-allowed pointer-events-none"
+                : "bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white hover:brightness-110 hover:shadow-floating"
+            )}
+          >
+            {isOutOfStock ? "Out of Stock" : "Buy Now"}
+          </Link>
         </div>
-
-        {/* Tactile Pill Action Button directly matching reference image */}
-        <Link
-          href={`/products/${product.slug}`}
-          className={cn(
-            "inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-bold text-xs transition-all shadow-raised active:shadow-pressed active:translate-y-[1px]",
-            isOutOfStock
-              ? "bg-[#26264A] text-[#777790] cursor-not-allowed pointer-events-none"
-              : "bg-gradient-to-r from-[#5754D8] to-[#716DFF] text-white hover:brightness-110 shadow-raised hover:shadow-floating"
-          )}
-        >
-          <span>{isOutOfStock ? "Sold Out" : "Get Access"}</span>
-          {!isOutOfStock && <ArrowRight className="h-3 w-3 ml-0.5" />}
-        </Link>
       </div>
     </article>
   );
